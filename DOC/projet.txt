@@ -1,0 +1,23 @@
+Projet WEB : WCENC
+
+http://betfip.fr
+
+WCENC est un site de paris pour la coupe du monde de football.
+
+Technos:
+PHP 7
+BDD	→ Postgresql
+CSS 	→ Bootstrap 4
+JS	→ Jquery 3.3.1
+Dépot	→ Github WCENC  (proxy = proxy.infra.dgfip:3128)
+https://github.com/labedaine/WCENC.git
+export https_proxy=http://proxy.infra.dgfip:3128
+
+Les sources sont dans :
+/var/www/html/betfip/ sur le vrai site
+
+Arborescence du projet :
+
+WCENC/
+
+
