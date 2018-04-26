@@ -3,7 +3,7 @@
     <span class="navbar-toggler-icon"></span>
   </button>
   <a class="navbar-brand" href="#">
-    <img id="logoBetFip" src="../ressource/img/Logo_BetFip.png" height="90" alt="logo BetFiP">
+    <img id="logoBetFip" src="../ressource/img/Logo_BetFip2.png" height="60" alt="logo BetFiP">
   </a>
   <div class=" navbar-collapse collapse container-fluid" id="navbarBet">
     <ul class="navbar-nav mr-auto">
