@@ -1,12 +1,10 @@
 <?php
 /**
- * Classe permetttant de lire la configuration SINAPS.
+ * Classe permetttant de lire la configuration betfip.
  *
- * Actuellement cherche le fichier sinaps.ini
+ * Actuellement cherche le fichier betfip.ini
  *
  * PHP version 5
- *
- * @author David Jacques <supervision-jacques.consultant@dgfip.finances.gouv.fr>
  */
 
 class ConfigReaderService {
@@ -15,7 +13,7 @@ class ConfigReaderService {
     /**
      * Lit la configuration
      *
-     * Contient le fichier "sinaps.ini", et éventuellement le fichier Config.php
+     * Contient le fichier "betfip.ini", et éventuellement le fichier Config.php
      *
      * @param string $cheminConfig Chemin du dossier Config
      * @return array<String => String>
@@ -52,10 +50,10 @@ class ConfigReaderService {
            include_once $cheminConfigPHP;
        }
        // 2. Charge le .ini de /produits/sinaps/apps/commun
-       $iniFileCommun = dirname(__FILE__).'/../config/sinaps.ini';
+       $iniFileCommun = dirname(__FILE__).'/../config/betfip.ini';
        $tabCommun = parse_ini_file($iniFileCommun);
         // 3. Charge le fichier INI passé en paramètre
-        $iniFile = $cheminConfig . '/sinaps.ini';
+        $iniFile = $cheminConfig . '/betfip.ini';
         if (!is_file($iniFile)) {
             throw new Exception(
                 vsprintf(

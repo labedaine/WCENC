@@ -55,22 +55,16 @@ class SinapsApp extends App {
      */
     public static function registerServices() {
 		
-        static::register("DroitsService");
         static::register("JsonService");
         static::register("JqGridService");
         static::registerSingleton("TimeService");
         static::register("DateService");
-        static::register("TrackingService");
-        static::register("indicateurParserService");
-        static::register("MemcacheService");
-        static::register("BenchMarkService");
         static::register("MailService");
         static::register("FileService");
         static::register("SystemService");
         static::register("RestClientService");
         static::register("LoginService");
         static::register("Log");
-        static::register("RapportService");
     }
 
     /**

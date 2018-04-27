@@ -25,12 +25,12 @@ class LoginService {
         // On charge les paramètres de configuration depuis sinaps.ini
         $this->timeoutCurl       = SinapsApp::getConfigValue("TimeoutCurl");
         
-        $this->ouSuisJe          = SinapsApp::getConfigValue("ou.suis.je");
-        
         $this->dateService       = App::make("DateService");
         $this->fileService       = App::make("FileService");
         $this->restClientService = App::make("RestClientService");
         
+        var_dump(SinapsApp::$config);
+ 
         $this->classSession = SinapsApp::$dataNamespace . "\Session";
     }
     

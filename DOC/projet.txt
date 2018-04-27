@@ -13,8 +13,10 @@ Dépot	→ Github WCENC  (proxy = proxy.infra.dgfip:3128)
 https://github.com/labedaine/WCENC.git
 export https_proxy=http://proxy.infra.dgfip:3128
 
+
+
 Les sources sont dans :
-/var/www/html/betfip/ sur le vrai site
+/var/www/html/BetFip/ sur le vrai site
 
 Arborescence du projet :
 
