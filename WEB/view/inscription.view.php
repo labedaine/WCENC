@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <div id="sign">
   <form class="form-signin">
     <img class="mb-4" src="../ressource/img/Logo_BetFip2.png" alt="" width="200" >
@@ -34,3 +35,5 @@
     <p class="mt-5 mb-3 text-muted">© 2017-2018</p>
   </form>
 </div>
+=======
+>>>>>>> 62a4594559e9d1e1da3bf99d3902d502fb722366

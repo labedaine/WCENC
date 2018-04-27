@@ -1,0 +1,117 @@
+<?php
+/**
+ * Ensemble de fonctions liées à l'identification.
+ *
+* PHP version 5
+*
+* @author David Jacques <supervision-jacques.consultant@dgfip.finances.gouv.fr>
+*/
+
+
+class LoginService {
+
+    // Variable liées au curl
+    protected $timeoutCurl = 5;
+    protected $url = NULL;
+    protected $srvApp = NULL;
+    protected $restClientService = NULL;
+
+    public function __construct() {
+        // On charge les paramètres de configuration depuis sinaps.ini
+        $this->timeoutCurl       = SinapsApp::getConfigValue("TimeoutCurl");
+        
+        $this->dateService       = App::make("DateService");
+        $this->fileService       = App::make("FileService");
+        $this->restClientService = App::make("RestClientService");
+    }
+    
+     /**
+     * Retourne l'utilisateur si le couple login/pass est valide, le code erreur sinon
+     *
+     * @param string $username le nom de l'utilisateur
+     * @param string $password le mot de passe utilisateur
+     * @return boolean TRUE si le login est ok, "401" si non ok, "402" si pas de droits
+     */
+     
+    public function login($username, $password) {
+        $retour = NULL;
+
+        $retour = $this->getLogin($username, $password);
+            
+        return $retour;
+    }
+    
+    private function getLogin($username, $password) {
+                
+        $user = Utilisateur::where("login", $username)->first();
+
+        if ( $user && $user->password === $password) {
+            if( !$user->isActif) {
+                return 401;
+            }
+
+            $retour = $this->performLogin($user);
+
+            return $retour;
+
+        } else {
+            return 401;
+        }
+    }
+
+    /**
+     * Detruit la session utilisateur en BDD
+     *
+     * @param Mixed $utilisateur l'utilisateur à déconnecter
+     * @return TRUE
+     */
+
+    public function logout($utilisateur) {
+        Session::where("Utilisateur_id", $utilisateur->id)->delete();
+        return TRUE;
+    }
+
+    /**
+     * Récupère les information de l'utilisateur à partir de son "token"
+     *
+     * @param string $token le token (fournit par le cookie en général)
+     * @return Mixed l'utilisateur
+     */
+
+    public function getUtilisateurDepuisToken($token) {
+
+        $session = Session::where("token", $token)->first();
+
+        if ($session === NULL) {
+            return NULL;
+        }
+
+        return $session->utilisateur;
+    }
+
+    /**
+     * Crée le token et la session
+     *
+     * @param Mixed $user l'instance de la classe Utilisateur
+     * @return Utilisateur user
+     */
+
+    protected function performLogin($user) {
+
+        // Generation du token
+        $token = md5(uniqid("bhlsde".$user->login, TRUE));
+
+        // Save session info to DB ...
+        // @TODO: Utiliser le cache et/ou memcached
+        $session = new Session();
+        $session->token = $token;
+        $session->date = App::make("TimeService")->now();
+        
+        $user->session()->save($session);
+		
+        SinapsApp::setUtilisateurCourant($user);
+        Cookie::session("token", $token);
+        
+        return $user;
+    }
+}

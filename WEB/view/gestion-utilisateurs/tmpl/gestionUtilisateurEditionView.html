@@ -1,0 +1,127 @@
+<style>
+    
+    .div_zones {
+        width: 420px;
+    }
+
+    .tdLabel {
+        width:100px;
+        padding-bottom: 5px;
+    }
+	
+    .tdLabel50 {
+        width:50px;
+        padding-bottom: 5px;
+    }
+    
+    .input_view {
+        width:250px;
+    }
+    
+    .input_medium {
+        width:170px;
+    }
+    
+    .input_short {
+        width:120px;
+    }
+	.traitgauche
+    {
+        border-left: 1px solid #dddddd;
+        padding-left: 10px;
+        margin-left: 10px;
+    }
+</style>
+
+<form id="form-utilisateur-edition">
+    <div style="float:left">
+        <!-- Zone "Infos Utilisateur" -->
+        <div id="div_infos_utilisateur" class="div_zones" >
+            <table>
+                <tr>
+                        <td class='tdLabel'><label for="input_NOM">Nom</label></td>
+                        <td><input type="text" class="input_medium" id="input_NOM" value="" /></td>
+                </tr>
+                <tr>
+                        <td class='tdLabel'><label for="input_PRENOM">Pr&eacute;nom</label></td>
+                        <td><input type="text" class="input_medium" id="input_PRENOM" value="" /></td>
+                </tr>
+                <!--tr><td colspan="2"><br/></td></tr-->
+                <tr><td colspan="2"><hr></td></tr>
+                <tr>
+                        <td class='tdLabel'><label for="input_EMAIL">Adresse courriel</label></td>
+                        <td><input type="input" class="input_medium" id="input_EMAIL" value="" /></td>
+                </tr>
+                <tr>
+                        <td class='tdLabel'><label for="input_LOGIN">Login</label></td>
+                        <td><input type="text" class="input_medium" id="input_LOGIN" value="" /></td>
+                </tr>
+                <!--tr><td colspan="2"><br/></td></tr-->
+                <tr><td colspan="2"><hr></td></tr>
+                <tr>
+                        <td class='tdLabel'><label for="input_PWD1">Mot de passe</label></td>
+                        <td><input type="input" class="input_medium" id="input_PWD1" value="" /></td>
+                </tr>
+                <tr>
+                        <td class='tdLabel'><label for="input_PWD2">Confirmation</label></td>
+                        <td><input type="input" class="input_medium" id="input_PWD2" value="" /></td>
+                </tr>
+                <tr><td colspan="2"><hr></td></tr>
+                <tr>
+                    <td class='tdLabel'><label for="input_HABILITATIONS">Gestion des habilitations</label></td>
+                     <td>
+                        <div id="div-Habilitations" class="conteneur">
+                            <input id="chk_Habilitations_Oui"  type="radio" name="saisie_Habilitations" value="1">
+                            <label for="chk_Habilitations_Oui">Oui</label>
+                            <input id="chk_Habilitations_Non" type="radio" name="saisie_Habilitations" value="0"  checked="checked">
+                            <label for="chk_Habilitations_Non">Non</label>
+                            <br/>
+                        </div>
+                     </td>
+               </tr>
+               <tr>
+                    <td class='tdLabel'><label for="input_EOM">EOM Sinaps</label></td>
+                     <td>
+                        <div id="div-EOM" class="conteneur">
+                   
+                            <input id="chk_EOM_Oui"  type="radio" name="saisie_EOM" value="1">
+                            <label for="chk_EOM_Oui">Oui</label>
+                            <input id="chk_EOM_Non" type="radio" name="saisie_EOM" value="0"  checked="checked">
+                            <label for="chk_EOM_Non">Non</label>
+                        </div>
+                      </td>
+                </tr>
+            </table>
+        </div>
+
+         <br />
+
+        <div id='div_action_legende' >
+           <table>
+                <tr>
+                    <td class="cellVertActive" style="width:12px; height:12px"></td><td>Données à ajouter</td>
+                    <td class="cellCritical" style="width:12px; height:12px"></td><td>Données en erreur</td>
+                </tr>
+                <tr>
+                    <td class="cellWarning" style="width:12px; height:12px"></td><td>Données originales à modifier</td>
+                    <td class="cellWarning" style="width:12px; height:12px; text-decoration:line-through">N2</td><td>Données originales à supprimer</td>
+                </tr>
+                </table>
+        </div>
+    </div>
+    <div id="droite" class="traitgauche" style="float:left">
+
+                <!-- Zone "Groupes de l'utilisateur" -->
+                <table id="gridGroupesUtilisateur"></table>
+                <div id="pager_gridGroupesUtilisateur"></div>
+        </div>
+        <div style="clear:both"></div>
+
+        <!-- Div caché :  "Liste de tous les Groupes" -->
+        <div id="div_AllGroupes" style="display:none;">
+                <table id="gridAllGroupes"></table>
+                <div id="pager_gridAllGroupes"></div>
+        </div>
+
+</form>
+
