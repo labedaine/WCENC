@@ -40,6 +40,11 @@
     content: "";
 }
 
+.navbar-bet .navbar-toggler {
+    color: rgba(255,255,255,.9);
+    border-color: rgba\(255,255,255,.5;
+}
+
 body {
   background-color: #e8e9eb !important;
 }
@@ -108,4 +113,34 @@ html, body {
   margin-bottom: -1px !important;
   border-bottom-right-radius: 0 !important;
   border-bottom-left-radius: 0 !important;
+}
+#tabParis td{
+  text-align: center;
+}
+
+#tabParis td, #tabParis th{
+  vertical-align: middle;
+}
+#tabParis input{
+  width: 50px;
+}
+.vertical-menu {
+    width: 200px; /* Set a width if you like */
+}
+
+.vertical-menu a {
+    background-color: #eee; /* Grey background color */
+    color: black; /* Black text color */
+    display: block; /* Make the links appear below each other */
+    padding: 12px; /* Add some padding */
+    text-decoration: none; /* Remove underline from links */
+}
+
+.vertical-menu a:hover {
+    background-color: #ccc; /* Dark grey background on mouse-over */
+}
+
+.vertical-menu a.active {
+    background-color: #4CAF50; /* Add a green color to the "active/current" link */
+    color: white;
 }

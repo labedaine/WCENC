@@ -19,7 +19,7 @@
     <label for="inputPassword" class="sr-only">Votre mot de passe</label>
     <input id="inputPassword" class="form-control noMarg" placeholder="Mot de passe" required="" type="password">
     <label for="inputCPassword" class="sr-only">Confirmation du mot de passe</label>
-    <input id="inputCPassword" class="form-control" placeholder="Confirmation Mot de passe" required="" type="password">
+    <input id="inputCPassword" class="form-control" placeholder="Confirmation" required="" type="password">
     <div class="form-group">
    <label for="exampleFormControlSelect1">Votre promotion</label>
    <select class="form-control" id="exampleFormControlSelect1">
