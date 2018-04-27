@@ -37,11 +37,11 @@ class AuthentificationFilter extends Filter {
      */
     public function apply() {
 
-        if ( Cookie::has(SinapsApp::$config['ou.suis.je']."_token") === FALSE) {
+        if ( Cookie::has("token") === FALSE) {
             $this->throw401();
         }
 
-        $token = Cookie::get(SinapsApp::$config['ou.suis.je']."_token");
+        $token = Cookie::get("token");
         $user = $this->loginService->getUtilisateurDepuisToken($token);
 
         if ($user === NULL) {
