@@ -4,8 +4,7 @@
 }
 
 #logoBetFip {
-  margin-top: -15px;
-  margin-bottom: -15px;
+  margin-top: -5px;
 }
 
 #headerDef {
@@ -43,4 +42,70 @@
 
 body {
   background-color: #e8e9eb !important;
+}
+
+*, ::after, ::before {
+    box-sizing: border-box;
+}
+
+#sign {
+  display: -ms-flexbox;
+  display: -webkit-box;
+  display: flex;
+  -ms-flex-align: center;
+  -ms-flex-pack: center;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  justify-content: center;
+  height: 100%;
+  background: linear-gradient(135deg,#95072f 5%,#d80f09 100%);
+}
+
+.form-signin {
+    width: 100%;
+    max-width: 330px;
+    padding: 15px;
+    margin: 0 auto;
+    color: white;
+}
+
+html, body {
+    height: 100%;
+}
+
+.form-signin {
+  width: 100%;
+  max-width: 330px;
+  padding: 15px;
+  margin: 0 auto;
+}
+.form-signin .checkbox {
+  font-weight: 400;
+}
+.form-signin .form-control {
+  position: relative;
+  box-sizing: border-box;
+  height: auto;
+  padding: 10px;
+  font-size: 16px;
+}
+.form-signin .form-control:focus {
+  z-index: 2;
+}
+.form-signin input[type="email"] {
+  margin-bottom: -1px;
+}
+.form-signin input[type="password"], .form-signin input[type="nom"] {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+.form-signin input[type="checkbox"] {
+  vertical-align: middle;
+}
+.noMarg, .form-signin input[type="prenom"] {
+  margin-bottom: -1px !important;
+  border-bottom-right-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
 }
