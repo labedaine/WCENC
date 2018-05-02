@@ -6,7 +6,8 @@ var LoginViewClass = function(args) {
 
         events : {
             "keypress #user_login" : "submitOnEnter",
-            "keypress #user_pass" : "submitOnEnter"
+            "keypress #user_pass" : "submitOnEnter",
+            "click #btn_sign"  : "showSignUp"
         },
 
         /**
@@ -23,10 +24,16 @@ var LoginViewClass = function(args) {
             this.miseEnForme();
         },
 
+        showSignUp : function() {
+          $('.form-signup').show();
+          $('.form-signin').hide();
+        },
         /**
          * mise en forme de la vue (création du dialog de login)
          */
         miseEnForme : function() {
+            $('.form-signup').hide();
+
             var self = this;
             $("#loginDialog").dialog({
                 title: 'Authentification',
@@ -82,10 +89,10 @@ var LoginViewClass = function(args) {
             var self = this;
             var login = $('#user_login').val();
             var pwd = $('#user_pass').val();
-            
+
             $('button').hide();
             $('#message').html('Authentification en cours...').show();
-            
+
             application.login(login, pwd, function(success, errorCode) {
                 if (success) {
                     $("#loginDialog").remove();
