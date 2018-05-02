@@ -7,7 +7,7 @@ var LoginViewClass = function(args) {
         events : {
             "keypress #user_login" : "submitOnEnter",
             "keypress #user_pass" : "submitOnEnter",
-            "click #btn_sign"  : "showSignUp"
+            "click #btn_sign"  : "showSignUp",
             "click #btn_connect"  : "showSignIn"
         },
 
