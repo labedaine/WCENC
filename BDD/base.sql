@@ -1,7 +1,11 @@
 
 -- Création de la base de données de pari
+<<<<<<< HEAD
 
 
+=======
+ 
+>>>>>>> 88983a3f9e30412237194bdbeb970a71d3426832
 --
 -- PostgreSQL database dump
 --
