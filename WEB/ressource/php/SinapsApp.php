@@ -54,15 +54,13 @@ class SinapsApp extends App {
      * Déclare les services disponibles
      */
     public static function registerServices() {
-		
+
         static::register("JsonService");
-        static::register("JqGridService");
         static::registerSingleton("TimeService");
         static::register("DateService");
         static::register("MailService");
         static::register("FileService");
         static::register("SystemService");
-        static::register("RestClientService");
         static::register("LoginService");
         static::register("Log");
     }

@@ -10,6 +10,7 @@ var application = $.extend({} , Framework, {
 
     // utilisateur actuellement connecte
     user : null,
+    nePasChargerLaVue: false,
 
     // initialisation
     initialize : function() {
@@ -60,12 +61,10 @@ var application = $.extend({} , Framework, {
             if (data) {
                 if (! data.success) {
 
-console.log("Pas de succes");
                     // il n'y a pas de cookie ou le serveur ne le reconnait pas
                     // on redirige vers l'écran de login
                     self.user = null;
                     self.changeModule("login");
-
 
                 } else {
 
@@ -74,13 +73,12 @@ console.log("Pas de succes");
                     self.user = new UserModelClass();
                     self.user.id = data.payload.id;
                     self.user.login = data.payload.login;
-                    var nomCookieMesApplications = 'sinaps.mesApplications_'+ data.payload.login;
 
-                    //self.gotoModuleByHash();
+                    self.gotoModuleByHash();
                     self.menuView = new MenuViewClass();
                     self.menuView.render('#menuContainer');
                 }
-	    }
+        }
         });
     },
 
@@ -126,7 +124,6 @@ console.log("Pas de succes");
                 // On détruit tous les cookies présents
                 self.destroyAllCookie();
                 $('#pageContainer').children().each( function() {$(this).remove()});
-                $('#pageContainer').css('left',0);
                 self.user = null;
                 window.location.hash="";
                 history.go(0);
@@ -139,7 +136,6 @@ console.log("Pas de succes");
                 // On détruit tous les cookies présents
                 self.destroyAllCookie();
                 $('#pageContainer').children().each( function() {$(this).remove()});
-                $('#pageContainer').css('left',0);
                 self.user = null;
                 window.location.hash="";
                 self.stopCheckRefreshTimer();
@@ -163,7 +159,9 @@ console.log("Pas de succes");
                 var hashSplit = hash.split("/");
                 var module = hashSplit[0];
                 var args = hashSplit.slice(1);
+                application.changeModule(module, args);
             } else {
+                application.afficherModuleDefaut();
             }
         }
     },
@@ -184,40 +182,42 @@ console.log("Pas de succes");
         if (! this.user || module === 'logout') {
             // il n'y a pas d'utilisateur authentifié, on dirige vers la vue de login
             // ou choix du menu "se déconnecter"
+
             this.currentView = new LoginViewClass(args);
             this.currentView.render('#pageContainer');
         } else {
 
+            $("#menuContainer").show();
             // Affichage de la vue souhaitée
             switch (module)
             {
-                // Nouvelles Alertes ET Historique Alertes
-                case "alertesNouvelles":
+                // Paris
                 case "paris":
-
-                    application.user.moduleEnCours=module;
-                    this.currentView = new ParisViewClass(args, module);
-                    this.currentView.render('#pageContainer');
+                    this.afficherEcranParis(args);
                     break;
-                    
+
                 // BLOC 'Gestion des habilitations'
                 case "gestion-utilisateurs": // Menu Gestion Utilisateurs
                     this.afficherEcranGestionUtilisateurs(args);
                     break;
                 default:
-                    // par defaut -> tableaux de bords
-//                    $('#errorContent').html('Module inéxistant: '+module);
-//                    $('#pageContainer').html($('#divError').html());
-                    return false;
+                    afficherEcranParis();
             }
         }
     },
 
 
-    afficherEcranGestionUtilisateurs: function(args) {
-        // Chargement de la classe des zones Tableau de bord
-        this.currentView = new GestionUtilisateursViewClass(args, 'gestion-utilisateurs', '');
+    afficherEcranParis: function(args) {
+        var module = "paris";
+        application.user.moduleEnCours="paris";
+        this.currentView = new ParisViewClass(args, module);
         this.currentView.render('#pageContainer');
+    },
+
+    afficherModuleDefaut : function() {
+        // par defaut -> paris
+        var module = "paris";
+        window.location='#paris';
     },
 
     // fonction de mise à jour du contenu d'une vue (pour les auto refresh)
@@ -229,7 +229,6 @@ console.log("Pas de succes");
 
     // Détruit tous les cookies
     destroyAllCookie : function() {
-
         $.cookie('restitution.filters', null);
     },
 

@@ -8,7 +8,7 @@ then
 fi
 
 echo "Création instance"
-sudo /u01/pgsql/pgdbca/bin/pgdbca.py -c -n pari -p 5450 -v 9.4 -d u03
+sudo /u01/pgsql/pgdbca/bin/pgdbca.py -c -n pari -p 5432 -v 9.4 -d u03
 
 sleep 2
 echo "Connexion à l'instance pari"

@@ -15,4 +15,14 @@ spl_autoload_register( function ($class) {
     if (file_exists($asDTOPath)) {
         require_once $asDTOPath;
     }
+
+    $asModelPath = __DIR__."/model/".$class.".php";
+    if (file_exists($asDTOPath)) {
+        require_once $asDTOPath;
+    }
+
+    $asConstantePath = __DIR__."/ressource/php/constantes/".$class.".php";
+    if (file_exists($asDTOPath)) {
+        require_once $asDTOPath;
+    }
 });

@@ -7,7 +7,7 @@
  * @author David Jacques <supervision-jacques.consultant@dgfip.finances.gouv.fr>
  */
 
-require_once __DIR__.'/../../apps/commun/php/utils/StringTools.php';
+//require_once __DIR__.'/../../ressource/php/utils/StringTools.php';
 
 class Modele {
     protected static $index = array();
@@ -20,50 +20,41 @@ class Modele {
     public $relationsExternes = array();
     public $attributs = array();
     public $timestamps = array();
-    public $namespace = NULL;
 
-    public function __construct($nom, $namespace=NULL) {
-        static::$cheminVersLesFichiersModeles = __DIR__ . "/../models";
+    public function __construct($nom) {
+        static::$cheminVersLesFichiersModeles = __DIR__ . "/../WEB/model/";
 
         $this->nom = $nom;
         $this->classeMere = "SinapsModel";
-        $this->namespace = $namespace;
 
         static::$index[$nom] = $this;
     }
 
-    public static function findOrCreate($nom, $namespace=NULL) {
+    public static function findOrCreate($nom) {
         if (array_key_exists($nom, static::$index)) {
             return static::$index[$nom];
         }
 
-        return new Modele($nom, $namespace);
+        return new Modele($nom);
     }
 
     public function setCommentaire($commentaire) {
         $this->commentaire = $commentaire;
-
-        $matches = array();
-        if ( preg_match("/\[Classe: (.+)\]/", $commentaire, $matches)) {
-            print "    $this->nom (BDD) devient $matches[1] (PHP)\n";
-            $this->nom = $matches[1];
-        }
     }
 
     public function ajouterRelationExterne(Relation $relation) {
         $this->relationsExternes[] = $relation;
     }
 
-    public function genererFichier($nomBDD) {
-        if (file_exists(static::$cheminVersLesFichiersModeles . "/$nomBDD/" . $this->nom . "Ext.php")) {
+    public function genererFichier() {
+        if (file_exists(static::$cheminVersLesFichiersModeles . "/" . ucfirst($this->nom) . "Ext.php")) {
             print "     <<<<<< Extension du modèle\n";
-            $this->classeMere = $this->nom . "Ext";
+            $this->classeMere = ucfirst($this->nom) . "Ext";
         }
 
         file_put_contents(
             static::$cheminVersLesFichiersModeles . "/" .
-            $nomBDD . "/" .
-            $this->nom . ".php", $this->toString()
+            ucfirst($this->nom) . ".php", $this->toString()
         );
     }
 
@@ -75,7 +66,7 @@ class Modele {
                          "@author Génération Automatique <personne.quinexistepas@dgfip.finances.gouv.fr>";
         $reponse .= MysqlWorkbench::reformaterTexte($enteteFichier) . "\n";
 
-        $reponse .= "class $this->nom extends $this->classeMere {";
+        $reponse .= "class ".ucfirst($this->nom)." extends $this->classeMere {";
         if ($this->tableName !== $this->nom) {
             $reponse .= "\n    static public \$table = '$this->tableName';\n";
         }
@@ -143,11 +134,18 @@ class Attribut {
     }
 
     public function setCommentaire($commentaire) {
-        if ( preg_match("/_id$/", $this->nom)) {
+        if ( preg_match("/_id$/", $this->nom) || preg_match("/^code_/", $this->nom)) {
             // C'est une relation
 
             $matches = array();
-            if ( preg_match( "/^(.*)..\[(\w+) 1\-(.) (\w+)\]..(.*)$/", $commentaire, $matches)) {
+
+            // Si le commentaire finit par > on supprime ce motif
+            if(preg_match("/>$/", $commentaire)) {
+                $commentaire = substr($commentaire,0,-1);
+            }
+
+            // Utilisateur a qui appartient la session [utilisateur 1-1 session] La session http du user >
+            if ( preg_match( "/^(.*).\[(\w+) 1\-(.) (\w+)\].(.*).+$/", $commentaire, $matches)) {
                 $relation = new Relation();
                 $relation->belongsToClass = $this->modele;
                 $relation->nomLocal = $matches[2];
@@ -157,12 +155,16 @@ class Attribut {
                 $relation->cardinaliteDistant = $matches[3];
 
                 $this->modele->relations[$this->nom] = $relation;
-                $relation->registerInIndex();
+
+                // On remplace les [ et ] par des retours chariot
+                $commentaire = str_replace(" [", "\n[", $commentaire);
+                $commentaire = str_replace("] ", "]\n", $commentaire);
             }
 
-            if ( preg_match( "/^\[Destination: ([^\]]*)\]..(.*)$/", $commentaire, $matches)) {
-                $nomClasseDistante = $matches[1];
+            if ( preg_match( "/\[Destination: ([^\]]*)\]..(.*)$/", $commentaire, $matches)) {
+                $nomClasseDistante = ucfirst($matches[1]);
                 $classeDistante = Modele::findOrCreate($nomClasseDistante);
+                $relation = new Relation();
                 $relation->classeDistante = $classeDistante->nom;
 
                 $classeDistante->ajouterRelationExterne($relation);
@@ -194,10 +196,6 @@ class Relation {
     public $nomDistant;
     public $cardinaliteDistant;
 
-    public function registerInIndex() {
-
-    }
-
     public function toString() {
         $commentaire = $this->commentaireLocal . "\\n".
                        "Utilisation interne au framework uniquement\\n".
@@ -205,7 +203,7 @@ class Relation {
         $reponse  = MysqlWorkbench::reformaterTexte($commentaire);
         $reponse .= "    public function " . $this->nomLocal . "() {\n";
         $className = $this->classeDistante;
-        $reponse .= "         \$relation = \$this->belongsTo(\"" . $className . "\");\n";
+        $reponse .= "         \$relation = \$this->belongsTo(\"" . ucfirst($className) . "\");\n";
         $reponse .= "         return \$relation;\n";
         $reponse .= "    }\n\n";
 
@@ -220,7 +218,7 @@ class Relation {
         $reponse  = MysqlWorkbench::reformaterTexte($commentaire);
         $reponse .= "     public function " . $this->nomDistant . "() {\n";
         $otherClass = $this->belongsToClass->nom;
-        $reponse .= "         \$relation = \$this->" . $this->cardinaliteDistantToPHP() . "(\"" . $otherClass .  "\");\n";
+        $reponse .= "         \$relation = \$this->" . $this->cardinaliteDistantToPHP() . "(\"" . ucfirst($otherClass) .  "\");\n";
         $reponse .= "         return \$relation;\n";
         $reponse .= "    }\n\n";
 
@@ -261,63 +259,54 @@ class MysqlWorkbench {
     protected $sqlOutputFile;
     /** @var String chemin complet vers le fichier postgresql de création de la structure en BDD */
     protected $postgresqlOutputFile;
-    /** @var String si l'option est passée, contient le préfix que les classes doivent respecter pour
-     * être incluses dans la génération */
-    protected $suffixeDesClassesAGenerer = null;
-    /** @var String nom de la BDD (restitution ou configuration) */
-    protected $nomBDD = "__DO_NOT_EXIST__";
 
-    public function __construct($nomBDD, $suffixeDesClassesAGenerer) {
-        $this->nomBDD = $nomBDD;
-
+    public function __construct() {
         $this->mysqlWorkbenchFile = __DIR__."/base.sql";
         $this->sqlOutputFile = __DIR__."/create_base.sql";
         $this->postgresqlOutputFile = __DIR__."/create_base_pg.sql";
 
-        $this->suffixeDesClassesAGenerer = $suffixeDesClassesAGenerer;
     }
 
     public function go() {
-		
+
         $fileDesc = fopen($this->mysqlWorkbenchFile, "rb");
-        $fileOut = fopen($this->sqlOutputFile, "w");
-        
+
         if ( !$fileDesc) {
             print "Impossible d'ouvrir $this->mysqlWorkbenchFile\n";
             exit(1);
         }
-        if (!$fileOut) {
-            print "Imposible d'ouvrier $this->sqlOutputFile\n";
-            exit(1);
-        }
-
-        $namespace = NULL;
-        if ($this->nomBDD === "configuration") {
-            $namespace = "configuration";
-        }
-
-        fwrite($fileOut, "ALTER DATABASE CHARACTER SET utf8 COLLATE utf8_bin;\n\n");
 
         $modeles = array();
         $currentRelation  = NULL;
 
         while (!feof($fileDesc)) {
             $ligne = fgets($fileDesc, 8192);
-
             $matches = array();
-            if (preg_match("/CREATE\s+TABLE.*`(.*)`/", $ligne, $matches)) {
+
+            if(preg_match("/(SEQUENCE|START|INCREMENT|MINVALUE|MAXVALUE|CACHE)/", $ligne)) {
+                continue;
+            }
+
+            if (preg_match("/CREATE\s+TABLE\s+([\w]+)\s+\(/i", $ligne, $matches)) {
                 $nom = $matches[1];
-                $currentObjet = Modele::findOrCreate($nom, $namespace);
+                $currentObjet = Modele::findOrCreate($nom);
                 $currentObjet->tableName = $nom;
 
                 $currentRelation = NULL;
 
                 $modeles[$currentObjet->tableName] = $currentObjet;
-                
             }
 
-            if ( preg_match("/^(\s+`(.+)`(.*))COMMENT '(.*)'/", $ligne, $matches) ||
-                 preg_match("/^(\s+`(.+)`(.*))/", $ligne, $matches)) {
+            //~ if (preg_match("/PRIMARY\s+KEY\s+([\w]+)/", $ligne, $matches)) {
+                //~ $nom = $matches[1];
+                //~ $attribut = new Attribut($currentObjet);
+                //~ $attribut->nom = $nom;
+                //~ $attribut->setType("PRIMARY KEY");
+            //~ }
+
+            // On cherche les attributs
+            if ( preg_match("/^(\s+(\w+) (.*)),\s*(--\s+(.*))/", $ligne, $matches) ||
+                 preg_match("/^(\s+(\w+) (.*)),/", $ligne, $matches)) {
                 $nom = $matches[2];
 
                 if ($nom !== 'id') {
@@ -325,21 +314,28 @@ class MysqlWorkbench {
                     $attribut->nom = $nom;
                     $attribut->setType($matches[3]);
                     if (count($matches) > 4) {
-                        $attribut->setCommentaire($matches[4]);
+                        $comment = $matches[5];
+                        $attribut->setCommentaire($comment);
+
+                        while( substr($comment, -1) === ">")  { // Tant que la ligne finit par un >
+                            $comment = fgets($fileDesc, 8192);
+                            $attribut->setCommentaire($comment);
+                        }
                     }
                 }
 
-                $ligne = rtrim($ligne);
+                /*$ligne = rtrim($ligne);
                 $ending = "\n";
                 if ( count($matches) > 4 &&
                      StringTools::endsWith($ligne, ',')) {
                     $ending = "," . $ending;
                 }
 
-                $ligne = $matches[1] . $ending;
+                $ligne = $matches[1] . $ending;*/
             }
 
-            if ( preg_match("/FOREIGN KEY \(`(.*)`\s*\)/", $ligne, $matches)) {
+            // CONSTRAINT fk_match_equipe1 FOREIGN KEY (code_equipe_1) REFERENCES equipe(code_equipe)
+            if ( preg_match("/FOREIGN KEY\s+\((\w+)\s*\)\s+REFERENCES/", $ligne, $matches)) {
                 if ( array_key_exists($matches[1], $currentObjet->relations)) {
                     $currentRelation = $currentObjet->relations[$matches[1]];
                 } else {
@@ -349,352 +345,42 @@ class MysqlWorkbench {
             }
 
             if ( $currentRelation &&
-                 preg_match("/REFERENCES `([^`]*)`/", $ligne, $matches)) {
+                 preg_match("/REFERENCES\s+(\w+)\s+/", $ligne, $matches)) {
                 $nomClasseDistante = $matches[1];
                 $currentRelation->classeDistante = $nomClasseDistante;
-                $classeDistante = Modele::findOrCreate($nomClasseDistante, $namespace);
+                $classeDistante = Modele::findOrCreate($nomClasseDistante);
 
                 $classeDistante->ajouterRelationExterne($currentRelation);
             }
 
-            if ( preg_match("/^\s*COMMENT = '(.*) \/\* comment truncated \*\/ (.*)$/", $ligne, $matches) ||
-                 preg_match("/^COMMENT = '(.*)$/", $ligne, $matches)) {
-                $comment = $matches[1];
-                if (count($matches) > 2) {
-                    $comment .= $matches[2];
-                    $ligne = ";"; // On supprime complément le commentaire car il a de problèmes avec l'utf8
-                }
+            // Le commentaire sur la table est toujours à la suite de la déclaration de la table
+            if ( preg_match("/^COMMENT ON TABLE (\w+) IS '(.*)/", $ligne, $matches)) {
+                $nom = $matches[1];
+                $comment = $matches[2];
 
-                while( substr($comment, -2) !== ";\n")  { // Tant que la ligne ne finit pas par un ';'
+                $currentObjet = Modele::findOrCreate($nom);
+
+                while( substr($comment, -3) !== "';\n")  { // Tant que la ligne ne finit pas par un ';'
                     $comment .= fgets($fileDesc, 8192);
-                }
-
-                if (preg_match("/(PARTITION BY .*;)/m", $comment, $matches)) {
-                    $ligne = $matches[1];
                 }
 
                 $currentObjet->setCommentaire($comment);
             }
-
-            fwrite($fileOut, $ligne);
         }
 
         // Suppression des fichiers précédement générés
-        if ( $this->suffixeDesClassesAGenerer === NULL) {
-            $chemin = "../models/". $this->nomBDD;
-            print "Suppression de tous les classes générées dans $chemin\n";
-            system("find $chemin -name \"*.php\" | grep -v Ext.php | xargs rm");
-        }
+        $chemin = "../WEB/model/";
+        print "Suppression de tous les classes générées dans $chemin\n";
+        system("find $chemin -name \"*.php\" | grep -v Ext.php | xargs rm");
+
 
         // Génération des nouveaux fichiers de mapping
         ksort($modeles);
-        
+
         foreach ($modeles as $nomClasse => $modele) {
-            if ( $this->suffixeDesClassesAGenerer === NULL ||
-                 StringTools::startsWith($nomClasse, $this->suffixeDesClassesAGenerer)) {
-                print "Génération de $modele->nom\n";
-                $modele->genererFichier($this->nomBDD);
-            }
+            print "Génération de " . ucFirst($modele->nom) . "\n";
+            $modele->genererFichier();
         }
-    }
-    
-    /**
-     * Cré le fichier POSTGRESQL
-     */
-    
-    public function goPg() {
-		
-        $fileDesc = fopen($this->mysqlWorkbenchFile, "rb");
-        $fileOut = fopen($this->postgresqlOutputFile, "w");
-        
-        if ( !$fileDesc) {
-            print "Impossible d'ouvrir $this->mysqlWorkbenchFile\n";
-            exit(1);
-        }
-        if (!$fileOut) {
-            print "Imposible d'ouvrier $this->sqlOutputFile\n";
-            exit(1);
-        }
-        
-        $mysqlVar = array(
-			'/DEFAULT ""/',
-			'/DEFAULT "0"/',
-			'/DEFAULT "1"/',
-            "/ DEFAULT (false|FALSE)/",
-            "/ DEFAULT (true|TRUE)/",
-            "/CHARACTER SET.*/",	
-            "/ (BIG)?INT.*(NOT)? NULL AUTO_INCREMENT/",
-            "/ INT(.*)/",
-            "/ TINYINT\(\d+\)/",
-            "/ TINYINT/",
-            "/ MEDIUMINT/",
-            "/ FLOAT/",
-            "/ DOUBLE/",
-            "/ (TINY|MEDIUM|LONG)?TEXT/", 
-            "/ DATETIME/",     
-            "/(ENGINE =|COMMENT) .*/"
-            );
-            
-            
-            $pgVar = array(
-            "DEFAULT ''",
-            "DEFAULT 0",
-            "DEFAULT 1",
-            " DEFAULT 0",
-            " DEFAULT 1",
-            "",	
-            " SERIAL",
-            " INTEGER",  
-            " SMALLINT",
-            " SMALLINT",
-            " INTEGER",
-            " REAL",
-            " DOUBLE PRECISION",
-            " TEXT",
-            " TIMESTAMP",
-            ""
-            );
-        
-
-        $namespace = NULL;
-
-        $modeles = array();
-        $buffer = array("AVANT" => array(),
-			"APRES"	=> array());
-
-        $debutChamp = FALSE;
-        $debutConstraint = FALSE;
-        $clefEtrangere = NULL;
-        $table = NULL;
-
-        while (!feof($fileDesc)) {
-            $ligne = fgets($fileDesc, 8192);
-            $matches = array();
-
-			if (preg_match("/CREATE\s+TABLE.*`(.*)`/", $ligne, $matches) ||
-			    preg_match("/SET SQL_MODE=@OLD_SQL_MODE/", $ligne, $matches) ) {
-				// On vide la table d'avant dans le fichier
-				if($table) {
-					if(isset($modeles[$table])) {
-						
-						fwrite($fileOut, join($buffer["AVANT"]));
-						
-						// On switch les buffers
-						$buffer["AVANT"] = $buffer["APRES"];
-						$buffer["APRES"] = array();
-						
-						// UNE ligne de CREATE obligatoirement
-						fwrite($fileOut, $modeles[$table]["CREATE"]);
-						
-						// DES lignes de CHAMP obligatoirement
-						foreach($modeles[$table]["CHAMP"] as $id => $contenu) {
-							fwrite($fileOut, $contenu . ",\n");
-						}
-						
-						// UNE ligne de PRIMARY KEY obligatoirement
-						fwrite($fileOut, $modeles[$table]["PRIMARY"] );
-						
-						// DES lignes de CONSTRAINT PAS obligatoirement
-						if(	!empty($modeles[$table]["CONSTRAINT"])) {
-							fwrite($fileOut, ",");
-						}
-
-						foreach($modeles[$table]["CONSTRAINT"] as $id => $contenu) {
-							fwrite($fileOut, $contenu);
-						}
-						
-						/*
-						if(isset($modeles[$table]["PARTITION"])) {
-							//fwrite($fileOut, ")\n");
-							//fwrite($fileOut, $modeles[$table]["PARTITION"]);
-							//fwrite($fileOut, ") ");
-						} else {*/
-						fwrite($fileOut, ");");
-					}
-						
-					fwrite($fileOut, "\n");
-
-					
-					
-					
-					
-					// DES lignes de création d'INDEX PAS obligatoirement
-					foreach($modeles[$table]["INDEX"] as $index) {
-						fwrite($fileOut, $index);
-					}
-				}
-			}
-				
-			// Si on est dans le cas de CREATE TABLE
-			if(isset($matches[1])) {
-				$debutChamp = TRUE;
-				$table = $matches[1];
-
-				$modeles[$table] = array(	"CREATE" => array(),
-											"CHAMP"  => array(),
-											"INDEX"  => array(),
-											"CONSTRAINT" => array()
-											);
-											
-				$ligne = preg_replace('/[\`\']/', '"', $ligne);
-				$modeles[$table]["CREATE"] = $ligne;
-                continue;
-            }
-            
-            // Les anciennes consignes MySQL on les saute
-			if(preg_match('/SET.*@/', $ligne)) {
-				continue;
-			}
-              
-            $ligne = preg_replace('/[\`\']/', '"', $ligne);
-            $ligne = preg_replace($mysqlVar, $pgVar, $ligne);
-            $ligne = str_replace(',', '', $ligne);
-
-			if(preg_match("/(\s+PRIMARY KEY \(.*?\))\s+/", $ligne, $matches)) {
-				$debutChamp = FALSE;
-				// on doit gérer les clef multiples
-				$clefs = trim($matches[1]);
-				$clefs = preg_replace('/\" \"/', '", "', $clefs);
-                                if(substr($clefs, -2) == '))') {
-                                    $clefs = substr($clefs,0 ,-1);
-                                }
-				$modeles[$table]["PRIMARY"] = $clefs ."\n";
-
-				continue;
-			}
-            
-            // Gestion des INDEX
-            if ( preg_match('/\s+INDEX (.*) \((.*?)\)/', $ligne, $matches)) {
-				/**
-				 * UNIQUE INDEX `nom_UNIQUE` (`nom` ASC) )
-				 * =>
-				 * CREATE INDEX nom_UNIQUE ON MacroDomaine (nom ASC);
-				 */
-				$nomIndex = $matches[1];
-				$indexSurQuoi = array();
-				$tampon = "";
-				
-				$tabIndex = preg_split('/ (ASC|DESC)/', $matches[2], -1,  PREG_SPLIT_DELIM_CAPTURE);
-
-				$count = count($tabIndex);
-				$tempon = "";
-				for($i=0;$i<$count;$i++) {
-					/**
-					 * Le tableau est formé comme suit:
-						 * array(11) {
-						  [0]=>
-						  string(15) ""nomEquipement""
-						  [1]=>
-						  string(3) "ASC"
-						  [2]=>
-						  string(20) " "nomModeleCollecte""
-						  [3]=>
-						  string(3) "ASC"
-						  [4]=>
-						  string(14) " "nomInstance""
-						  [5]=>
-						  string(3) "ASC"
-						  [6]=>
-						  string(24) ""
-						}
-				  */
-					$tampon .= " " . $tabIndex[$i];
-					if($i%2 === 1) {
-						$indexSurQuoi[] = $tampon;
-						$tampon = "";
-					}
-				}
-				$indexSurQuoi = join(', ', $indexSurQuoi );
-				
-					
-				if(!preg_match('/'.$table.'/',$nomIndex)) {
-					$nomIndex = preg_replace('/"$/', '_'.$table . '"', $nomIndex);
-				}
-				
-				// Pour être sur du nom unique on met un grain de sable
-				$modeles[$table]["INDEX"][] = sprintf("CREATE INDEX %s ON \"%s\" (%s NULLS LAST);\n",
-												$nomIndex,
-												$table,
-												$indexSurQuoi
-											);
-				continue;
-			}
-            
-            // Gestion des contraintes
-				// fin des contraintes
-			if ( !preg_match('/(CONSTRAINT|FOREIGN|REFERENCES|ON DEL|ON UP)/', $ligne, $matches)) {
-				$debutConstraint = FALSE;
-				$clefEtrangere = NULL;
-			}
-			
-            if ( preg_match('/CONSTRAINT/', $ligne, $matches)) {
-				// Si on retrouve CONSTRAINT avec $debutConstraint = TRUE
-				// C'est qu'on doit ajouter une virgule
-				if($debutConstraint) {
-					$modeles[$table]["CONSTRAINT"][] = ",";
-				}
-				
-				$debutConstraint = TRUE;
-				//$modeles["NO_ID"] = "," . $ligne;
-				$modeles[$table]["CONSTRAINT"][] = $ligne;
-				continue;
-			}
-			
-			if($debutConstraint) {
-				
-				if(!preg_match('/\(.*\)/', $ligne)) {
-					$ligne = str_replace(')', '', $ligne);
-				}
-				$modeles[$table]["CONSTRAINT"][] = $ligne;
-				
-				if ( preg_match('/FOREIGN KEY \((.*)\)/', $ligne, $matches)) {
-					
-					$clefEtrangere = trim($matches[1]);
-					//$modeles[$table]["CHAMP"][$clefEtrangere] .= $modeles["NO_ID"];
-					//$modeles[$table]["CHAMP"][$clefEtrangere] .= $ligne;
-					$modeles["NO_ID"] = "";
-				} else {
-					// clefEtrangere doit etre créé
-					if(!preg_match('/\(.*\)/', $ligne)) {
-						$ligne = str_replace(')', '', $ligne);
-					}
-					//$modeles[$table]["CHAMP"][$clefEtrangere] .= $ligne;
-				}
-				continue;
-			}
-
-			// On gère les PARTITIONS
-			if ( preg_match("/(PARTITION BY HASH.*)/", $ligne, $matches)) {
-				$modeles[$table]["PARTITION"] = $matches[1];
-			}
-
-            // On gère les commentaires
-			if ( preg_match("/^(\s+(\"[\w]*\") .*)/", $ligne, $matches)) {
-                $nom = $matches[2];
-
-                $ligne = rtrim($ligne);
-                $ligne = $matches[1];
-                $modeles[$table]["CHAMP"][$nom] = $ligne;
-                continue;
-            }
-
-            // On ajoute le CASCADE quand on DROP sinon la FK gueule
-            if(!empty($ligne)) {
-				if(preg_match('/DROP TABLE/', $ligne)) {
-					$ligne = str_replace(';', ' CASCADE;', $ligne);
-				
-					// Sinon on met tout dans le buffer
-					if(!$table) {
-						$buffer["AVANT"][] = $ligne;
-					} else {
-						$buffer["APRES"][] = $ligne;
-					}
-				}
-			}
-        }
-        // On modifie toutes les doubles quotes en rien
-        //file_put_contents( $this->postgresqlOutputFile,
-        //                   preg_replace('/"/', '' , file_get_contents($this->postgresqlOutputFile)));
     }
 
     /**
@@ -755,7 +441,7 @@ function usage($argv) {
     print "\tA partir d'un fichier SQL généré par mysqlWorkbench génère les classes PHP\n";
 
     print "\tLit le fichier ./base.sql\n";
-    print "\tGénère les fichiers modèles dans ../models\n";
+    print "\tGénère les fichiers modèles dans ../model\n";
     print "\tGénère le fichier create_base.sql corrigeant les erreurs de génération dans le répertoire de lancement du gen_classes\n";
     exit(1);
 }
@@ -765,7 +451,6 @@ function usage($argv) {
  *******************************/
 
 
-$parser = new MysqlWorkbench($argv[1], count($argv)===3 ? $argv[2] : null);
+$parser = new MysqlWorkbench();
 $parser->go();
-$parser->goPg();
 

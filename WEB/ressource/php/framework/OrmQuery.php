@@ -70,7 +70,7 @@ class OrmQuery {
         }
 
         // Pour Postgresql et sqlite3 (que ça dérange pas)
-        $this->tableName = "\"$tableName\"";
+        $this->tableName = strtolower($tableName);
     }
 
     /**
@@ -115,13 +115,13 @@ class OrmQuery {
         $request = "SELECT * FROM $this->tableName ";
 
         $request .= $this->expandWheres();
-		
+
         if ( count($this->orderClauses) > 0) {
             $request .= " ORDER BY " . join(",", $this->orderClauses);
             $request .= " ,id ASC ";
         } else {
-			$request .= " ORDER BY id ASC";
-		}
+            $request .= " ORDER BY id ASC";
+        }
 
         $request .= $this->expandLimit($extraLimit);
 //print "REQUETE: $request\n";
@@ -151,9 +151,9 @@ class OrmQuery {
 
         try {
 // print "REQUEST: $request\n";
-			$retour = $this->dbh->query($request)->fetchColumn();
+            $retour = $this->dbh->query($request)->fetchColumn();
 
-		} catch(PDOException $exception) {
+        } catch(PDOException $exception) {
             print "PDOException, ".$exception->getMessage()."\nrequest: $request\n";
             throw $exception;
         }
@@ -174,14 +174,14 @@ class OrmQuery {
         $request = "$cmd FROM $this->tableName ";
         $request.= "WHERE id = any (array(SELECT id FROM $this->tableName ";
         $request .= $this->expandWheres();
-		
-	$request.= "))";
+
+    $request.= "))";
 
         try {
 // print "REQUEST: $request\n";
-	    $nbEltSupprimes = $this->dbh->exec($request);
+        $nbEltSupprimes = $this->dbh->exec($request);
 
-	} catch(PDOException $exception) {
+    } catch(PDOException $exception) {
             print "PDOException, ".$exception->getMessage()."\nrequest: $request\n";
             throw $exception;
         }
@@ -471,9 +471,9 @@ class OrmQuery {
 //print "REQUEST: $request\n";
         try {
             $this->dbh->query($request);
-            
+
             $this->updateSequence();
-            
+
         } catch(PDOException $exception) {
             print "PDOException, ".$exception->getMessage()."\nrequest: $request\n";
             throw $exception;
@@ -532,7 +532,7 @@ class OrmQuery {
     function insertGetId(array $contenu) {
         $this->insert($contenu);
 
-        $retour = $this->dbh->lastInsertId(substr($this->tableName,0,-1) . "_id_seq\"");
+        $retour = $this->dbh->lastInsertId($this->tableName . "_id_seq");
         return $retour;
     }
 
@@ -623,17 +623,17 @@ class OrmQuery {
         return $valeur;
     }
 
-	/**
-	 * Mise à jour de la séquence
-	 * 
-	 * @param int $nextId
-	 */
+    /**
+     * Mise à jour de la séquence
+     *
+     * @param int $nextId
+     */
 
-	public function updateSequence($nextId=NULL) {
-		$sqlNextId = " (SELECT GREATEST(MAX(id)+1,nextval('".substr($this->tableName,0,-1)."_id_seq\"'))-1 FROM ".$this->tableName.")";
-		if($nextId) {
-			$sqlNextId .= $nextId;
-		}
+    public function updateSequence($nextId=NULL) {
+        $sqlNextId = " (SELECT GREATEST(MAX(id)+1,nextval('".$this->tableName."_id_seq'))-1 FROM ".$this->tableName.")";
+        if($nextId) {
+            $sqlNextId .= $nextId;
+        }
                 $stmt = $this->dbh->query($sqlNextId);
                 $retour = $stmt->fetchAll();
                 $id = $retour[0][0];
@@ -641,30 +641,30 @@ class OrmQuery {
                     $id =1;
                 }
                 $request = "SELECT setval('";
-		$request.= substr($this->tableName,0,-1);
-		$request.= "_id_seq\"', $id)";
+        $request.= $this->tableName;
+        $request.= "_id_seq', $id)";
 //print "REQUEST= $request\n";
 
         $this->dbh->query($request);
         return $this->getSequence();
-	}
-	
-	
-	
-	public function getSequence() {
-		$request = " SELECT CURRVAL('".substr($this->tableName,0,-1)."_id_seq\"');";
-//print "REQUEST= $request\n";
-		try {
-			$stmt = $this->dbh->query($request);
-			$retour = $stmt->fetchAll();
-			return $retour[0]['currval'];
+    }
 
-		} catch(PDOException $e) {
-			if(strpos($e, "is not yet defined in this session") !== FALSE ) {
-				return 0;
-			}
-		}
-	}
+
+
+    public function getSequence() {
+        $request = " SELECT CURRVAL('".$this->tableName."_id_seq');";
+//print "REQUEST= $request\n";
+        try {
+            $stmt = $this->dbh->query($request);
+            $retour = $stmt->fetchAll();
+            return $retour[0]['currval'];
+
+        } catch(PDOException $e) {
+            if(strpos($e, "is not yet defined in this session") !== FALSE ) {
+                return 0;
+            }
+        }
+    }
 
     /**
      * Debute une transaction

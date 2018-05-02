@@ -14,17 +14,12 @@ class LoginService {
     protected $timeoutCurl = 5;
     protected $url = NULL;
     protected $srvApp = NULL;
-    protected $restClientService = NULL;
 
     public function __construct() {
-        // On charge les paramètres de configuration depuis sinaps.ini
-        $this->timeoutCurl       = SinapsApp::getConfigValue("TimeoutCurl");
-        
         $this->dateService       = App::make("DateService");
         $this->fileService       = App::make("FileService");
-        $this->restClientService = App::make("RestClientService");
     }
-    
+
      /**
      * Retourne l'utilisateur si le couple login/pass est valide, le code erreur sinon
      *
@@ -32,24 +27,20 @@ class LoginService {
      * @param string $password le mot de passe utilisateur
      * @return boolean TRUE si le login est ok, "401" si non ok, "402" si pas de droits
      */
-     
+
     public function login($username, $password) {
         $retour = NULL;
 
         $retour = $this->getLogin($username, $password);
-            
+
         return $retour;
     }
-    
+
     private function getLogin($username, $password) {
-                
+
         $user = Utilisateur::where("login", $username)->first();
 
         if ( $user && $user->password === $password) {
-            if( !$user->isActif) {
-                return 401;
-            }
-
             $retour = $this->performLogin($user);
 
             return $retour;
@@ -67,7 +58,7 @@ class LoginService {
      */
 
     public function logout($utilisateur) {
-        Session::where("Utilisateur_id", $utilisateur->id)->delete();
+        Session::where("utilisateur_id", $utilisateur->id)->delete();
         return TRUE;
     }
 
@@ -106,12 +97,12 @@ class LoginService {
         $session = new Session();
         $session->token = $token;
         $session->date = App::make("TimeService")->now();
-        
+
         $user->session()->save($session);
-		
+
         SinapsApp::setUtilisateurCourant($user);
         Cookie::session("token", $token);
-        
+
         return $user;
     }
 }

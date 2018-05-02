@@ -2,12 +2,12 @@
 
 spl_autoload_register( function ($class) {
     
-    $asModelPath = __DIR__."../model/".$class.".php";
+    $asModelPath = __DIR__."/../../model/".$class.".php";
     if (file_exists($asModelPath)) {
         include $asModelPath;
     }
 
-    $asSrvPath = __DIR__."/controller/".$class.".php";
+    $asSrvPath = __DIR__."/../../controller/".$class.".php";
     if (file_exists($asSrvPath)) {
         include $asSrvPath;
     }

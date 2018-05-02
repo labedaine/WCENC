@@ -7,8 +7,8 @@ var LoginViewClass = function(args) {
         events : {
             "keypress #user_login" : "submitOnEnter",
             "keypress #user_pass" : "submitOnEnter",
-            "click #btn_sign"  : "showSignUp",
-            "click #btn_connect"  : "showSignIn"
+            "click #btn_sign,#btn_connect"  : "flipMenuLogin",
+            "click #btn_conn" : "submitLogin"
         },
 
         /**
@@ -26,20 +26,23 @@ var LoginViewClass = function(args) {
             this.miseEnForme();
         },
 
-        showSignUp : function() {
-          $('.form-signup').show();
-          $('.form-signin').hide();
-          return false;
+        flipMenuLogin : function() {
+            var page1 = $('.form-signup');
+            var page2 = $('.form-signin');
+            var toHide = page1.is(':visible') ? page1 : page2;
+            var toShow = page2.is(':visible') ? page1 : page2;
+
+            toHide.removeClass('flip in').addClass('flip out').hide();
+            toShow.removeClass('flip out').addClass('flip in').show();
+            return false;
         },
-        showSignIn : function() {
-          $('.form-signin').show();
-          $('.form-signup').hide();
-          return false;
-        },
+
         /**
          * mise en forme de la vue (création du dialog de login)
          */
         miseEnForme : function() {
+            $('#menuContainer').hide();
+            $('#pageContainer').css('padding-top',0);
             $('.form-signup').hide();
 
             var self = this;
@@ -93,21 +96,22 @@ var LoginViewClass = function(args) {
         /**
          * soumission du login
          */
+
         submitLogin : function() {
             var self = this;
-            var login = $('#user_login').val();
-            var pwd = $('#user_pass').val();
+            var login   = $('#inputEmail').val();
+            var pwd     = $('#inputPassword').val();
 
-            $('button').hide();
+            $('#btn_conn').hide();
             $('#message').html('Authentification en cours...').show();
 
             application.login(login, pwd, function(success, errorCode) {
                 if (success) {
-                    $("#loginDialog").remove();
+                    application.start();
                 } else {
                     self.afficherMessage(RestApi.getMessageByErrorCode(errorCode));
-					$('button').show();
-					$('#message').hide();
+                    $('#btn_conn').show();
+                    $('#message').hide();
                 }
             });
         },

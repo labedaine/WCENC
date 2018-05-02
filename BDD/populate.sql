@@ -94,7 +94,7 @@ H
 -- Data for Name: match; Type: TABLE DATA; Schema: public; Owner: pse13
 --
 
-COPY match (id_match, date_match, code_equipe_1, code_equipe_2, code_etat_match, id_stade, score_equipe_1, score_equipe_2, id_phase) FROM stdin;
+COPY match (id, date_match, code_equipe_1, code_equipe_2, code_etat_match, id_stade, score_equipe_1, score_equipe_2, id_phase) FROM stdin;
 1   2018-06-14 17:00:00+02  RUS SAU AVE 1   0   0   1
 2   2018-06-15 14:00:00+02  EGY URU AVE 6   0   0   1
 3   2018-06-15 20:00:00+02  POR ESP AVE 10  0   0   1

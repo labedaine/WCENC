@@ -8,7 +8,7 @@ var ParisViewClass = function(args) {
 
     var Clazz= $.extend({}, ViewClass, {
 
-        template : 'view/pari/tmpl/paris.html?rd='+application.getUniqueId(),
+        template : 'view/paris/tmpl/paris.html?rd='+application.getUniqueId(),
 
         events : {
         },
@@ -33,7 +33,7 @@ var ParisViewClass = function(args) {
          * Fonction d'initialisation des tooltips
          */
         initToolTips : function(){
-            
+
             $("a, img").tooltip({
                   content: function () {
                       return $(this).prop('title');

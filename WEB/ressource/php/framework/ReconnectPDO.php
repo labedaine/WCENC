@@ -11,7 +11,7 @@ class ReconnectPDO  {
     protected $config = array();
     protected $attributs = array();
     private $mysqlConnecErrorCodes = array(
-        2055, 2013, 2011, 2006, 2005, 2003, 
+        2055, 2013, 2011, 2006, 2005, 2003,
     );
 
     public $pdo;
@@ -26,12 +26,12 @@ class ReconnectPDO  {
         );
 
         $this->pdo = new PDO($dsn, $user, $pass, $options);
-        $this->pdo->query("SET NAMES 'UTF8'"); 
+        $this->pdo->query("SET NAMES 'UTF8'");
     }
 
     public function setAttribute($attribute, $value) {
         $this->attributs[$attribute] = $value;
-        
+
         $this->pdo->setAttribute($attribute, $value);
     }
 
@@ -67,7 +67,7 @@ class ReconnectPDO  {
             print "Calling $function\n";
             var_dump($args);
         */
-       
+
         try {
             $result = call_user_func_array(array($this->pdo, $function), $args);
         } catch(PDOException $exception) {
@@ -96,11 +96,11 @@ class ReconnectPDO  {
             $error = FALSE;
             try {
                 $this->pdo = new PDO(
-                    $this->config["dsn"], 
-                    $this->config["user"], 
+                    $this->config["dsn"],
+                    $this->config["user"],
                     $this->config["pass"],
                     $this->config["options"]
-                ); 
+                );
             } catch(PDOException $exception) {
                 $error = TRUE;
                 sleep(1);

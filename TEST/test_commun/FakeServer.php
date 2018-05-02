@@ -32,7 +32,7 @@ class FakeServer {
             }
         );
 
-	// On simulera ici les données de configuration
+    // On simulera ici les données de configuration
         SinapsApp::$config = array (
             //"toto" => "tata"
         );
@@ -62,7 +62,7 @@ class FakeServer {
             $dbh->query($cmdResetSeqId);
         }
     }
-    
+
     static public function truncateSession() {
         $dbh = App::make("dbConnection");
 
@@ -71,14 +71,14 @@ class FakeServer {
 
         $cmd = "DELETE FROM ";
 
-		$tableNoQuote = "Session";
-		$table = "\"Session\"";
-		$dbh->query($cmd. $table . $prefix);
+        $tableNoQuote = "session";
+        $table = "session";
+        $dbh->query($cmd. $table . $prefix);
 
-		// On remet les ids à zéro
-		$cmdResetSeqId = "SELECT setval(pg_get_serial_sequence('".$tableNoQuote."', 'id'), 1) FROM $table;";
-		$cmdResetSeqId = "ALTER SEQUENCE \"".$tableNoQuote."_id_seq\" RESTART WITH 1;";
-		$dbh->query($cmdResetSeqId);
+        // On remet les ids à zéro
+        $cmdResetSeqId = "SELECT setval(pg_get_serial_sequence('".$tableNoQuote."', 'id'), 1) FROM $table;";
+        $cmdResetSeqId = "ALTER SEQUENCE \"".$tableNoQuote."_id_seq\" RESTART WITH 1;";
+        $dbh->query($cmdResetSeqId);
 
     }
 

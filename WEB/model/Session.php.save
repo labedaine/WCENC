@@ -1,0 +1,59 @@
+<?php
+    /**
+     * Classe générée automatiquement par gen_classes.
+     *
+     *
+     * PHP version 5
+     *
+     * @author Génération Automatique <personne.quinexistepas@dgfip.finances.gouv.fr>
+     */
+
+class Session extends SinapsModel {
+    static public $formats = array("date" => "timestamp");
+    /*
+        Attributs *
+    */
+
+    /**
+     *
+     *
+     * @var VARCHAR(45) NOT NULL
+     */
+    protected $token = NULL;
+
+    /**
+     *
+     *
+     * @var DATETIME NOT NULL
+     */
+    protected $date = NULL;
+
+    /**
+     * L'utilisateur a qui appartient la session
+     * [utilisateur 1-1 session]
+     * La session http de l'utilisateur
+     *
+     * @var INT NOT NULL
+     */
+    protected $utilisateur_id = NULL;
+
+
+    /*
+        Relations *
+    */
+
+    /**
+     * L'utilisateur a qui appartient la session
+     * Utilisation interne au framework uniquement
+     * @return SinapsRelation
+     */
+    public function utilisateur() {
+         $relation = $this->belongsTo("Utilisateur");
+         return $relation;
+    }
+
+    public function __construct(array $values=NULL) {
+        parent::__construct($values);
+    }
+
+}

@@ -54,6 +54,8 @@ var MenuViewClass = function(args) {
         miseEnForme : function() {
             // on crée les jqContainers
             this.initToolTips();
+            $('#pageContainer').css('padding-top',80);
+            $("#nomUser").html(application.user.login);
         },
 
         checkDroitsAcces : function() {
@@ -65,12 +67,12 @@ var MenuViewClass = function(args) {
                 }
             }
         },
-        
+
         /**
          * Fonction d'initialisation des tooltips
          */
         initToolTips : function(){
-            
+
             $("a, img").tooltip({
                   content: function () {
                       return $(this).prop('title');

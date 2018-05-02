@@ -1,0 +1,7 @@
+
+Suppression de la table Groupe sachant qu'elle n'a qu'une colonne
+On met les primary key, foreign key dans la déclaration de la table
+Modification de tous les char en varchar
+modification     id_match integer NOT NULL en id serial,
+
+todo etat_match en tant que constante dans le code
