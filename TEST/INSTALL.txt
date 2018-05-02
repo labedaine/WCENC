@@ -1,0 +1,71 @@
+Ce répertoire contient 2 types de tests:
+
+-------------------------------------------------------------------------------------------------
+
+Tests de type StoryBDD, ils sont pilotés par le logiciel behat (http://behat.org/)
+Ils visent à donner une description fonctionnelle du fonctionnement attendu.
+Ce ne sont pas de bons candidats pour des tests bas niveau (je dois avoir une erreur si la BDD n'est pas disponible)
+
+La structure globale est:
+Etant donné A
+Quand je fais B
+Alors il arrive C
+
+-------------------------------------------------------------------------------------------------
+INSTALLER LA BASE DE TEST)
+-------------------------------------------------------------------------------------------------
+> mysql -uroot 
+CREATE DATABASE test;
+GRANT ALL ON test.* TO test@localhost identified by 'test'
+
+> cd /produits/sinaps/ids/sql
+> mysql -utest -ptest test < ids.sql
+> mysql -utest -ptest test < ids_test.sql
+
+-------------------------------------------------------------------------------------------------
+INSTALLER BEHAT (socle 2012 obligatoire)
+-------------------------------------------------------------------------------------------------
+Configurer le proxy puis
+> export HTTPS_PROXY_REQUEST_FULLURI=false
+> export HTTP_PROXY_REQUEST_FULLURI=false
+> cd /produits/sinaps/tests
+> wget https://getcomposer.org/composer.phar
+> wget http://pkgs.repoforge.org/git/git-1.7.9.6-1.el6.rfx.x86_64.rpm
+> wget http://pkgs.repoforge.org/git/perl-Git-1.7.9.6-1.el6.rfx.x86_64.rpm
+> rpm -ivh git-1.7.9.6-1.el6.rfx.x86_64.rpm perl-Git-1.7.9.6-1.el6.rfx.x86_64.rpm
+
+se placer dans le répertoire tests
+> php composer.phar install
+
+-------------------------------------------------------------------------------------------------
+EXECUTER LES TESTS
+-------------------------------------------------------------------------------------------------
+> bin/behat --ansi --no-paths --tags "506"
+
+--ansi est nécessaire uniquement sur les terminaux cygwin pour la colorisation de la sortie écran
+--no-paths fournit une écriture plus légère
+--tags "506" dit à behat d'executer uniquement les tests de la version 5.06
+
+--tags "505" execute uniquement les tests sur la version 5.05 (version actuellement en prod)
+On est obligé de séparer pour l'instant car la définition des plugins entre en conflit entre la 5.05 et la 5.06.
+Note: les tests 505 sont bcp moins nombreux que les 5.06 et les tests 5.05 ne gère pas l'horloge virtuelle pour les tests
+	prenant en compte le temps.
+	
+
+Rapport HTML:
+>  bin/behat --ansi --no-paths --tags "506" --out out.html -f html
+
+
+-------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------
+TESTS PHPUNIT
+-------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------
+Nécessite l'installation de phpunit
+
+pear config-set auto_discover 1
+pear install pear.phpunit.de/PHPUnit
+
+Ils sont bcp moins complet que les tests Behat actuellement.
+
+ 
