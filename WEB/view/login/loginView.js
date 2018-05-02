@@ -36,30 +36,30 @@ var LoginViewClass = function(args) {
             $('.form-signup').hide();
 
             var self = this;
-            $("#loginDialog").dialog({
-                title: 'Authentification',
-                autoOpen: true,
-                modal: false,
-                width: 'auto',
-                height: 'auto',
-                draggable: false,
-                resizable: false,
-                buttons: {
-                    'S\'authentifier': function (){
-                        self.submitLogin();
-                        return true;
-                    }
-                },
-                open: function(event, ui) {
-                  $(this).closest('.ui-dialog').find('.ui-dialog-titlebar-close').hide();
-                  $('#user_login').focus();
-                  $('.ui-dialog-buttonset').parent().append("<p id='message' style='text-align:center'></p>");
-                  $('#message').hide();
-                },
-                beforeClose: function(event, ui) {
-                    return false;
-                }
-            });
+            // $("#loginDialog").dialog({
+            //     title: 'Authentification',
+            //     autoOpen: true,
+            //     modal: false,
+            //     width: 'auto',
+            //     height: 'auto',
+            //     draggable: false,
+            //     resizable: false,
+            //     buttons: {
+            //         'S\'authentifier': function (){
+            //             self.submitLogin();
+            //             return true;
+            //         }
+            //     },
+            //     open: function(event, ui) {
+            //       $(this).closest('.ui-dialog').find('.ui-dialog-titlebar-close').hide();
+            //       $('#user_login').focus();
+            //       $('.ui-dialog-buttonset').parent().append("<p id='message' style='text-align:center'></p>");
+            //       $('#message').hide();
+            //     },
+            //     beforeClose: function(event, ui) {
+            //         return false;
+            //     }
+            // });
 
         },
 
