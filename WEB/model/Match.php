@@ -9,6 +9,7 @@
      */
 
 class Match extends SinapsModel {
+    static public $formats = array("date_match" => "timestamp");
     /*
         Attributs *
     */

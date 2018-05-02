@@ -9,14 +9,14 @@
 
 class ResultatMatch {
 
-    const 1_GAGNE = 1;
-    const NUL 	  = 0;
-    const 2_GAGNE = 2;
+    const UN_GAGNE = 1;
+    const NUL     = 0;
+    const DEUX_GAGNE = 2;
 
     // Score
 
     private static $nomStatut = array(
-        self::1_GAGNE => "L'équipe 1 a gagné",
+        self::UN_GAGNE => "L'équipe 1 a gagné",
     );
 
     public static function resultatToString($status) {

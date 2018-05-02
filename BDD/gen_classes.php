@@ -128,7 +128,7 @@ class Attribut {
     public function setType($type) {
         $this->type = $type;
 
-        if ( strpos($type, "DATETIME")) {
+        if ( strpos(strtoupper($type), "TIMESTAMP") !== false) {
             $this->modele->timestamps[] = $this->nom;
         }
     }

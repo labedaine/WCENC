@@ -9,7 +9,7 @@
  *  PATCH_5_09 : Classe Utilisateur propre à IHMR
 */
 
-require_once __DIR__.'/../model/constantes/ResultatMatch.php';
+require_once __DIR__.'/../ressource/php/constantes/ResultatMatch.php';
 
 class UtilisateurService {
 

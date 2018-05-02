@@ -10,6 +10,7 @@
      */
 
 class Session extends SinapsModel {
+    static public $formats = array("date" => "timestamp");
     /*
         Attributs *
     */
