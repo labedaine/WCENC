@@ -5,4 +5,4 @@
 
 	RewriteCond %{REQUEST_FILENAME} !-f
 	RewriteCond %{REQUEST_FILENAME} !-d
-	RewriteRule ^(.*)/services/(.*)$ /$1/index.php [L]
+	RewriteRule ^(.*)/services/(.*)$ /index.php [L]
