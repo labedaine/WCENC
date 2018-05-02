@@ -1,9 +1,0 @@
-  LoadModule deflate_module modules/mod_deflate.so
-  SetOutputFilter DEFLATE
-
-	Options +FollowSymLinks
-	RewriteEngine On
-
-	RewriteCond %{REQUEST_FILENAME} !-f
-	RewriteCond %{REQUEST_FILENAME} !-d
-	RewriteRule ^(.*)/services/(.*)$ /BetFip/$1/index.php [L]
