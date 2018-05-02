@@ -8,6 +8,7 @@ var LoginViewClass = function(args) {
             "keypress #user_login" : "submitOnEnter",
             "keypress #user_pass" : "submitOnEnter",
             "click #btn_sign"  : "showSignUp"
+            "click #btn_connect"  : "showSignIn"
         },
 
         /**
@@ -27,6 +28,11 @@ var LoginViewClass = function(args) {
         showSignUp : function() {
           $('.form-signup').show();
           $('.form-signin').hide();
+          return false;
+        },
+        showSignUp : function() {
+          $('.form-signin').show();
+          $('.form-signup').hide();
           return false;
         },
         /**
