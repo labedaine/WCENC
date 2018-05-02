@@ -30,7 +30,7 @@ var LoginViewClass = function(args) {
           $('.form-signin').hide();
           return false;
         },
-        showSignUp : function() {
+        showSignIn : function() {
           $('.form-signin').show();
           $('.form-signup').hide();
           return false;
