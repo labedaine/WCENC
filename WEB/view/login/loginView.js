@@ -27,6 +27,7 @@ var LoginViewClass = function(args) {
         showSignUp : function() {
           $('.form-signup').show();
           $('.form-signin').hide();
+          return false;
         },
         /**
          * mise en forme de la vue (création du dialog de login)
