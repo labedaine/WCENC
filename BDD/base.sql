@@ -1,7 +1,7 @@
 
 -- Création de la base de données de pari
 
- 
+   
 --
 -- PostgreSQL database dump
 --
