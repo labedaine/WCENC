@@ -15,6 +15,7 @@ var LoginViewClass = function(args) {
          * initialisation
          */
         initialize : function() {
+          $('#menuContainer').hide();
         },
 
         /**

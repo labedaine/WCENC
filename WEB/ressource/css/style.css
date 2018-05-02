@@ -144,3 +144,7 @@ html, body {
     background-color: #4CAF50; /* Add a green color to the "active/current" link */
     color: white;
 }
+
+#mainContainer, #pageContainer {
+  height: 100%;
+}
