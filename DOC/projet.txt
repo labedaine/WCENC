@@ -13,6 +13,15 @@ Dépot	→ Github WCENC  (proxy = proxy.infra.dgfip:3128)
 https://github.com/labedaine/WCENC.git
 export https_proxy=http://proxy.infra.dgfip:3128
 
+Sur le serveur contenant les sources:
+yum install -y php-pdo php-pgsql
+
+Dans /etc/php.ini ajouter:
+date.timezone = "Europe/Paris"
+
+systemctl restart httpd
+modifier /etc/selinux/config pour le mettre disabled
+éteindre et redémarrer la machine
 
 
 Les sources sont dans :

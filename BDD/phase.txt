@@ -1,0 +1,6 @@
+1;Phase de groupes
+2;Huitièmes de finale
+3;Quarts de finale
+4;Demi-finales
+5;Match pour la troisième place
+6;Finale

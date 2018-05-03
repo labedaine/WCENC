@@ -1,0 +1,12 @@
+1;Stade Loujniki;Moscou
+2;Otkrytie Arena;Moscou
+3;Stade Krestovski;Saint-Pétersbourg
+4;Stade de Nijni Novgorod;Nijni Novgorod
+5;Baltika Arena;Kaliningrad
+6;lekaterinbourg Arena;Iekaterinbourg
+7;Stade de Mordovie;Saransk
+8;Kazan-Arena;Kazan
+9;Rostov Arena;Rostov-sur-le-Don
+10;Stade Ficht;Sotchi
+11;Volgograd Arena;Volgograd
+12;Cosmos Arena;Samara
