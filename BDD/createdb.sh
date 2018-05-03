@@ -42,8 +42,8 @@ echo "Pour finaliser testez la connexion avec le user pari sur l'instance pari (
 echo "psql -U pari pari"
 echo ""
 echo "Depuis la VM 192.168.122.64:"
-echo "psql -U pari -h 192.168.122.100 -p 5450 pari"
+echo "psql -U pari -h 192.168.122.100 -p 5432 pari"
 
-psql -U pari -h 192.168.122.100 -p 5450 pari < ./base.sql
-psql -U pari -h 192.168.122.100 -p 5450 pari < ./populate.sql
+psql -U pari -h 192.168.122.100 -p 5432 pari < ./base.sql
+psql -U pari -h 192.168.122.100 -p 5432 pari < ./populate.sql
 
