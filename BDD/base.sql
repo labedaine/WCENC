@@ -13,7 +13,7 @@ SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SET check_function_bodies = false;
 SET client_min_messages = warning;
-SET row_security = off;
+-- SET row_security = off;
 
 SET search_path = public, pg_catalog;
 
@@ -21,7 +21,7 @@ SET default_tablespace = '';
 
 SET default_with_oids = false;
 --
--- Name: match; Type: TABLE; Schema: public; Owner: pse13
+-- Name: match; Type: TABLE; Schema: public; Owner: pari
 --
 DROP SEQUENCE IF EXISTS utilisateur_id_seq CASCADE;
 CREATE SEQUENCE utilisateur_id_seq
@@ -71,7 +71,7 @@ CREATE UNIQUE INDEX session_id_idx ON session ( id ASC NULLS LAST);
 CREATE INDEX fk_session_utilisateur_idx ON session ( utilisateur_id ASC);
 CREATE INDEX idx_session_token ON session ( token ASC);
 --
--- Name: equipe; Type: TABLE; Schema: public; Owner: pse13
+-- Name: equipe; Type: TABLE; Schema: public; Owner: pari
 --
 DROP TABLE IF EXISTS equipe CASCADE;
 CREATE TABLE equipe (
@@ -82,7 +82,7 @@ PRIMARY KEY(code_equipe)
 );
 
 --
--- Name: etat_match; Type: TABLE; Schema: public; Owner: pse13
+-- Name: etat_match; Type: TABLE; Schema: public; Owner: pari
 --
 DROP TABLE IF EXISTS etat_match CASCADE;
 CREATE TABLE etat_match (
@@ -92,7 +92,7 @@ PRIMARY KEY (code_etat_match)
 );
 
 --
--- Name: phase; Type: TABLE; Schema: public; Owner: pse13
+-- Name: phase; Type: TABLE; Schema: public; Owner: pari
 --
 DROP TABLE IF EXISTS phase CASCADE;
 CREATE TABLE phase (
@@ -102,7 +102,7 @@ PRIMARY KEY (id)
 );
 
 --
--- Name: stade; Type: TABLE; Schema: public; Owner: pse13
+-- Name: stade; Type: TABLE; Schema: public; Owner: pari
 --
 DROP SEQUENCE IF EXISTS stade_id_seq CASCADE;
 CREATE SEQUENCE stade_id_seq
@@ -121,7 +121,7 @@ PRIMARY KEY (id)
 );
 
 --
--- Name: match; Type: TABLE; Schema: public; Owner: pse13
+-- Name: match; Type: TABLE; Schema: public; Owner: pari
 --
 DROP SEQUENCE IF EXISTS match_id_seq CASCADE;
 CREATE SEQUENCE match_id_seq
