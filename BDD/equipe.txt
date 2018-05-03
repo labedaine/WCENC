@@ -10,11 +10,11 @@ FRA;France;C
 AUS;Australie;C
 PER;Pérou;C
 DNK;Danemark;C
-ARG;Argentina;C
-ISL;Islande;C
-HRV;Croatie;C
-NGA;Nigeria;C
-BR;Brazil;E
+ARG;Argentina;D
+ISL;Islande;D
+HRV;Croatie;D
+NGA;Nigeria;D
+BRA;Brésil;E
 CHE;Suisse;E
 CRI;Costa Rica;E
 SRB;Serbie;E
@@ -26,8 +26,7 @@ BEL;Belgique;G
 PAN;Panama;G
 TUN;Tunisie;G
 ENG;Angleterre;G
-POL;Pologne;G
-SEN;Sénégal;G
-COL;Colombie;G
-JPN;Japon;G
-BRA;Brésil;E
+POL;Pologne;H
+SEN;Sénégal;H
+COL;Colombie;H
+JPN;Japon;H
