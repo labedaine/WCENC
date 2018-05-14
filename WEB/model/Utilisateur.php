@@ -53,6 +53,13 @@ class Utilisateur extends SinapsModel {
      * 
      * @var SMALLINT
      */
+    protected $isactif = NULL;
+
+    /**
+     * 
+     * 
+     * @var SMALLINT
+     */
     protected $isadmin = NULL;
 
 

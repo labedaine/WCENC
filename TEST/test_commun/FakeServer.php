@@ -22,7 +22,6 @@ class FakeServer {
                     "test",
                     "test",
                     array(
-                        PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\'',
                         PDO::ATTR_PERSISTENT => TRUE
                     )
                 );
@@ -82,10 +81,9 @@ class FakeServer {
 
     }
 
-
     static public function getDbConnectionString($databaseType, $nomDb) {
         if(!getenv("DB_SERVER")) {
-            putenv("DB_SERVER=127.0.0.1");
+            putenv("DB_SERVER=192.168.122.100");
         }
 
         $dbConnectionString = "pgsql:host=" .  getenv("DB_SERVER") . ";dbname=$nomDb";
@@ -94,19 +92,7 @@ class FakeServer {
     }
 
     static $tables = array(
-    "Maintenance","MaintenanceElement",
-        "ICDuTableauDeBord","IGDuTableauDeBord","IEDuTableauDeBord", "TableauDeBord",
-        "Commentaire", "Alerte",
-        "UtilisateurDuGroupe", "ProfilDeLUtilisateur", "Session", "Utilisateur",
-        "components_data", "components_data_unique",
-        "DerogationHistorique", "Derogation",
-        "EvenementExterieurApplicationLink", "EvenementExterieur", "EvenementExterieurApplication",
-        "IndicateursDuTag", "Tag",
-        "Serie", "IndicateurGraphe",
-        "IndicateurCalcule", "TableDeVerite", "IndicateurEtat",
-        "PorteurDIndicateur", "Equipement", "Collecteur",
-        "ApplicationDuGroupe", "Groupe",
-        "GroupeDEquipement", "Application", "Domaine", "MacroDomaine", "Moteur",
-        "Tag", "Profil", "DonneesCollecteesDLU", "FicheIncidentCreation");
+        "equipe","etat_match","phase","stade","match","session","utilisateur"
+        );
 
 }
