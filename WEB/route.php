@@ -38,5 +38,5 @@ Route::post('groupe/detailUnGroupe', 'GroupeController@getDetailUnGroupe');
 Route::get('verification/Groupe/(.*)$', 'VerificationFromConfController@getGroupe');
 
 // Administration
-Route::get('administration', 'AdministrationController@getUtilisateursListe');
+Route::post('administration', 'AdministrationController@getUtilisateursListe');
 

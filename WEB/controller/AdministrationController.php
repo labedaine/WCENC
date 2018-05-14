@@ -13,24 +13,13 @@ require_once __DIR__.'/../DTO/UtilisateurDTO.php';
 
 class AdministrationController extends BaseController {
     
-    protected $jqGridService;
     private $jsonService;
-    
     private $utilisateurService;
-    private $fileService;
-    private $droitsService;
-    private $importUtilisateurs;
+
     
     public function __construct() {
-        
-        $this->jqGridService = SinapsApp::make("JqGridService");
         $this->utilisateurService = App::make("UtilisateurService");
-        $this->droitsService = App::make("DroitsService");
-        $this->jsonService = App::make("JsonService");
-        $this->restClientService = App::make("RestClientService");
-        $this->systemService = App::make("SystemService");
-        $this->fileService = SinapsApp::make("FileService");
-        
+        $this->jsonService = App::make("JsonService");  
     }
     
     /**
@@ -462,7 +451,9 @@ class AdministrationController extends BaseController {
     // fonction listant tous les utilisateurs
     public function getUtilisateursListe() {
         
-        $this->applyFilter("authentification");
+ 
+        
+        /*$this->applyFilter("authentification");
         
         // Filtrage selon les filtres jqgrid
         $sqlQuery = self::SQL_LISTE_UTILISATEURS;
@@ -481,7 +472,11 @@ class AdministrationController extends BaseController {
             
             $retour = $this->jqGridService->createResponseFromModels( $dataList, $_REQUEST, array(), true);
             
-            return $retour;
+            return $retour;*/
+        
+        //return JsonService::createResponse("OK");{"success":true,"code":"","payload":"OK"}
+        $mesUsers = Utilisateur::all()->toArray();
+        return JsonService::createResponse($mesUsers);{"success":true,"code":"","payload":[{"id":1}]}
     }
     
     private function ajoutDesGroupes(&$dataList) {

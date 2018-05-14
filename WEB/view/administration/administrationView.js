@@ -27,6 +27,7 @@ var AdministrationViewClass = function(args) {
         miseEnForme : function() {
             // on crée les jqContainers
             this.initToolTips();
+            this.getListeUtilisateurs();
         },
 
         /**
@@ -40,6 +41,21 @@ var AdministrationViewClass = function(args) {
                   },
                   track:true
                });
+        },
+        /**
+         * Fonction d'initialisation de la liste des utilisateurs
+         */
+        getListeUtilisateurs : function(){
+        	/* {"success":true,"code":"","payload":"OK"} */
+        	RestApi.getListeUtilisateurs2(function(data) {
+                if (data.success) {
+                    
+                	$('#testUsers').html(data.payload);
+                	
+                 } else {
+                     ErrorMessageBox(data.payload, "Erreur lors de la suppression du groupe.");
+                 }
+             });
         },
     });
     return Clazz;

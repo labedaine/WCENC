@@ -5,7 +5,8 @@ var RestApi = new function() {
 
     var url = {
 		USER : 'services/utilisateur',
-                COMMUN: 'services/commun'
+        COMMUN: 'services/commun',
+        ADMINISTRATION : 'services/administration'
     };
 
     var messageByErrorCode = {
@@ -219,6 +220,15 @@ var RestApi = new function() {
         supprimerUtilisateur : function(id, success, error) {
             performDelete(url.UTILISATEUR + "/supprimer/" + id, success, error);
         },
+        
+        
+        // **********
+        //
+        // ***************
+        getListeUtilisateurs2 : function(success, error) {
+            performPost(url.ADMINISTRATION, {}, success, error);
+        },
+        
 
         // *************************************
         // AUTO REFRESH
