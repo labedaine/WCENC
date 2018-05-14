@@ -37,3 +37,6 @@ Route::post('groupe/detailUnGroupe', 'GroupeController@getDetailUnGroupe');
 // @@5.10 - on teste si les groupes/utilisateurs existent sur bdd de restitution
 Route::get('verification/Groupe/(.*)$', 'VerificationFromConfController@getGroupe');
 
+// Administration
+Route::post('administration', 'AdministrationController@getUtilisateursListe');
+

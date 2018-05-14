@@ -124,6 +124,16 @@ html, body {
 #tabParis input{
   width: 50px;
 }
+#tabUsers td{
+  text-align: center;
+}
+
+#tabUsers td, #tabUsers th{
+  vertical-align: middle;
+}
+#tabUsers input{
+  width: 50px;
+}
 .vertical-menu {
     width: 200px; /* Set a width if you like */
 }

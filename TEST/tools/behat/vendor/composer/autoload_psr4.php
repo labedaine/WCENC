@@ -27,5 +27,5 @@ return array(
     'Doctrine\\Instantiator\\' => array($vendorDir . '/doctrine/instantiator/src/Doctrine/Instantiator'),
     'Behat\\Mink\\Driver\\' => array($vendorDir . '/behat/mink-selenium2-driver/src', $vendorDir . '/behat/mink-browserkit-driver/src', $vendorDir . '/behat/mink-goutte-driver/src'),
     'Behat\\Mink\\' => array($vendorDir . '/behat/mink/src'),
-    '' => array($baseDir . '/../../test_commun/bootstrapRestitution', $baseDir . '/../../test_commun/bootstrapConfiguration', $baseDir . '/../../test_commun/bootstrapModeles', $baseDir . '/../../test_commun', $baseDir . '/../../test_commun/bootstrapIHM'),
+    '' => array($baseDir . '/../../test_commun/bootstrap'),
 );
