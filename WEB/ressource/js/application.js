@@ -239,6 +239,7 @@ var application = $.extend({} , Framework, {
         var module = "classement";
         application.user.moduleEnCours="classement";
         this.currentView = new ClassementViewClass(args, module);
+    },
     
     afficherEcranAdministration: function(args) {
         var module = "administration";
