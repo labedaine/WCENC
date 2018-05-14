@@ -41,6 +41,9 @@ var MenuViewClass = function(args) {
                     }
                 });
             });
+
+            application.afficheUnderligne();
+
         },
 
         logout : function() {

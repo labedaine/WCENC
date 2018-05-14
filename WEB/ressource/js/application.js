@@ -5,6 +5,7 @@ var application = $.extend({} , Framework, {
         'ressource/js/config.js',                     // configuration de l'application
         'view/menu/menuView.js',                      // vue pour le menu
         'view/paris/parisView.js',                    // vue pour les paris
+        'view/classement/classementView.js',               // vue pour les classement
         'view/login/loginView.js'                   // vue pour le login
     ],
 
@@ -195,6 +196,10 @@ var application = $.extend({} , Framework, {
                 case "paris":
                     this.afficherEcranParis(args);
                     break;
+                // Paris
+                case "classement":
+                    this.afficherEcranClassement(args);
+                    break;
 
                 // BLOC 'Gestion des habilitations'
                 case "gestion-utilisateurs": // Menu Gestion Utilisateurs
@@ -203,7 +208,17 @@ var application = $.extend({} , Framework, {
                 default:
                     afficherEcranParis();
             }
+
+            application.afficheUnderligne();
         }
+
+    },
+
+    afficheUnderligne: function () {
+      console.log(application.user.moduleEnCours);
+      $('.selected').removeClass('selected');
+      var selector = ".lien[href='#" + application.user.moduleEnCours + "']";
+      $(selector).addClass('selected')
     },
 
 
@@ -211,6 +226,12 @@ var application = $.extend({} , Framework, {
         var module = "paris";
         application.user.moduleEnCours="paris";
         this.currentView = new ParisViewClass(args, module);
+        this.currentView.render('#pageContainer');
+    },
+    afficherEcranClassement: function(args) {
+        var module = "classement";
+        application.user.moduleEnCours="classement";
+        this.currentView = new ClassementViewClass(args, module);
         this.currentView.render('#pageContainer');
     },
 
