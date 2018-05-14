@@ -6,7 +6,7 @@ var application = $.extend({} , Framework, {
         'view/menu/menuView.js',                      // vue pour le menu
         'view/paris/parisView.js',                    // vue pour les paris
         'view/classement/classementView.js',               // vue pour les classement
-        'view/login/loginView.js'                   // vue pour le login
+        'view/login/loginView.js',                   // vue pour le login
         'view/administration/administrationView.js'  // vue pour l'administration      
     ],
 
