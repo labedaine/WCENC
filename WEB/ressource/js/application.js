@@ -7,6 +7,7 @@ var application = $.extend({} , Framework, {
         'view/paris/parisView.js',                    // vue pour les paris
         'view/classement/classementView.js',               // vue pour les classement
         'view/login/loginView.js'                   // vue pour le login
+        'view/administration/administrationView.js'  // vue pour l'administration      
     ],
 
     // utilisateur actuellement connecte
@@ -205,6 +206,12 @@ var application = $.extend({} , Framework, {
                 case "gestion-utilisateurs": // Menu Gestion Utilisateurs
                     this.afficherEcranGestionUtilisateurs(args);
                     break;
+                    
+                // BLOC 'Administration'
+                case "administration": // Menu Gestion Utilisateurs
+                    this.afficherEcranAdministration(args);
+                    break;
+                    
                 default:
                     afficherEcranParis();
             }
@@ -232,6 +239,11 @@ var application = $.extend({} , Framework, {
         var module = "classement";
         application.user.moduleEnCours="classement";
         this.currentView = new ClassementViewClass(args, module);
+    
+    afficherEcranAdministration: function(args) {
+        var module = "administration";
+        application.user.moduleEnCours="administration";
+        this.currentView = new AdministrationViewClass(args, module);
         this.currentView.render('#pageContainer');
     },
 
