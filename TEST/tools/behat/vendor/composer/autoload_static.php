@@ -144,11 +144,7 @@ class ComposerStaticInit228d6225c29bb3a010f3c075a3d1ee1e
     );
 
     public static $fallbackDirsPsr4 = array (
-        0 => __DIR__ . '/../..' . '/../../test_commun/bootstrapRestitution',
-        1 => __DIR__ . '/../..' . '/../../test_commun/bootstrapConfiguration',
-        2 => __DIR__ . '/../..' . '/../../test_commun/bootstrapModeles',
-        3 => __DIR__ . '/../..' . '/../../test_commun',
-        4 => __DIR__ . '/../..' . '/../../test_commun/bootstrapIHM',
+        0 => __DIR__ . '/../..' . '/../../test_commun/bootstrap',
     );
 
     public static $prefixesPsr0 = array (

@@ -5,12 +5,10 @@
 #php composer.phar dump-autoload
 #cd - >/dev/null
 
-SUITE=$1
-
 tools/behat/bin/behat \
 --config test_commun/behat.yml \
 --lang=fr \
---suite $1 \
+--suite tests \
 -v \
 --colors \
 --format pretty $*
