@@ -15,21 +15,13 @@ require_once __DIR__."/SinapsTestCase.php";
 require_once __DIR__."/FakeConfigReaderService.php";
 require_once __DIR__."/FakeInput.php";
 require_once __DIR__."/FakeMailService.php";
-require_once __DIR__."/bootstrapRestitution/FakeCookie.php";
+require_once __DIR__."/bootstrap/FakeCookie.php";
 require_once __DIR__."/Response.php";
 require_once __DIR__."/MockedRestClient.php";
 require_once __DIR__."/TestDataRestitutionStd.php";
 require_once __DIR__."/FakeServer.php";
-require_once __DIR__."/FakeServerConfiguration.php";
-require_once __DIR__."/TestDataConfigurationStd.php";
 
-require_once __DIR__."/bootstrapRestitution/FakeSinapsMemcache.php";
-require_once __DIR__."/bootstrapRestitution/FakeFicheIncidentService.php";
-
-require_once __DIR__."/../../apps/commun/php/services/TimeService.php";
-require_once __DIR__."/../../apps/hypervision/services/services/RepartitionService.php";
-
-require_once __DIR__."/../../apps/commun/php/models/TableDeVeriteExtension.php";
+require_once __DIR__."/../../WEB/ressource/php/services/TimeService.php";
 
 
 class Utils {
@@ -38,25 +30,21 @@ class Utils {
     static public function initFakeServeur($databaseType="POSTGRESQL") {
         return FakeServer::init($databaseType);
     }
-    
+
     static public function truncateSession() {
-		return FakeServer::truncateSession();
-	}
+        return FakeServer::truncateSession();
+    }
 
     static public function initFakeServeurConfiguration($databaseType="POSTGRESQL") {
         return FakeServerConfiguration::init($databaseType);
     }
-    
+
     static public function initFakeMailService() {
         return FakeMailService::init();
     }
 
     static public function populate($besoinDHistorique=FALSE) {
         TestDataRestitutionStd::populate($besoinDHistorique);
-    }
-
-    static public function populateConfiguration($besoinDHistorique=FALSE) {
-        TestDataConfigurationStd::populate($besoinDHistorique);
     }
 
     static function fakeTime($time) {
@@ -79,10 +67,6 @@ class Utils {
 
     static public function truncateAll() {
         FakeServer::truncateAll();
-    }
-
-    static public function truncateAllConfiguration() {
-        FakeServerConfiguration::truncateAll();
     }
 
     static function analyserTablesDeVerite(TableNode $tdv) {
