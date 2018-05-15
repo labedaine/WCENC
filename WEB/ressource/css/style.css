@@ -13,10 +13,10 @@
     width:80%;
 
 }
-
+/* 
 .nav-item {
 width:50%;
-}
+} */
 
 .nav-item:not(.active) {
     color:white;
