@@ -61,7 +61,7 @@ var ParisViewClass = function(args) {
             var target = $( e.target );
             var nom =  target.data('nom');
           }
-
+          console.log('Chargement paris ' + nom);
           RestApi.getListeMatch(nom, function(data) {
               if (data.success) {
                 console.log('Chargement paris ' + nom);
@@ -82,7 +82,8 @@ var ParisViewClass = function(args) {
                  });
 
               }
-            });
+
+            }, function(data) {  console.log(data);});
           },
     });
     return Clazz;

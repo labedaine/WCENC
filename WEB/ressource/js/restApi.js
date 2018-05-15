@@ -6,7 +6,8 @@ var RestApi = new function() {
     var url = {
         USER : 'services/utilisateur',
         COMMUN: 'services/commun',
-        ADMINISTRATION : 'services/administration'
+        ADMINISTRATION : 'services/administration',
+        PARIS : 'services/paris'
     };
 
     var messageByErrorCode = {
@@ -220,15 +221,15 @@ var RestApi = new function() {
         supprimerUtilisateur : function(id, success, error) {
             performDelete(url.USER + "/supprimer/" + id, success, error);
         },
-        
-        
+
+
         // *****************************************
         // Retourne la liste des utilisateur inscrit
         // *****************************************
         getListeUtilisateurs : function(success, error) {
             performPost(url.ADMINISTRATION, {}, success, error);
         },
-        
+
         // *****************************************
         // supprime un utilisateur
         // *****************************************
@@ -237,7 +238,14 @@ var RestApi = new function() {
                 "userId" : userId
             }, success, error);
         },
-        
+
+
+        // paris
+        getListeMatch : function (nom, success, error) {
+          performPost(url.PARIS, {
+              "grp" : nom
+          }, success, error);
+        },
 
         // *************************************
         // AUTO REFRESH
