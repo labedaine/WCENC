@@ -12,8 +12,10 @@
 }
 
 .image-position-right img {
-    padding-top:20px;
     box-shadow: 0 10px 8px 0 rgba(0, 0, 0, 0.2), 0 10px 20px 0 rgba(0, 0, 0, 0.19);
+    -moz-border-radius:7px;
+    -webkit-border-radius:7px;
+    border-radius:7px;
 }
 
 .carousel-item {
