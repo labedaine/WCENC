@@ -7,7 +7,8 @@ var RestApi = new function() {
         USER : 'services/utilisateur',
         COMMUN: 'services/commun',
         ADMINISTRATION : 'services/administration',
-        PARIS : 'services/paris'
+        PARIS : 'services/paris',
+        CLASSEMENT : 'services/classement',
     };
 
     var messageByErrorCode = {
@@ -244,6 +245,13 @@ var RestApi = new function() {
         getListeMatch : function (nom, success, error) {
           performPost(url.PARIS, {
               "grp" : nom
+          }, success, error);
+        },
+
+        // classement
+        getListeClassement : function (type, success, error) {
+          performPost(url.PARIS, {
+              "type" : type
           }, success, error);
         },
 
