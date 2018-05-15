@@ -1,6 +1,7 @@
 <?php $data = $_POST['data']; ?>
 
 <h3  class="titlePage">Groupe <?php echo $data[0]['code_groupe']; ?></h3>
+<button type="button" class="btn btn-primary" id="sauvParis">Sauvegarder vos paris</button>
 <table id="tabParis" class="table table-hover table-sm no-gutter">
   <tbody>
     <?php foreach ($data as $match): ?>
@@ -23,3 +24,4 @@
       </tr>
     <?php endforeach; ?>
   </tbody>
+</table>

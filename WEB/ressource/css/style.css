@@ -327,3 +327,11 @@ html, body {
 #pageContainer {
   height: 100%;
 }
+#sauvParis {
+  float: right;
+  margin: 15px;
+}
+
+.titlePage {
+  display: inline-block;
+}
