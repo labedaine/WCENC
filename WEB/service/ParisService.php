@@ -26,4 +26,9 @@ class ParisService {
         return $session->utilisateur;
     }
 
+    public function sauvegarderParis($paris) {
+
+
+    }
+
 }

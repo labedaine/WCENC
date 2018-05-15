@@ -13,8 +13,9 @@ class ParisController extends BaseController {
      * Sauvegarde les paris de l'utilisateur
      */
     public function sauvegarderParis() {
+      $listParis = Input::get('listParis');
 
-      return JsonService::createResponse('ok');
+      return JsonService::createResponse($listParis);
     }
     /**
      * Récupère la liste des groupes de l'utilisateur spécifié
@@ -47,6 +48,7 @@ class ParisController extends BaseController {
 
     const SQL_LISTE_GROUPES = <<<EOF
 SELECT
+    m.id as "id",
     date_match,
     equipe_id_dom,
     e1.pays as "pays1",
