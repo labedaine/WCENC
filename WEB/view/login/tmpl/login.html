@@ -1,54 +1,163 @@
-<div id="sign">
-  <form class="form-sign form-signin">
-    <img class="mb-4" src="./ressource/img/Logo_BetFip2.png" alt="" width="200" >
-    <h1 class="h3 mb-3 font-weight-normal">Connexion</h1>
-    <label for="inputEmail" class="sr-only">Votre email</label>
-    <input id="inputEmail" class="form-control" placeholder="Email" required="" autofocus="" type="email">
-    <label for="inputPassword" class="sr-only">Votre mot de passe</label>
-    <input id="inputPassword" class="form-control" placeholder="Mot de passe" required="" type="password">
-    <div class="checkbox mb-3">
-      <label>
-        <input value="remember-me" type="checkbox"> Se souvenir de moi </input>
-      </label>
-    </div>
-    <button id="btn_conn" class="btn btn-lg btn-primary btn-block" type="submit">Se connecter</button>
-    <input type="button" id="btn_sign" class="btn btn-lg btn-secondary btn-block" value="S'inscrire">
-    <p class="mt-5 mb-3 text-muted">© 2017-2018</p>
+<div class="container">
+    <div id="sign">
+        <table>
+            <tr>
+                <td style="width:40%">
+                    <center>
+                        <div id="myCarousel" class="carousel slide">
+                            <div class="carousel-inner">
+                                <div class="carousel-item active">
+                                    <div class="image-position-right">
+                                        <img src="./ressource/img/carousel/Paul-the-Octopus.png" style="margin-left:50px">
+                                        <blockquote>
+                                            <p>Pour moi c'est le meilleur site de pari en ligne</p>
+                                        </blockquote>
+                                    </div>
+                                </div>
 
-  </form>
-  <form class="form-sign form-signup">
-    <img class="mb-4" src="../ressource/img/Logo_BetFip2.png" alt="" width="200" >
-    <h1 class="h3 mb-3 font-weight-normal">S'enregistrer</h1>
-    <div class="form-group">
-      <label for="inputPseudo" class="sr-only">Votre pseudo</label>
-      <input id="inputPseudo" class="form-control" placeholder="Votre pseudo" required="" autofocus="">
+                                <div class="carousel-item">
+                                    <div class="image-position-right">
+                                        <img src="./ressource/img/carousel/zidane.png" style="margin-left:50px">
+                                        <blockquote>
+                                            <p>D'abord la jambe gauche, toujours... et ensuite BetFip</p>
+                                        </blockquote>
+                                    </div>
+                                </div>
+
+                                <div class="carousel-item">
+                                    <div class="image-position-right">
+                                        <img src="./ressource/img/carousel/macron.png" style="margin-left:50px">
+                                        <blockquote>
+                                            <p>BetFip est mon projet pour la France !!</p>
+                                        </blockquote>
+                                    </div>
+                                </div>
+
+                                <div class="carousel-item">
+                                    <div class="image-position-right">
+                                        <img src="./ressource/img/carousel/messi.png" style="margin-left:50px">
+                                        <blockquote>
+                                            <p>J'oublie mes problèmes d'impôts grâce à BetFip!</p>
+                                        </blockquote>
+                                    </div>
+                                </div>
+
+                                <div class="carousel-item">
+                                    <div class="image-position-right">
+                                        <img src="./ressource/img/carousel/neymar.png" style="margin-left:50px">
+                                        <blockquote>
+                                            <p>Même moi j'avais parié 7-1 contre l'Allemagne...</p>
+                                        </blockquote>
+                                    </div>
+                                </div>
+
+                                <div class="carousel-item">
+                                    <div class="image-position-right">
+                                        <img src="./ressource/img/carousel/poutine.png" style="margin-left:50px">
+                                        <blockquote>
+                                            <p>102,4% des Russes ont voté BetFip!</p>
+                                        </blockquote>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </center>
+                </td>
+                <td style="width:60%;vertical-align:top">
+                    <center>
+                        <img class="mb-4" src="./ressource/img/Logo_BetFip2.png" alt="">
+
+                        <nav>
+                            <div class="nav nav-tabs" id="nav-tabLogin" role="tablist">
+                                <li class="nav-item nav-link active" id="nav-connexion-tab"   data-toggle="tab" href="#nav-connexion" role="tab" aria-controls="nav-connexion" aria-selected="true">Connexion</li>
+                                <li class="nav-item nav-link"        id="nav-inscription-tab" data-toggle="tab" href="#nav-inscription" role="tab" aria-controls="nav-inscription" aria-selected="true">Inscription</li>
+                            </div>
+                        </nav>
+
+                        <div class="tab-content" id="nav-tabContent">
+                            <div class="tab-pane fade show active" id="nav-connexion" role="tabpanel" aria-labelledby="nav-connexion-tab">
+                                <div class="col-sm-6">
+                                    <form class="form-sign form-signin" id="formLogin">
+                                        <br/>
+                                        <div class="form-group">
+                                            <div class="col-xs-6">
+                                                <input id="inputLogin" class="form-control" placeholder="Votre login" required="" autofocus="" type="text">
+                                            </div>
+                                            <div class="col-xs-6">
+                                                <input id="inputPassword" class="form-control" placeholder="Votre mot de passe" required="" type="text">
+                                            </div>
+                                            <div class="col-xs-6">
+                                                <button id="btn_conn" class="btn btn-lg btn-info btn-block" type="submit">Se connecter</button>
+                                            </div>
+                                        </div>
+
+                                    </form>
+                                </div>
+                            </div>
+
+
+                            <div class="tab-pane fade" id="nav-inscription" role="tabpanel" aria-labelledby="nav-inscription-tab">
+                                <div class="col-sm-12 col-sm-12">
+                                    <form class="form-sign form-signup" id="formInscription" data-toggle="validator">
+                                        <br/>
+
+                                        <div class="form-group row">
+                                            <div class="col-sm-6">
+                                                 <input id="inputPrenomE" class="form-control" placeholder="Votre prénom" required="" autofocus="" type="text">
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <input id="inputNomE" class="form-control" placeholder="Votre nom" required="" autofocus="" type="text">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <div class="col-sm-6 text-right">
+                                                <label for="selPromoE" style="color:white;">Votre promotion:</label>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <select id="selPromoE" class="form-control ">
+                                                    <option value="1">PSE</option>
+                                                    <option value="2">ISA</option>
+                                                    <option value="3">ISC</option>
+                                                    <option value="4">CSP</option>
+                                                    <option value="5">TG</option>
+                                                    <option value="6">Enseignant</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <div class="col-sm-6">
+                                                <input id="inputPseudoE" data-minlength="6" data-error="Ce pseudo est déjà utilisé" data-remote="./services/utilisateur/existe" name="login" class="form-control" placeholder="Votre pseudo" required="" autofocus="">
+                                                <div class="help-block with-errors" style="font-size:12px">Au moins 6 caractères</div>
+                                            </div>
+
+                                            <div class="col-sm-6">
+                                                <input id="inputEmailE" class="form-control" placeholder="Votre email" required="" autofocus="" type="email">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <div class="col-sm-6">
+                                                <input id="inputPasswordE" class="form-control" placeholder="Votre mot de passe" autofocus="" data-minlength="6" data-error="Au moins 6 caractères" required type="password">
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <input id="inputCPasswordE" class="form-control" placeholder="Confirmation du mot de passe" autofocus="" required type="password" data-match="#inputPasswordE" data-match-error="Les mots de passe ne sont pas identiques">
+                                                <div class="help-block with-errors" style="font-size:12px"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <button id="btn_enregistrer" type="button" class="btn btn-info">S'enregistrer</button>
+                                        </div>
+                                        </br>
+
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </center>
+                </td>
+            </tr>
+        </table>
     </div>
-    <div class="form-group">
-      <label for="inputEmail" class="sr-only">Votre email</label>
-      <input id="inputEmail" class="form-control" placeholder="Email" required="" autofocus="" type="email">
-    </div>
-    <div class="form-group">
-      <label for="inputPrenom" class="sr-only">Prénom</label>
-      <input id="inputPrenom" class="form-control" placeholder="Prénom" required="" autofocus="" type="prenom">
-      <label for="inputNom" class="sr-only">Nom</label>
-      <input id="inputNom" class="form-control" placeholder="Nom" required="" autofocus="" type="nom">
-    </div>
-    <label for="inputPassword" class="sr-only">Votre mot de passe</label>
-    <input id="inputPassword" class="form-control noMarg" placeholder="Mot de passe" required="" type="password">
-    <label for="inputCPassword" class="sr-only">Confirmation du mot de passe</label>
-    <input id="inputCPassword" class="form-control" placeholder="Confirmation" required="" type="password">
-    <div class="form-group">
-   <label for="exampleFormControlSelect1">Votre promotion</label>
-   <select class="form-control" id="exampleFormControlSelect1">
-       <option>PSE</option>
-       <option>ISA</option>
-       <option>ISC</option>
-       <option>CSP</option>
-       <option>TG</option>
-     </select>
-   </div>
-    <button class="btn btn-lg btn-primary btn-block" type="submit">S'enregistrer</button>
-    <input type="button" id="btn_connect" class="btn btn-lg btn-secondary btn-block" value="Se connecter">
-    <p class="mt-5 mb-3 text-muted">© 2017-2018</p>
-  </form>
 </div>

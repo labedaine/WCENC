@@ -47,11 +47,37 @@ var AdministrationViewClass = function(args) {
          */
         getListeUtilisateurs : function(){
         	/* {"success":true,"code":"","payload":"OK"} */
-        	RestApi.getListeUtilisateurs2(function(data) {
+        	RestApi.getListeUtilisateurs(function(data) {
                 if (data.success) {
+
+                	 data.payload.forEach(function(element) {
+                		  var isAdmin = "Non";
+                		  if (element.isadmin == "1" ) {
+                			  isAdmin = "Oui";
+                		  }
+                		  
+                		  $("#divUsers").append("<div class='row' rowUser='" + element.id + "' name='a'></div>");
+                		  $("div[rowUser="+ element.id+"]")
+                		  		.append("<div class='col-sm'>" + element.nom + "</div>")
+                		  		.append("<div class='col-sm'>" + element.prenom + "</div>")
+                		  		.append("<div class='col-sm'>" + element.login + "</div>")
+                		  		.append("<div class='col-sm'>" + element.email + "</div>")
+                		  		.append("<div class='col-sm'>" + isAdmin + "</div>")
+                		  		.append("<div class='col-sm'>" +
+                		  					"<i class='fas fa-edit' style='cursor:pointer;'></i>&nbsp;&nbsp;" +
+                		  					"<i class='fas fa-trash' style='cursor:pointer;'></i>" +
+                		  				"</div>");
+                	 });
+                	
                     
                 	$('#testUsers').html(data.payload);
                 	
+                	$('.fa-trash').on('click', function() {
+                		confirm("Voulez-vous vraiment supprimer cet utilisateur ?");
+                		var idUser = $(this).parent().parent().attr('rowUser');
+                		
+                	});
+
                  } else {
                      ErrorMessageBox(data.payload, "Erreur lors de la suppression du groupe.");
                  }

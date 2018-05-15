@@ -21,7 +21,8 @@ Route::post('utilisateur$', 'UtilisateurController@postConfiguration');
 // Utilisateurs
 Route::get('utilisateur/utilisateursListe', 'UtilisateurController@getUtilisateursListe');
 Route::get('utilisateur/details/(\d+)', 'UtilisateurController@getDetails');
-Route::post('utilisateur/enregistrer', 'UtilisateurController@enregistrerUtilisateur');
+Route::post('utilisateur/enregistrer', 'LoginController@enregistrerUtilisateur');
+Route::get('utilisateur/existe\?login=(.*)$', 'LoginController@isLoginInUse');
 Route::delete('utilisateur/supprimer/(\d+)', 'UtilisateurController@supprimerUtilisateur');
 
 Route::get('utilisateur/listeGroupes', 'UtilisateurController@getListeGroupes');

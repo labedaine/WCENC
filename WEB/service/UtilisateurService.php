@@ -29,6 +29,31 @@ class UtilisateurService {
         $this->restClientService = App::make("RestClientService");
     }
 
+
+    /**
+     * Cré l'utilisateur en base de donnée
+     */
+
+    public function createUser($nom, $prenom, $login, $email, $passwd, $promo) {
+        try {
+            // On cré l'utilisateur
+            $user = new Utilisateur();
+            $user->nom = $nom;
+            $user->prenom = $prenom;
+            $user->login = $login;
+            $user->email = $email;
+            $user->password = $passwd;
+            $user->promotion = $promo;
+            $user->isactif = 0;
+            $user->isadmin = 0;
+            $user->save();
+            return TRUE;
+
+        } catch(Exception $exception) {
+            throw $exception;
+        }
+    }
+
     /**
      * Crée l'utilisateur dans le memcache ou le détruit
      *
