@@ -44,5 +44,6 @@ Route::post('administration/deleteUser', 'AdministrationController@deleteUser');
 
 //PARIS
 Route::post('paris', 'ParisController@getListeMatch');
-//PARIS
+Route::post('paris/sauvegarder', 'ParisController@sauvegarderParis');
+//Classement
 Route::post('classement', 'ClassementController@getListeClassement');
