@@ -60,14 +60,14 @@ class Match extends SinapsModel {
     /**
      * 
      * 
-     * @var integer DEFAULT 0
+     * @var integer DEFAULT NULL
      */
     protected $score_equipe_1 = NULL;
 
     /**
      * 
      * 
-     * @var integer DEFAULT 0
+     * @var integer DEFAULT NULL
      */
     protected $score_equipe_2 = NULL;
 
@@ -132,6 +132,16 @@ class Match extends SinapsModel {
      */
     public function phase() {
          $relation = $this->belongsTo("Phase");
+         return $relation;
+    }
+
+    /**
+     * pari
+     * Utilisation interne au framework uniquement
+     * @return SinapsRelation
+     */
+     public function paris() {
+         $relation = $this->hasMany("Paris");
          return $relation;
     }
 

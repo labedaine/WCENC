@@ -141,8 +141,8 @@ CREATE TABLE match (
     code_equipe_2 varchar(3), -- Équipe 2 jouant le match [equipe2 1-N matchsVisiteur] matchs
     code_etat_match varchar(3) DEFAULT 'AVE'::bpchar NOT NULL, -- État du match [etat 1-N match] match
     stade_id integer NOT NULL, -- Le stade où se déroule le match [stade 1-N match] match
-    score_equipe_1 integer DEFAULT 0,
-    score_equipe_2 integer DEFAULT 0,
+    score_equipe_1 integer DEFAULT NULL,
+    score_equipe_2 integer DEFAULT NULL,
     phase_id integer NOT NULL, -- La phase du match [phase 1-N match] match
 PRIMARY KEY (id),
 CONSTRAINT fk_match_phase FOREIGN KEY (phase_id) REFERENCES phase (id),
@@ -157,23 +157,13 @@ CONSTRAINT fk_match_etat_match FOREIGN KEY (code_etat_match) REFERENCES etat_mat
 --
 DROP TABLE IF EXISTS paris CASCADE;
 CREATE TABLE paris (
-    id_match integer NOT NULL,
-    id_user integer NOT NULL,
+    match_id integer NOT NULL, -- Match parie [match 1-N paris] paris
+    utilisateur_id integer NOT NULL, -- Utilisateur faisant le paris [utilisateur 1-N paris] paris
     score_dom integer NOT NULL,
     score_ext integer NOT NULL,
-PRIMARY KEY(id_match, id_user)
-);
-
---
--- Name: resultat; Type: TABLE; Schema: public; Owner: pari
---
-DROP TABLE IF EXISTS resultat CASCADE;
-CREATE TABLE resultat (
-    id_match integer NOT NULL,
-    score_dom integer NOT NULL,
-    score_ext integer NOT NULL,
-    match_fini boolean DEFAULT false,
-PRIMARY KEY(id_match)
+PRIMARY KEY(match_id, utilisateur_id),
+CONSTRAINT fk_paris_match FOREIGN KEY (match_id) REFERENCES match (id),
+CONSTRAINT fk_paris_utilisateur FOREIGN KEY (utilisateur_id) REFERENCES utilisateur (id)
 );
 
 -- SELECT pg_catalog.setval('stade_id_stade_seq', 12, true);
