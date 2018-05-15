@@ -20,9 +20,10 @@ class LoginController extends BaseController {
 
     public function __construct() {
 
-        $this->timeService       = SinapsApp::make("TimeService");
-        $this->jsonService       = App::make("JsonService");
-        $this->loginService      = App::make("LoginService");
+        $this->timeService          = SinapsApp::make("TimeService");
+        $this->jsonService          = App::make("JsonService");
+        $this->loginService         = App::make("LoginService");
+        $this->utilisateurService   = App::make("UtilisateurService");
     }
 
     /**
@@ -30,9 +31,6 @@ class LoginController extends BaseController {
     */
 
     public function postAuth() {
-
-        App::register("UtilisateurService");
-        $this->utilisateurService = App::make("UtilisateurService");
 
         $username = Input::get("login");
         $password = Input::get("password");
@@ -57,7 +55,6 @@ class LoginController extends BaseController {
 
     public function verifieUserSurRestitution() {
 
-        $this->droitsService = App::make("DroitsService");
         $username = Input::get("login");
         $password = Input::get("passwd");
 
@@ -128,24 +125,43 @@ class LoginController extends BaseController {
         return $retour;
     }
 
-    public function getIdByLogin($matcher) {
+    public function isLoginInUse($matcher) {
         $userLogin = $matcher[1];
-
         $utilisateur = Utilisateur::where('login', $userLogin)->first();
 
         if (!$utilisateur) {
-            $retour = $this->jsonService->createErrorResponse(401);
-            return $retour;
-
+            http_response_code(200);
+            return;
         }
 
-        $result = new \stdClass();
-        $result->id = $utilisateur->id;
+        http_response_code(406);
+        return;
+    }
 
-        $retour = $this->jsonService->createResponse(
-            $result
-        );
+    public function enregistrerUtilisateur() {
 
+        $login = Input::get("login");
+        $email = Input::get("email");
+        $prenom = Input::get("prenom");
+        $nom = Input::get("nom");
+        $pwd = Input::get("pwd");
+        $promo = Input::get("promo");
+
+        $utilisateur = Utilisateur::where('login', $login)->first();
+
+        if ($utilisateur) {
+            $retour = $this->jsonService->createErrorResponse(406, "L'utilisateur '$login' existe déjà.");
+            return $retour;
+        }
+
+        try {
+            $this->utilisateurService->createUser($nom, $prenom, $login, $email, $pwd, $promo);
+
+        } catch(Exception $e) {
+            $retour = $this->jsonService->createErrorResponse($e->getMessage());
+        }
+
+        $retour = $this->jsonService->createResponse("");
         return $retour;
     }
 

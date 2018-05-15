@@ -4,7 +4,7 @@ var RestApi = new function() {
     var errorCallbacks = {};
 
     var url = {
-		USER : 'services/utilisateur',
+        USER : 'services/utilisateur',
         COMMUN: 'services/commun',
         ADMINISTRATION : 'services/administration'
     };
@@ -198,37 +198,37 @@ var RestApi = new function() {
          * @param {type} error
          * @returns {undefined}
          */
-        enregistrerUtilisateur : function(id, login,
-                                                                    nom, prenom,
-                                                                    email, pwd,
-                                                                    gestionHabilitations,
-                                                                    gestionEOM,
-                                                                    groupes,
-                                                                    success, error) {
-            performPost(url.UTILISATEUR + "/enregistrer", {
-                id : id,
+        enregistrerUtilisateur : function(login, email, prenom, nom, pwd, promo,
+                                                           success, error) {
+
+            performPost(url.USER + "/enregistrer", {
                 login : login,
                 nom : nom,
                 prenom : prenom,
                 email : email,
                 pwd : pwd,
-                gestionHabilitations: gestionHabilitations,
-                gestionEOM: gestionEOM,
-                groupes : groupes
+                promo : promo
             },success, error);
         },
-        supprimerUtilisateur : function(id, success, error) {
-            performDelete(url.UTILISATEUR + "/supprimer/" + id, success, error);
+
+        isLoginInUse : function(login, success, error) {
+            performPost(url.USER + "/existe", {
+                login : login
+            },success, error);
         },
-        
-        
+
+        supprimerUtilisateur : function(id, success, error) {
+            performDelete(url.USER + "/supprimer/" + id, success, error);
+        },
+
+
         // **********
         //
         // ***************
         getListeUtilisateurs2 : function(success, error) {
             performPost(url.ADMINISTRATION, {}, success, error);
         },
-        
+
 
         // *************************************
         // AUTO REFRESH

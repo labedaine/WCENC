@@ -61,7 +61,7 @@ COPY match (id, date_match, code_equipe_1, code_equipe_2, code_etat_match, stade
 SELECT pg_catalog.setval('match_id_seq', 64, true);
 
 
-COPY utilisateur (id, nom, prenom, login, email, password, isadmin) FROM '/tmp/utilisateur.txt' DELIMITER ';';
+COPY utilisateur (id, nom, prenom, login, email, password, promotion, isactif, isadmin) FROM '/tmp/utilisateur.txt' DELIMITER ';';
 
 --
 -- Name: public; Type: ACL; Schema: -; Owner: postgres
