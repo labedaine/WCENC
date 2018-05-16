@@ -24,19 +24,24 @@ class ParisService {
     public function sauvegarderParis($user, $idMatch, $scoreDom, $scoreExt) {
 
       try {
-          if (isset($scoreDom) && isset($scoreExt) && $scoreDom != "")
+
+          if (isset($scoreDom) && isset($scoreExt) && preg_match("/^[\d]+$/", $scoreDom) && preg_match("/^[\d]+$/", $scoreExt))
           {
             //$user = $this->loginService->getUtilisateurDepuisToken(Cookie::get('token'));
-            
-            $paris = Paris::where("match_id", $idMatch)->where("utilisateur_id", $user)->first();
-            if (!$paris)
-              $paris = new Paris();
-            $paris->match_id = $idMatch;
-            $paris->utilisateur_id = $user;
-            $paris->score_dom = $scoreDom;
-            $paris->score_ext = $scoreExt;
-            $paris->save();
-            return TRUE;
+            $match = Match::where("id", $idMatch)->first();
+
+            if (strtotime($match->date_match) < strtotime('now'))
+            {
+              $paris = Paris::where("match_id", $idMatch)->where("utilisateur_id", $user)->first();
+              if (!$paris)
+                $paris = new Paris();
+              $paris->match_id = $idMatch;
+              $paris->utilisateur_id = $user;
+              $paris->score_dom = $scoreDom;
+              $paris->score_ext = $scoreExt;
+              $paris->save();
+              return TRUE;
+            }
           }
           return FALSE;
 
