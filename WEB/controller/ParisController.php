@@ -35,11 +35,12 @@ class ParisController extends BaseController {
       $groupe = Input::get('grp');
 
       $sqlQuery = self::SQL_LISTE_GROUPES;
+      $user = SinapsApp::utilisateurCourant()->id;
 
       $dbh = SinapsApp::make("dbConnection");
       $stmt = $dbh->prepare($sqlQuery);
       $stmt->setFetchMode(PDO::FETCH_ASSOC);
-      $stmt->execute(array($groupe));
+      $stmt->execute(array('groupe' => $groupe, 'id' => $user));
       $matchs = $stmt->fetchAll();
 
       return JsonService::createResponse($matchs);
@@ -57,23 +58,28 @@ class ParisController extends BaseController {
     }
 
     const SQL_LISTE_GROUPES = <<<EOF
-SELECT
-    m.id as "id",
-    date_match,
-    equipe_id_dom,
-    e1.pays as "pays1",
-    score_dom,
-    e1.code_groupe,
-    equipe_id_ext,
-    e2.pays as "pays2",
-    score_ext,
-    e2.code_groupe
-FROM Match m
-    INNER JOIN equipe e1
-    ON m.equipe_id_dom = e1.id
-INNER JOIN equipe e2
-    ON m.equipe_id_ext = e2.id
-    WHERE e1.code_groupe = ?;
+    SELECT
+        m.id as "id",
+        date_match,
+        equipe_id_dom,
+        e1.pays as "pays1",
+        m.score_dom as "score_dom",
+        e1.code_groupe,
+        equipe_id_ext,
+        e2.pays as "pays2",
+        m.score_ext as "score_ext",
+        e2.code_groupe,
+        p.score_dom as "paris_dom",
+        p.score_ext as "paris_ext"
+    FROM Match m
+        INNER JOIN equipe e1
+        ON m.equipe_id_dom = e1.id
+    INNER JOIN equipe e2
+        ON m.equipe_id_ext = e2.id
+    LEFT JOIN paris p
+        ON p.match_id = m.id
+        AND p.utilisateur_id = :id
+        WHERE e1.code_groupe = :groupe;
 EOF;
 
 
