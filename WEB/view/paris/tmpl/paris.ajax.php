@@ -8,7 +8,7 @@ setlocale(LC_TIME, "fr_FR");
   <tbody>
     <?php foreach ($data as $match): ?>
       <tr class="match" data-idmatch="<?php echo $match["id"];?>">
-        <?php if (isset($match["pays1"])): ?>
+        <?php if ($match["pays1"] == ""): ?>
           <td><i class="fas fa-question"></i></td>
         <?php else: ?>
           <td><img src="ressource/img/drapeaux/drapeau-<?php echo strtolower($match["pays1"]); ?>.png"/></td>
@@ -24,7 +24,7 @@ setlocale(LC_TIME, "fr_FR");
           <td class="paris">1</td>
         <?php endif; ?>
         <td class="col-md-3"><?php echo $match["pays2"]? $match["pays2"] : "Equipe inconnu"; ?></td>
-        <?php if (isset($match["pays2"])): ?>
+        <?php if ($match["pays2"] == "" ):?>
           <td><i class="fas fa-question"></i></td>
         <?php else: ?>
           <td><img src="ressource/img/drapeaux/drapeau-<?php echo strtolower($match["pays2"]); ?>.png"/></td>
