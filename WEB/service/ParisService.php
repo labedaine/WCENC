@@ -11,22 +11,38 @@
 class ParisService {
 
     // Variable liées au curl
+    // Variable liées au curl
+    protected $timeoutCurl = 5;
+    protected $url = NULL;
+    protected $srvApp = NULL;
 
     public function __construct() {
+        $this->loginService         = SinapsApp::make("LoginService");
     }
 
-    public function getUtilisateurDepuisToken($token) {
 
-        $session = Paris::all;
+    public function sauvegarderParis($user, $idMatch, $scoreDom, $scoreExt) {
 
-        if ($session === NULL) {
-            return NULL;
-        }
+      try {
+          if (isset($scoreDom) && isset($scoreExt) && $scoreDom != "")
+          {
+            //$user = $this->loginService->getUtilisateurDepuisToken(Cookie::get('token'));
+            
+            $paris = Paris::where("match_id", $idMatch)->where("utilisateur_id", $user)->first();
+            if (!$paris)
+              $paris = new Paris();
+            $paris->match_id = $idMatch;
+            $paris->utilisateur_id = $user;
+            $paris->score_dom = $scoreDom;
+            $paris->score_ext = $scoreExt;
+            $paris->save();
+            return TRUE;
+          }
+          return FALSE;
 
-        return $session->utilisateur;
-    }
-
-    public function sauvegarderParis($paris) {
+      } catch(Exception $exception) {
+          throw $exception;
+      }
 
 
     }

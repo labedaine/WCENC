@@ -1,10 +1,10 @@
 <?php
     /**
      * Classe générée automatiquement par gen_classes.
-     *
-     *
+     * 
+     * 
      * PHP version 5
-     *
+     * 
      * @author Génération Automatique <personne.quinexistepas@dgfip.finances.gouv.fr>
      */
 
@@ -15,22 +15,22 @@ class Match extends MatchExt {
     */
 
     /**
-     *
-     *
+     * 
+     * 
      * @var timestamp with time zone NOT NULL
      */
     protected $date_match = NULL;
 
     /**
-     *
-     *
+     * 
+     * 
      * @var integer DEFAULT NULL
      */
     protected $equipe_id_dom = NULL;
 
     /**
-     *
-     *
+     * 
+     * 
      * @var integer DEFAULT NULL
      */
     protected $equipe_id_ext = NULL;
@@ -39,21 +39,21 @@ class Match extends MatchExt {
      * État du match
      * [etat 1-N match]
      * match
-     *
+     * 
      * @var integer NOT NULL
      */
     protected $etat_id = NULL;
 
     /**
-     *
-     *
+     * 
+     * 
      * @var integer DEFAULT NULL
      */
     protected $score_dom = NULL;
 
     /**
-     *
-     *
+     * 
+     * 
      * @var integer DEFAULT NULL
      */
     protected $score_ext = NULL;
@@ -62,7 +62,7 @@ class Match extends MatchExt {
      * La phase du match
      * [phase 1-N match]
      * match
-     *
+     * 
      * @var integer NOT NULL
      */
     protected $phase_id = NULL;

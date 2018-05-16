@@ -3,10 +3,14 @@
 class ParisController extends BaseController {
 
     private $jsonService;
+    private $parisService;
 
 
     public function __construct() {
+        $this->beforeFilter('authentification');
         $this->jsonService = App::make("JsonService");
+        $this->parisService   = App::make("ParisService");
+
     }
 
     /**
@@ -14,6 +18,12 @@ class ParisController extends BaseController {
      */
     public function sauvegarderParis() {
       $listParis = Input::get('listParis');
+      $user = SinapsApp::utilisateurCourant()->id;
+      foreach ($listParis as $key => $unParis) {
+        $listParis[$key] = $this->parisService->sauvegarderParis($user, $unParis->id,  $unParis->scoreDom, $unParis->scoreExt);
+      }
+
+
 
       return JsonService::createResponse($listParis);
     }

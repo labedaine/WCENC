@@ -58,7 +58,10 @@ var ParisViewClass = function(args) {
             var id = $(this).data('idmatch');
             var dom = $(this).find('.inputParisDom').first().val();
             var ext = $(this).find('.inputParisExt').first().val();
-            listParis.push({ "id" : id, "scoreDom" : dom, "scoreExt" : ext});
+            if (dom != "" || ext != "")
+            {
+              listParis.push({ "id" : id, "scoreDom" : dom, "scoreExt" : ext});
+            }
           });
           RestApi.sauvegarderParis(listParis, function(data) {
               if (data.success) {
