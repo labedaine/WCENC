@@ -57,7 +57,7 @@ SinapsApp::bind(
 
 SinapsApp::singleton(
     "RestClientService",
-    function() { *
+    function() { 
         return new RestClientService();
     }
 );
