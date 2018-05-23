@@ -5,7 +5,6 @@ var LoginViewClass = function(args) {
         template : 'view/login/tmpl/login.html?rd='+application.getUniqueId(),
 
         events : {
-            "click #btn_sign,#btn_connect"  : "flipMenuLogin",
             "click #btn_conn" : "submitLogin",
             "click #btn_connE" : "submitLogin"
         },
@@ -25,18 +24,6 @@ var LoginViewClass = function(args) {
             this.miseEnForme();
         },
 
-        flipMenuLogin : function() {
-            var page1 = $('.form-signup');
-            var page2 = $('.form-signin');
-            var toHide = page1.is(':visible') ? page1 : page2;
-            var toShow = page2.is(':visible') ? page1 : page2;
-
-            toHide.removeClass('flip in').addClass('flip out').hide();
-            toShow.removeClass('flip out').addClass('flip in').show();
-
-            return false;
-        },
-
         /**
          * mise en forme de la vue (création du dialog de login)
          */
@@ -45,11 +32,9 @@ var LoginViewClass = function(args) {
 
             $('#menuContainer').hide();
             $('#pageContainer').css('padding-top',0);
-            $('.form-signup').hide();
 
             // Carousel avec les images
             self.activeCarousel();
-
 
             $('#formInscription').validator().on('submit', function (e) {
               if (e.isDefaultPrevented()) {
