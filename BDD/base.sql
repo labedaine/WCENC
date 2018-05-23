@@ -39,8 +39,9 @@ CREATE TABLE utilisateur (
   login VARCHAR(255) NOT NULL ,
   email VARCHAR(255) NOT NULL ,
   password VARCHAR(255) NOT NULL ,
-  isactif SMALLINT,
-  isadmin SMALLINT,
+  promotion SMALLINT NOT NULL DEFAULT 0,
+  isactif SMALLINT NOT NULL DEFAULT 0,
+  isadmin SMALLINT NOT NULL DEFAULT 0,
 PRIMARY KEY (id)
 );
 
