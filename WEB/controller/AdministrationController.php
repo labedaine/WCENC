@@ -482,7 +482,7 @@ class AdministrationController extends BaseController {
             unset($tmp->password);
             $listeUsers[] = $tmp;
         }
-        return JsonService::createResponse($listeUsers);
+        return JsonService::createResponse($listeUsers); //{"success":true,"code":"","payload":[{"id":1,"nom":"admin","prenom":"admin","login":"admin","email":"admin@betfip.fr","password":"admin","isactif":null,"isadmin":1}]}
     }
 
     private function ajoutDesGroupes(&$dataList) {

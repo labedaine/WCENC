@@ -220,8 +220,6 @@ var RestApi = new function() {
         supprimerUtilisateur : function(id, success, error) {
             performDelete(url.USER + "/supprimer/" + id, success, error);
         },
-
-
         
         
         // *****************************************
@@ -240,7 +238,6 @@ var RestApi = new function() {
             }, success, error);
         },
         
-
 
         // *************************************
         // AUTO REFRESH

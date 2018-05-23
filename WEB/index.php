@@ -41,9 +41,9 @@ SinapsApp::bind(
 );
 
 SinapsApp::bind(
-    "GroupeService", 
-    function () { 
-        return new GroupeService(); 
+    "GroupeService",
+    function () {
+        return new GroupeService();
     }
 );
 
@@ -52,6 +52,13 @@ SinapsApp::bind(
     function () {
         $objLoginService = new LoginService();
         return $objLoginService;
+    }
+);
+
+SinapsApp::singleton(
+    "RestClientService",
+    function() { *
+        return new RestClientService();
     }
 );
 
