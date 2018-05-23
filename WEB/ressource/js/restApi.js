@@ -220,15 +220,24 @@ var RestApi = new function() {
         supprimerUtilisateur : function(id, success, error) {
             performDelete(url.USER + "/supprimer/" + id, success, error);
         },
-
-
-        // **********
-        //
-        // ***************
-        getListeUtilisateurs2 : function(success, error) {
+        
+        
+        // *****************************************
+        // Retourne la liste des utilisateur inscrit
+        // *****************************************
+        getListeUtilisateurs : function(success, error) {
             performPost(url.ADMINISTRATION, {}, success, error);
         },
-
+        
+        // *****************************************
+        // supprime un utilisateur
+        // *****************************************
+        deleteUser : function(userId, success, error) {
+            performPost(url.ADMINISTRATION + "/deleteUser", {
+                "userId" : userId
+            }, success, error);
+        },
+        
 
         // *************************************
         // AUTO REFRESH

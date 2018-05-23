@@ -40,4 +40,5 @@ Route::get('verification/Groupe/(.*)$', 'VerificationFromConfController@getGroup
 
 // Administration
 Route::post('administration', 'AdministrationController@getUtilisateursListe');
+Route::post('administration/deleteUser', 'AdministrationController@deleteUser');
 
