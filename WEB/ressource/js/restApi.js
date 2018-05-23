@@ -6,7 +6,9 @@ var RestApi = new function() {
     var url = {
         USER : 'services/utilisateur',
         COMMUN: 'services/commun',
-        ADMINISTRATION : 'services/administration'
+        ADMINISTRATION : 'services/administration',
+        PARIS : 'services/paris',
+        CLASSEMENT : 'services/classement',
     };
 
     var messageByErrorCode = {
@@ -238,6 +240,21 @@ var RestApi = new function() {
             }, success, error);
         },
         
+
+
+        // paris
+        getListeMatch : function (nom, success, error) {
+          performPost(url.PARIS, {
+              "grp" : nom
+          }, success, error);
+        },
+
+        // classement
+        getListeClassement : function (type, success, error) {
+          performPost(url.PARIS, {
+              "type" : type
+          }, success, error);
+        },
 
         // *************************************
         // AUTO REFRESH

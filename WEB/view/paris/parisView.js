@@ -11,11 +11,16 @@ var ParisViewClass = function(args) {
         template : 'view/paris/tmpl/paris.html?rd='+application.getUniqueId(),
 
         events : {
+          // "click .parisNav a" : "menuParis"
         },
 
         timers : {},
 
         initialize : function() {
+          if (!args[0])
+          {
+            args[0] = "GroupeA";
+          }
 
         },
 
@@ -27,6 +32,9 @@ var ParisViewClass = function(args) {
         miseEnForme : function() {
             // on crée les jqContainers
             this.initToolTips();
+            $(".activeGroupe").removeClass('activeGroupe');
+            $(".parisNav li a[href='#paris/" + args[0] + "']").parent('li').addClass('activeGroupe');
+            this.menuParis();
         },
 
         /**
@@ -40,7 +48,43 @@ var ParisViewClass = function(args) {
                   },
                   track:true
                });
+
+
         },
+
+        menuParis : function(e = null) {
+          if (!e)
+          {
+            nom = args[0].slice(-1);
+          }
+          else {
+            var target = $( e.target );
+            var nom =  target.data('nom');
+          }
+          console.log('Chargement paris ' + nom);
+          RestApi.getListeMatch(nom, function(data) {
+              if (data.success) {
+                console.log('Chargement paris ' + nom);
+                $.ajax({
+                   beforeSend: function() { $('#contenuParis').hide();},
+                   type: "POST",
+                   url: "view/paris/tmpl/paris.ajax.php",
+                   data: { data: data.payload },
+                   success: function(result){
+                       $('#contenuParis').html(result);
+                       $('#contenuParis').show();
+                   },
+                   error: function(msg, textStatus, errorThrown) {
+                       console.log("Status: " + textStatus);
+                       console.log("Error: " + errorThrown);
+                       console.log(msg);
+                   }
+                 });
+
+              }
+
+            }, function(data) {  console.log(data);});
+          },
     });
     return Clazz;
 };
