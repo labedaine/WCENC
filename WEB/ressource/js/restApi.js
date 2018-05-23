@@ -217,9 +217,9 @@ var RestApi = new function() {
             },success, error);
         },
 
-        supprimerUtilisateur : function(id, success, error) {
+        /*supprimerUtilisateur : function(id, success, error) {
             performDelete(url.USER + "/supprimer/" + id, success, error);
-        },
+        },*/
         
         
         // *****************************************
@@ -232,8 +232,8 @@ var RestApi = new function() {
         // *****************************************
         // supprime un utilisateur
         // *****************************************
-        deleteUser : function(userId, success, error) {
-            performPost(url.ADMINISTRATION + "/deleteUser", {
+        supprimerUtilisateur : function(userId, success, error) {
+            performPost(url.ADMINISTRATION + "/supprimerUtilisateur", {
                 "userId" : userId
             }, success, error);
         },

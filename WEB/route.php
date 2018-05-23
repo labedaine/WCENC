@@ -23,7 +23,7 @@ Route::get('utilisateur/utilisateursListe', 'UtilisateurController@getUtilisateu
 Route::get('utilisateur/details/(\d+)', 'UtilisateurController@getDetails');
 Route::post('utilisateur/enregistrer', 'LoginController@enregistrerUtilisateur');
 Route::get('utilisateur/existe\?login=(.*)$', 'LoginController@isLoginInUse');
-Route::delete('utilisateur/supprimer/(\d+)', 'UtilisateurController@supprimerUtilisateur');
+//Route::delete('utilisateur/supprimer/(\d+)', 'UtilisateurController@supprimerUtilisateur');
 
 Route::get('utilisateur/listeGroupes', 'UtilisateurController@getListeGroupes');
 
@@ -39,6 +39,7 @@ Route::post('groupe/detailUnGroupe', 'GroupeController@getDetailUnGroupe');
 Route::get('verification/Groupe/(.*)$', 'VerificationFromConfController@getGroupe');
 
 // Administration
-Route::post('administration', 'AdministrationController@getUtilisateursListe');
-Route::post('administration/deleteUser', 'AdministrationController@deleteUser');
+Route::post('administration$', 'AdministrationController@getUtilisateursListe');
+Route::post('administration/supprimerUtilisateur', 'AdministrationController@supprimerUtilisateur');
+
 

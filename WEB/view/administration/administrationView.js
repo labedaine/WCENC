@@ -73,15 +73,25 @@ var AdministrationViewClass = function(args) {
                 	$('#testUsers').html(data.payload);
                 	
                 	$('.fa-trash').on('click', function() {
-                		confirm("Voulez-vous vraiment supprimer cet utilisateur ?");
                 		var idUser = $(this).parent().parent().attr('rowUser');
-                		
+                		application.currentView.deleteUser(idUser);
                 	});
 
                  } else {
-                     ErrorMessageBox(data.payload, "Erreur lors de la suppression du groupe.");
+                     ErrorMessageBox("Impossible de charger la liste des utilisateurs");
                  }
              });
+        },
+        
+        deleteUser : function(idUser){
+        	confirm("Voulez-vous vraiment supprimer cet utilisateur ?");
+        	RestApi.supprimerUtilisateur(idUser, function(data) {
+        		if (data.success) {
+        			$("div[rowUser=" + idUser + "]").remove();
+        		} else {
+                    ErrorMessageBox("Erreur lors de la suppression de l'utilisateur.");
+                }
+        	});
         },
     });
     return Clazz;

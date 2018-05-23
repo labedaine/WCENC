@@ -396,15 +396,14 @@ class AdministrationController extends BaseController {
      * @param type $idUtilisateur
      * @return type
      */
-    public function supprimerUtilisateur($matcher) {
+    public function supprimerUtilisateur() {
+
         try {
             $this->applyFilter("authentification");
-
-            $idUtilisateur = $matcher[1];
-
+            $idUtilisateur = Input::get('userId');
             $this->utilisateurService->supprimerUtilisateur($idUtilisateur);
             $retour = $this->jsonService->createResponse($idUtilisateur);
-
+                        
             return $retour;
         } catch(Exception $err) {
             $retour = JsonService::createErrorResponse("500", $err->getMessage());

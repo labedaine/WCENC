@@ -419,11 +419,6 @@ class UtilisateurService {
                 throw new Exception("SUPRESSION: Impossible d'identifier l'utilisateur d'id $id");
             }
 
-            // Suppression de l'utilisateur s'il exite dans ProfilDeLUtilisateur
-            ProfilDeLUtilisateur::where('Utilisateur_id', $id)->delete();
-            // Suppression de l'utilisateur s'il exite dans UtilisateurDuGroupe
-            UtilisateurDuGroupe::where('Utilisateur_id', $id)->delete();
-
             // Suppression de l'utilisateur s'il exite dans Utilisateur
             $user->delete();
 
