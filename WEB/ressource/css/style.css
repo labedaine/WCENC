@@ -124,7 +124,7 @@ html, body {
 #tabParis input{
   width: 50px;
 }
-#tabUsers td{
+#tabUsers td, #tabUsers th{
   text-align: center;
 }
 
