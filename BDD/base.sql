@@ -152,6 +152,29 @@ CONSTRAINT fk_match_equipe2 FOREIGN KEY (code_equipe_2) REFERENCES equipe (code_
 CONSTRAINT fk_match_etat_match FOREIGN KEY (code_etat_match) REFERENCES etat_match (code_etat_match)
 );
 
+--
+-- Name: paris; Type: TABLE; Schema: public; Owner: pari
+--
+DROP TABLE IF EXISTS paris CASCADE;
+CREATE TABLE paris (
+    id_match integer NOT NULL,
+    id_user integer NOT NULL,
+    score_dom integer NOT NULL,
+    score_ext integer NOT NULL,
+PRIMARY KEY(id_match, id_user)
+);
+
+--
+-- Name: resultat; Type: TABLE; Schema: public; Owner: pari
+--
+DROP TABLE IF EXISTS resultat CASCADE;
+CREATE TABLE resultat (
+    id_match integer NOT NULL,
+    score_dom integer NOT NULL,
+    score_ext integer NOT NULL,
+    match_fini boolean DEFAULT false,
+PRIMARY KEY(id_match)
+);
 
 -- SELECT pg_catalog.setval('stade_id_stade_seq', 12, true);
 
@@ -168,4 +191,3 @@ GRANT ALL ON SCHEMA public TO PUBLIC;
 --
 -- PostgreSQL database dump complete
 --
-
