@@ -9,6 +9,8 @@ var LoginViewClass = function(args) {
             "click #btn_connE" : "submitLogin"
         },
 
+        timers : {"activeCarousel" : 4200},
+
         /**
          * initialisation
          */
@@ -68,13 +70,7 @@ var LoginViewClass = function(args) {
             rand = currentSlide;
             $('#myCarousel').carousel(currentSlide);
             $('#myCarousel').fadeIn(4200);
-            setInterval(function(){
-                while(rand == currentSlide){
-                  rand = Math.floor((Math.random() * $('.carousel-item').length));
-                }
-                currentSlide = rand;
-                $('#myCarousel').carousel(rand);
-            },4200);
+
         },
 
         /**

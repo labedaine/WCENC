@@ -17,10 +17,12 @@ require_once __DIR__."/../ressource/php/Autoload.php";
 
 class CurlApiScript extends SinapsScript {
 
+    private $test = FALSE;
+
     public function __construct() {
+
         parent::__construct(__DIR__."/../config","ApiLogger","api");
         $this->logger = SinapsApp::make("ApiLogger");
-
 
         $this->timeService      = SinapsApp::make("TimeService");
         $this->jsonService      = SinapsApp::make("JsonService");
@@ -35,52 +37,45 @@ class CurlApiScript extends SinapsScript {
                      ->setDescription("Va chercher les infos sur le site api.football-data.org")
 
                      ->addOption(
-                         "competition",
+                         "--update",
                          SinapsScript::OBLIGATOIRE | SinapsScript::VALUE_NONE,
-                         "Retourne les informations relatives à la compétition"
+                         "Met à jour en base de données suivant "
                      )
 
                      //
                      ->startAlternative()
                      ->addOption(
-                         "match",
-                         SinapsScript::OBLIGATOIRE,
-                         "Retourne les informations relatives à un match"
-                     )
-
-                     //
-                    ->startAlternative()
-                    ->addOption(
-                        "equipe",
-                        SinapsScript::OBLIGATOIRE,
-                        "Retourne les informations relatives à une équipe"
-                    );
+                         "--show",
+                         SinapsScript::OBLIGATOIRE| SinapsScript::VALUE_NONE,
+                         "Affiche les matches devant être mis à jour"
+                     );
     }
 
     public function performRun() {
         try {
 
-            if(isset($this->options->competition)) {
-                $this->getCompetition();
-            }
-            if(isset($this->options->equipe)) {
-                $this->getEquipe();
-            }
-            if(isset($this->options->match)) {
-                $this->getMatchs($this->options->match);
-            }
-            /*if(isset($this->options->stringToIdDerogation)) {
-                $this->corrigeChampsDerogation();
-            }
-            if(isset($this->options->liste)) {
-                $this->afficherListe();
-            }*/
+            // On récupère les données de match à mettre à jour
+            $this->getMatchDeLaVeille();
 
+            // Si on update on met à jour la base
+            if(isset($this->options->update)) {
+                $this->update(TRUE);
+            }
+
+            // Sinon on montre juste
+            if(isset($this->options->show)) {
+                $this->update(FALSE);
+            }
 
         } catch( SinapsException $e) {
             $this->logger->contexte = NULL;
             $this->logger->addError($e->getMessage());
         }
+    }
+
+    private function getMatchDeLaVeille() {
+        $now = $this->timeService->now();
+
 
     }
 
@@ -135,7 +130,6 @@ class CurlApiScript extends SinapsScript {
             "getMatch"
         );
     }
-
 }
 
 $curlApiScript = new CurlApiScript();
