@@ -431,6 +431,37 @@ class UtilisateurService {
             throw $exception;
         }
     }
+    
+    
+    /**
+     * Activer un utilisateur
+     *
+     * @param type $id
+     * @return boolean
+     * @throws Exception
+     */
+    public function activerUtilisateur($id) {
+        try {
+            
+            OrmQuery::beginTransaction();
+            
+            $user = Utilisateur::where('id', $id)->first();
+            if ($user === NULL ) {
+                throw new Exception("SUPRESSION: Impossible d'identifier l'utilisateur d'id $id");
+            }
+            
+            $user->isactif = 1;//Utilisateur.ACTIVE_USER_VALUE;
+            $user->save();
+            
+            OrmQuery::commit();
+            
+            return TRUE;
+            
+        } catch(Exception $exception) {
+            OrmQuery::rollback();
+            throw $exception;
+        }
+    }
 
     /**
      * fonction qui retourne les domaines définis pour un user

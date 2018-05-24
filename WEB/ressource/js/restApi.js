@@ -232,7 +232,7 @@ var RestApi = new function() {
         },
         
         // *****************************************
-        // supprime un utilisateur
+        // supprimer un utilisateur
         // *****************************************
         supprimerUtilisateur : function(userId, success, error) {
             performPost(url.ADMINISTRATION + "/supprimerUtilisateur", {
@@ -240,7 +240,14 @@ var RestApi = new function() {
             }, success, error);
         },
         
-
+        // *****************************************
+        // activer un utilisateur
+        // *****************************************
+        activerUtilisateur : function(userId, success, error) {
+            performPost(url.ADMINISTRATION + "/activerUtilisateur", {
+                "userId" : userId
+            }, success, error);
+        },
 
         // paris
         getListeMatch : function (nom, success, error) {

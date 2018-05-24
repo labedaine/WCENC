@@ -62,19 +62,36 @@ var AdministrationViewClass = function(args) {
                 		  		.append("<div class='col-sm'>" + element.prenom + "</div>")
                 		  		.append("<div class='col-sm'>" + element.login + "</div>")
                 		  		.append("<div class='col-sm'>" + element.email + "</div>")
-                		  		.append("<div class='col-sm'>" + isAdmin + "</div>")
-                		  		.append("<div class='col-sm'>" +
-                		  					"<i class='fas fa-edit' style='cursor:pointer;'></i>&nbsp;&nbsp;" +
-                		  					"<i class='fas fa-trash' style='cursor:pointer;'></i>" +
-                		  				"</div>");
+                		  		.append("<div class='col-sm'>" + isAdmin + "</div>");
+                		  
+                		  if (element.isadmin == "1" ) {
+                			  $("div[rowUser="+ element.id+"]").append("<div class='col-sm'></div>");
+                		  } else {
+                			  if (element.isactif == 1) {
+		                		  $("div[rowUser="+ element.id+"]")
+	                		  		.append("<div class='col-sm'>" +
+	                		  					"<i class='fas fa-trash' style='cursor:pointer;'></i>" +
+	                		  				"</div>");
+                			  } else {
+		                		  $("div[rowUser="+ element.id+"]")
+		                		  		.append("<div class='col-sm'>" +
+		                		  					"<i class='fas fa-trash' style='cursor:pointer;'></i>" +
+		                		  					"&nbsp;&nbsp;<i class='fas fa-unlock' style='cursor:pointer;'></i>" +
+		                		  				"</div>");
+                			  }
+                		  }
                 	 });
-                	
-                    
-                	$('#testUsers').html(data.payload);
+                	                    
+//                	$('#testUsers').html(data.payload);
                 	
                 	$('.fa-trash').on('click', function() {
                 		var idUser = $(this).parent().parent().attr('rowUser');
-                		application.currentView.deleteUser(idUser);
+                		application.currentView.supprimerUtilisateur(idUser);
+                	});
+                	
+                	$('.fa-unlock').on('click', function() {
+                		var idUser = $(this).parent().parent().attr('rowUser');
+                		application.currentView.activerUtilisateur(idUser);
                 	});
 
                  } else {
@@ -83,13 +100,24 @@ var AdministrationViewClass = function(args) {
              });
         },
         
-        deleteUser : function(idUser){
+        supprimerUtilisateur : function(idUser){
         	confirm("Voulez-vous vraiment supprimer cet utilisateur ?");
         	RestApi.supprimerUtilisateur(idUser, function(data) {
         		if (data.success) {
         			$("div[rowUser=" + idUser + "]").remove();
         		} else {
                     ErrorMessageBox("Erreur lors de la suppression de l'utilisateur.");
+                }
+        	});
+        },
+        
+        activerUtilisateur : function(idUser){
+        	RestApi.activerUtilisateur(idUser, function(data) {
+        		if (data.success) {
+        			console.log($("div[rowUser=" + idUser + "]").find('.fa-unlock'));
+        			$("div[rowUser=" + idUser + "]").find('.fa-unlock').remove();
+        		} else {
+                    ErrorMessageBox("Erreur lors de l'activation l'utilisateur.");
                 }
         	});
         },
