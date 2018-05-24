@@ -16,13 +16,6 @@ class Equipe extends EquipeExt {
     /**
      * 
      * 
-     * @var varchar(3) NOT NULL
-     */
-    protected $code_equipe = NULL;
-
-    /**
-     * 
-     * 
      * @var varchar(50) NOT NULL
      */
     protected $pays = NULL;
@@ -38,26 +31,6 @@ class Equipe extends EquipeExt {
     /*
         Relations *
     */
-
-    /**
-     * match
-     * Utilisation interne au framework uniquement
-     * @return SinapsRelation
-     */
-     public function matchsDomicile() {
-         $relation = $this->hasMany("Match");
-         return $relation;
-    }
-
-    /**
-     * match
-     * Utilisation interne au framework uniquement
-     * @return SinapsRelation
-     */
-     public function matchsVisiteur() {
-         $relation = $this->hasMany("Match");
-         return $relation;
-    }
 
     public function __construct(array $values=NULL) {
         parent::__construct($values);

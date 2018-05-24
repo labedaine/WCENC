@@ -57,6 +57,7 @@ class SinapsApp extends App {
 
         static::register("JsonService");
         static::registerSingleton("TimeService");
+        static::registerSingleton("RestClientService");
         static::register("DateService");
         static::register("MailService");
         static::register("FileService");

@@ -39,13 +39,22 @@ class ParisController extends BaseController {
     }
 
     const SQL_LISTE_GROUPES = <<<EOF
-    SELECT date_match, code_equipe_1, e1.pays as "pays1", score_equipe_1, e1.code_groupe,code_equipe_2, e2.pays as "pays2", score_equipe_2, e2.code_groupe
+SELECT
+    date_match,
+    equipe_id_dom,
+    e1.pays as "pays1",
+    score_dom,
+    e1.code_groupe,
+    equipe_id_ext,
+    e2.pays as "pays2",
+    score_ext,
+    e2.code_groupe
 FROM Match m
-INNER JOIN equipe e1
-ON m.code_equipe_1 = e1.code_equipe
+    INNER JOIN equipe e1
+    ON m.equipe_id_dom = e1.id
 INNER JOIN equipe e2
-ON m.code_equipe_2 = e2.code_equipe
-WHERE e1.code_groupe = ?;
+    ON m.equipe_id_ext = e2.id
+    WHERE e1.code_groupe = ?;
 EOF;
 
 

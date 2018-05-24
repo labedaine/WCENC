@@ -13,7 +13,7 @@
         <td class="paris"><input type="number" name="idequipe_match" min="0"></td>
       <?php else: ?>
         <td class="paris">1</td>
-        <td class="resultat"><span class="rounded-circle"><?php echo $match["score_equipe_1"]; ?></span>-<span class="rounded-circle"><?php echo $match["score_equipe_2"]; ?></span></td>
+        <td class="resultat"><span class="rounded-circle"><?php echo $match["score_dom"]; ?></span>-<span class="rounded-circle"><?php echo $match["score_ext"]; ?></span></td>
         <td class="paris">1</td>
       <?php endif; ?>
       <td class="col-md-3"><?php echo $match["pays2"]; ?></td>

@@ -13,7 +13,6 @@
  * @author David Jacques <supervision-jacques.consultant@dgfip.finances.gouv.fr>
  */
 
-use \models\configuration\Application;
 
 abstract class SinapsScript {
     /**

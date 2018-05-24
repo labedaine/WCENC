@@ -16,7 +16,7 @@ class Phase extends SinapsModel {
     /**
      * 
      * 
-     * @var varchar(30) NOT NULL
+     * @var varchar(50) NOT NULL
      */
     protected $libelle = NULL;
 

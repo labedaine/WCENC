@@ -18,7 +18,8 @@ class RestClientService {
     public function __construct() {
     }
 
-    public function getURL($url, array $vars=NULL, $curlDebug=FALSE, $timeOut=3) {
+    public function getURL($url, array $vars=NULL, $curlDebug=FALSE, $timeOut=3, $apiKey=NULL) {
+
         if (is_null($curlDebug)) $curlDebug = FALSE;
         if (is_null($timeOut)) $timeOut = 3;
         $requete = $url;
@@ -27,9 +28,10 @@ class RestClientService {
         }
         $ch = curl_init($requete);
         if ($curlDebug) curl_setopt($ch, CURLOPT_VERBOSE, 1);
-        curl_setopt($ch, CURLOPT_PROXY, "");
+        //curl_setopt($ch, CURLOPT_PROXY, "");
         curl_setopt($ch, CURLOPT_HTTPGET, TRUE);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
         if ($timeOut == 3) {
             $timeOut = SinapsApp::getConfigValue("framework.curl.timeout", 3);
         }
@@ -37,6 +39,11 @@ class RestClientService {
         curl_setopt($ch, CURLOPT_TIMEOUT, $timeOut);
         curl_setopt($ch, CURLOPT_FRESH_CONNECT, TRUE);
         curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_0);
+
+        // On ajoute la clef si elle exite
+        if($apiKey) {
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array("X-Auth-Token: $apiKey"));
+        }
         $response = curl_exec($ch);
 
         if ($curlErrNo = curl_errno($ch)) {
@@ -67,7 +74,9 @@ class RestClientService {
         }
 
         curl_close($ch);
-        return $response;
+
+        // On retravaille le retour pour qu'il soit compatible avec ce que l'on attend
+        return JsonService::createResponse($response);
     }
 
     public function throwExceptionOnError($resultat) {

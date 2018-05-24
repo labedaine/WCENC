@@ -409,13 +409,13 @@ class OrmQuery {
         $cols = array();
         $values = array();
 
-        $this->updateSequence();
+        //$this->updateSequence();
         foreach($contenu as $colName => $colValue) {
             $cols[] = '"'.$colName.'"';
             $values[] = $this->phpToSQL($colValue);
         }
 
-        $this->updateSequence();
+        //$this->updateSequence();
         $this->insertPostgreSQL($cols, $values);
     }
 
@@ -472,7 +472,7 @@ class OrmQuery {
         try {
             $this->dbh->query($request);
 
-            $this->updateSequence();
+            //$this->updateSequence();
 
         } catch(PDOException $exception) {
             print "PDOException, ".$exception->getMessage()."\nrequest: $request\n";
