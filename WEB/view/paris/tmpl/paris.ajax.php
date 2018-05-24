@@ -1,17 +1,16 @@
 <?php $data = $_POST['data']; ?>
-
 <h3  class="titlePage">Groupe <?php echo $data[0]['code_groupe']; ?></h3>
 <button type="button" class="btn btn-primary" id="sauvParis">Sauvegarder vos paris</button>
 <table id="tabParis" class="table table-hover table-sm no-gutter">
   <tbody>
     <?php foreach ($data as $match): ?>
-      <tr>
+      <tr class="match" data-idmatch="<?php echo $match["id"];?>">
         <td><img src="ressource/img/drapeaux/drapeau-<?php echo strtolower($match["pays1"]); ?>.png"/></td>
         <td class="col-md-3"><?php echo $match["pays1"]; ?></td>
         <?php if (1): ?>
-          <td class="paris"><input type="number" name="idequipe_match" min="0"></td>
+          <td class="paris"><input class="inputParisDom" type="number" name="idequipe_match" data-idequipe="<?php echo $match["equipe_id_dom"];?>" data-equipe="dom" min="0"></td>
           <td>-</td>
-          <td class="paris"><input type="number" name="idequipe_match" min="0"></td>
+          <td class="paris"><input class="inputParisExt" type="number" name="idequipe_match" data-idequipe="<?php echo $match["equipe_id_ext"];?>" data-equipe="ext" min="0"></td>
         <?php else: ?>
           <td class="paris">1</td>
           <td class="resultat"><span class="rounded-circle"><?php echo $match["score_dom"]; ?></span>-<span class="rounded-circle"><?php echo $match["score_ext"]; ?></span></td>
