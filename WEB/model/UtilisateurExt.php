@@ -20,7 +20,8 @@ class UtilisateurExt extends SinapsModel {
     const CSP = 4;
     const TG  = 5;
     const ENSEIGNANT = 6;
-
+    const ACTIVE_USER_VALUE = 1; 
+    
     // Correspondance
     public static function numToString($num) {
 

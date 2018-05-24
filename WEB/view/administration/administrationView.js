@@ -56,12 +56,13 @@ var AdministrationViewClass = function(args) {
                 			  isAdmin = "Oui";
                 		  }
                 		  
-                		  $("#divUsers").append("<div class='row' rowUser='" + element.id + "' name='a'></div>");
+                		  $("#divUsers").append("<div class='row' rowUser='" + element.id + "'></div>");
                 		  $("div[rowUser="+ element.id+"]")
                 		  		.append("<div class='col-sm'>" + element.nom + "</div>")
                 		  		.append("<div class='col-sm'>" + element.prenom + "</div>")
                 		  		.append("<div class='col-sm'>" + element.login + "</div>")
                 		  		.append("<div class='col-sm'>" + element.email + "</div>")
+                		  		.append("<div class='col-sm'>" + element.promotion + "</div>")
                 		  		.append("<div class='col-sm'>" + isAdmin + "</div>");
                 		  
                 		  if (element.isadmin == "1" ) {

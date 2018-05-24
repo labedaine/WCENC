@@ -450,7 +450,7 @@ class UtilisateurService {
                 throw new Exception("SUPRESSION: Impossible d'identifier l'utilisateur d'id $id");
             }
             
-            $user->isactif = 1;//Utilisateur.ACTIVE_USER_VALUE;
+            $user->isactif = Utilisateur::ACTIVE_USER_VALUE;
             $user->save();
             
             OrmQuery::commit();

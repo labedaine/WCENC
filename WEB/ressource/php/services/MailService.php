@@ -9,6 +9,10 @@
 
 class MailService {
     
+    const OBJECT_MAIL_ACTIVATION_UTILISATEUR = "Activation Compte BetFip";
+    const MESSAGE_MAIL_ACTIVATION_UTILISATEUR = "Bienvenue @NOM@,<br/><br/>Nous sommes ravis de vous accueillir parmi nos nouveaux utilisateurs.<br/><br/>À bientôt,<br/>L'équipe BetFip";
+    
+    
     static protected $instance = NULL;
     
     static public function init($implementation=NULL) {
@@ -31,6 +35,22 @@ class MailService {
     public function envoyerMail($destinataire, $objet, $message) {
         static::init();
         $retour = static::$instance->envoyerMailOnInstance($destinataire, $objet, $message);
+        return $retour;
+    }
+    
+    /**
+     * Envoi un mail d'activation
+     *
+     * @param String $destinataire
+     * @param String $prenom
+     * @param String $objet
+     * @param String $message
+     *
+     * @return String la structure sérialisée au format Json
+     */
+    public function envoyerMailActivationCompte($destinataire, $prenom) {
+        static::init();
+        $retour = static::$instance->envoyerMailOnInstance($destinataire, self::OBJECT_MAIL_ACTIVATION_UTILISATEUR, str_replace("@NOM@", $prenom, self::MESSAGE_MAIL_ACTIVATION_UTILISATEUR));
         return $retour;
     }
     

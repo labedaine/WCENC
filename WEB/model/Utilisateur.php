@@ -9,12 +9,7 @@
      */
 
 class Utilisateur extends UtilisateurExt {
-    
-    /*
-        Constante *
-     */
-    const ACTIVE_USER_VALUE = 1; 
-    
+        
     
     /*
         Attributs *

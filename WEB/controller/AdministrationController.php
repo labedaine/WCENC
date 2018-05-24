@@ -15,10 +15,11 @@ class AdministrationController extends BaseController {
 
     private $jsonService;
     private $utilisateurService;
-
+    private $mailService;
 
     public function __construct() {
         $this->utilisateurService = App::make("UtilisateurService");
+        $this->mailService = App::make("MailService");
         $this->jsonService = App::make("JsonService");
     }
     
@@ -33,7 +34,8 @@ class AdministrationController extends BaseController {
         $this->applyFilter("authentification");
         $mesUsers = Utilisateur::all();
         $listeUsers = array();
-        foreach ($mesUsers as $user) {
+        foreach ($mesUsers as $user) {        
+            $user->promotion = UtilisateurExt::numToString($user->promotion);
             $tmp = $user->toArray();
             unset($tmp->password);
             $listeUsers[] = $tmp;
@@ -69,11 +71,16 @@ class AdministrationController extends BaseController {
     public function activerUtilisateur() {
         
         try {
+            //activation de l'utilisateur en bdd
             $this->applyFilter("authentification");
             $idUtilisateur = Input::get('userId');
             $this->utilisateurService->activerUtilisateur($idUtilisateur);
-            $retour = $this->jsonService->createResponse($idUtilisateur);
             
+            $user = Utilisateur::find($idUtilisateur);
+            $this->mailService->envoyerMailActivationCompte($user->email, $user->prenom);
+            
+            $retour = $this->jsonService->createResponse($idUtilisateur);
+
             return $retour;
         } catch(Exception $err) {
             $retour = JsonService::createErrorResponse("500", $err->getMessage());
