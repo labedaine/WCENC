@@ -21,10 +21,13 @@ class CurlApiScript extends SinapsScript {
         parent::__construct(__DIR__."/../config","ApiLogger","api");
         $this->logger = SinapsApp::make("ApiLogger");
 
-        $this->restClientService    = SinapsApp::make("RestClientService");
+
         $this->timeService      = SinapsApp::make("TimeService");
         $this->jsonService      = SinapsApp::make("JsonService");
         $this->dateService      = SinapsApp::make("DateService");
+        $this->restClientService    = SinapsApp::make("RestClientService");
+
+        $this->api = new ApiFootballDataService();
     }
 
     public function configure() {
@@ -60,6 +63,12 @@ class CurlApiScript extends SinapsScript {
             if(isset($this->options->competition)) {
                 $this->getCompetition();
             }
+            if(isset($this->options->equipe)) {
+                $this->getEquipe();
+            }
+            if(isset($this->options->match)) {
+                $this->getMatchs($this->options->match);
+            }
             /*if(isset($this->options->stringToIdDerogation)) {
                 $this->corrigeChampsDerogation();
             }
@@ -83,33 +92,47 @@ class CurlApiScript extends SinapsScript {
         );
 
         $this->logger->contexte="COMPETITION";
-        $this->logger->addInfo="on teste";
 
-        // http://api.football-data.org/v1/competitions/467/leagueTable
-
-        $maintenant = $this->timeService->now();
-
-        $this->url     = SinapsApp::getConfigValue("api.competition");
-
-        $url = "http://" . $this->srvApp . $this->url;
-        $param = array();
-
-        $status = array();
-        try {
-
-            $json = $this->restClientService->getURL($url, $param, FALSE, $this->timeoutCurl);
-            $this->restClientService->throwExceptionOnError($json);
-
-        } catch (SinapsException $exc) {
-            return $exc->getCode();
-        }
-
-        $response = json_decode($json, FALSE);
-        var_dump($response);
+        $competition = $this->api->getCompetition();
+        var_dump($competition);
+        $matchDay = $competition->currentMatchday;
 
         $this->logger->finirEtape(
             "Récupération terminée",
             "getCompetition"
+        );
+    }
+
+    private function getEquipe() {
+
+        $this->logger->debuterEtape(
+            "getEquipe",
+            "Récupération des informations sur l'équipe"
+        );
+
+        $this->logger->contexte="EQUIPE";
+
+        $equipes = $this->api->getEquipes();
+        var_dump($equipes);
+        $this->logger->finirEtape(
+            "Récupération terminée",
+            "getEquipe"
+        );
+    }
+
+    private function getMatchs($idMatch) {
+        $this->logger->debuterEtape(
+            "getMatch",
+            "Récupération des informations sur un match"
+        );
+
+        $this->logger->contexte="MATCH";
+
+        $match = $this->api->getMatchById($idMatch);
+        var_dump($match);
+        $this->logger->finirEtape(
+            "Récupération terminée",
+            "getMatch"
         );
     }
 

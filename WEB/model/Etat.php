@@ -8,7 +8,7 @@
      * @author Génération Automatique <personne.quinexistepas@dgfip.finances.gouv.fr>
      */
 
-class Stade extends SinapsModel {
+class Etat extends SinapsModel {
     /*
         Attributs *
     */
@@ -16,16 +16,9 @@ class Stade extends SinapsModel {
     /**
      * 
      * 
-     * @var varchar(50) NOT NULL
+     * @var varchar(10) NOT NULL
      */
-    protected $nom = NULL;
-
-    /**
-     * 
-     * 
-     * @var varchar(50) NOT NULL
-     */
-    protected $ville = NULL;
+    protected $libelle = NULL;
 
 
     /*

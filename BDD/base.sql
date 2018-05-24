@@ -77,20 +77,20 @@ CREATE INDEX idx_session_token ON session ( token ASC);
 --
 DROP TABLE IF EXISTS equipe CASCADE;
 CREATE TABLE equipe (
-    code_equipe varchar(3) NOT NULL,
+    id integer NOT NULL,
     pays varchar(50) NOT NULL,
     code_groupe varchar(1),
-PRIMARY KEY(code_equipe)
+PRIMARY KEY(id)
 );
 
 --
--- Name: etat_match; Type: TABLE; Schema: public; Owner: pari
+-- Name: etat; Type: TABLE; Schema: public; Owner: pari
 --
-DROP TABLE IF EXISTS etat_match CASCADE;
-CREATE TABLE etat_match (
-    code_etat_match varchar(3) NOT NULL,
+DROP TABLE IF EXISTS etat CASCADE;
+CREATE TABLE etat (
+    id integer NOT NULL,
     libelle varchar(10) NOT NULL,
-PRIMARY KEY (code_etat_match)
+PRIMARY KEY (id)
 );
 
 --
@@ -99,7 +99,7 @@ PRIMARY KEY (code_etat_match)
 DROP TABLE IF EXISTS phase CASCADE;
 CREATE TABLE phase (
     id integer NOT NULL,
-    libelle  varchar(30) NOT NULL,
+    libelle  varchar(50) NOT NULL,
 PRIMARY KEY (id)
 );
 
@@ -107,76 +107,46 @@ PRIMARY KEY (id)
 -- Name: stade; Type: TABLE; Schema: public; Owner: pari
 --
 DROP SEQUENCE IF EXISTS stade_id_seq CASCADE;
-CREATE SEQUENCE stade_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
 DROP TABLE IF EXISTS stade CASCADE;
-CREATE TABLE stade (
-    id integer NOT NULL DEFAULT nextval('stade_id_seq'::regclass),
-    nom  varchar(50) NOT NULL,
-    ville  varchar(50) NOT NULL,
-PRIMARY KEY (id)
-);
 
 --
 -- Name: match; Type: TABLE; Schema: public; Owner: pari
 --
+
 DROP SEQUENCE IF EXISTS match_id_seq CASCADE;
-CREATE SEQUENCE match_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
 
 DROP TABLE IF EXISTS match CASCADE;
 CREATE TABLE match (
-    id integer NOT NULL DEFAULT nextval('match_id_seq'::regclass),
+    id integer NOT NULL,
     date_match timestamp with time zone NOT NULL,
-    code_equipe_1 varchar(3), -- Équipe 1 jouant le match [equipe1 1-N matchsDomicile] matchs
-    code_equipe_2 varchar(3), -- Équipe 2 jouant le match [equipe2 1-N matchsVisiteur] matchs
-    code_etat_match varchar(3) DEFAULT 'AVE'::bpchar NOT NULL, -- État du match [etat 1-N match] match
-    stade_id integer NOT NULL, -- Le stade où se déroule le match [stade 1-N match] match
-    score_equipe_1 integer DEFAULT 0,
-    score_equipe_2 integer DEFAULT 0,
+    equipe_id_dom integer DEFAULT NULL,
+    equipe_id_ext integer DEFAULT NULL,
+    etat_id integer NOT NULL, -- État du match [etat 1-N match] match
+    score_dom integer DEFAULT NULL,
+    score_ext integer DEFAULT NULL,
     phase_id integer NOT NULL, -- La phase du match [phase 1-N match] match
 PRIMARY KEY (id),
 CONSTRAINT fk_match_phase FOREIGN KEY (phase_id) REFERENCES phase (id),
-CONSTRAINT fk_match_stade FOREIGN KEY (stade_id) REFERENCES stade (id),
-CONSTRAINT fk_match_equipe1 FOREIGN KEY (code_equipe_1) REFERENCES equipe (code_equipe),
-CONSTRAINT fk_match_equipe2 FOREIGN KEY (code_equipe_2) REFERENCES equipe (code_equipe),
-CONSTRAINT fk_match_etat_match FOREIGN KEY (code_etat_match) REFERENCES etat_match (code_etat_match)
+CONSTRAINT fk_match_equipe_dom FOREIGN KEY (equipe_id_dom) REFERENCES equipe (id),
+CONSTRAINT fk_match_equipe_ext FOREIGN KEY (equipe_id_ext) REFERENCES equipe (id),
+CONSTRAINT fk_match_etat FOREIGN KEY (etat_id) REFERENCES etat (id)
 );
 
 --
 -- Name: paris; Type: TABLE; Schema: public; Owner: pari
 --
+DROP TABLE IF EXISTS pari CASCADE;
+
 DROP TABLE IF EXISTS paris CASCADE;
 CREATE TABLE paris (
-    id_match integer NOT NULL,
-    id_user integer NOT NULL,
+    match_id integer NOT NULL, -- Match parie [match 1-N paris] paris
+    utilisateur_id integer NOT NULL, -- Utilisateur faisant le paris [utilisateur 1-N paris] paris
     score_dom integer NOT NULL,
     score_ext integer NOT NULL,
-PRIMARY KEY(id_match, id_user)
+PRIMARY KEY(match_id, utilisateur_id),
+CONSTRAINT fk_paris_match FOREIGN KEY (match_id) REFERENCES match (id),
+CONSTRAINT fk_paris_utilisateur FOREIGN KEY (utilisateur_id) REFERENCES utilisateur (id)
 );
-
---
--- Name: resultat; Type: TABLE; Schema: public; Owner: pari
---
-DROP TABLE IF EXISTS resultat CASCADE;
-CREATE TABLE resultat (
-    id_match integer NOT NULL,
-    score_dom integer NOT NULL,
-    score_ext integer NOT NULL,
-    match_fini boolean DEFAULT false,
-PRIMARY KEY(id_match)
-);
-
--- SELECT pg_catalog.setval('stade_id_stade_seq', 12, true);
 
 --
 -- Name: public; Type: ACL; Schema: -; Owner: postgres

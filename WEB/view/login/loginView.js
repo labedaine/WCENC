@@ -111,7 +111,8 @@ var LoginViewClass = function(args) {
                 if (success) {
                     application.start();
                 } else {
-                    ErrorMessageBox("Le pseudo ou le mot de passe n'est pas correct.");
+                    ErrorMessageBox("Ce n'est pas parce-qu'on parle de foot qu'il faut écrire avec ses pieds!",
+                                    "Erreur de pseudo / Mot de passe", );
                 }
             });
 

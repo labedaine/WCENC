@@ -13,7 +13,7 @@
     width:80%;
 
 }
-/* 
+/*
 .nav-item {
 width:50%;
 } */
@@ -155,7 +155,7 @@ body {
   background: linear-gradient(135deg,#95072f 5%,#d80f09 100%);
 }
 
-input[type=text] {
+input[type=text], input[type=password] {
     margin-bottom: 10px;
 }
 

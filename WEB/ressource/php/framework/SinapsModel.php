@@ -3,20 +3,20 @@
  * Classe de base de l'ORM.
  *
  * Inspirée par Laravel 4: @see http://four.laravel.com/docs/eloquent
- * 
+ *
  * Classe de base dont doivent hériter les objets mappés sur la BDD
- * Nécessite que le nom de la table soit identique au nom de la classe 
+ * Nécessite que le nom de la table soit identique au nom de la classe
  * (peut être modifié avec le champs static::$table)
- * 
+ *
  * Nécessite que le champs d'identification en BDD de la classe soit "id"
  * Nécessite que le champs de foreign key pour les relations soit "NomClasse_id"
- * 
+ *
  * Principes d'utilisation:
- * 
+ *
  *  $monModel = MonModel::find(1) ==> retourne l'object d'identifiant 1
  *  $objets = $monModel::where("nom", "like", "%y")
  *                     ->get();           ==> retourne tous les objets donc le nom fini par "y"
- * 
+ *
  * Gestion des relations
  *  Relation 1-N
  *  class Maitre {
@@ -24,20 +24,20 @@
  *          return new hasMany("Esclave");
  *      }
  *  }
- *  
+ *
  *  class Esclave {
  *      function monMaitre() {
  *          return new belongsTo("Master");
  *      }
  *  }
- *  
+ *
  *  Relation 1-1
  *  class Maitre {
  *      function maRelation11() {
  *          return new hasOne("Esclave");
  *      }
  *  }
- *  
+ *
  *  class Esclave {
  *      function monMaitre() {
  *          return new belongsTo("Master");
@@ -52,31 +52,31 @@
 class SinapsModel {
     /**
      * Identifiant (identique pour tout les sinaps models).
-     * 
+     *
      * @var boolean
      */
     public $id = FALSE;
     /**
      * Tableau des valeurs ayant été modifiée (traitementn incomplet à l'heure actuelle.
-     * 
+     *
      * @var array<string>
      */
     protected $dirty = array();
     /**
      * Fait le lien entre un relation BDD et le nom pour l'application.
-     * 
+     *
      * Ex: relation maRelation1N vue en entête de classe
      *  "monMaitre" => "Esclave.Master_id"
-     *  
+     *
      * @var aliases hash table entre le nom public et le nom technique
      */
     protected $aliases = array();
     /**
      * Vraies relations (tableCible_id).
-     * 
-     * Ex: 
+     *
+     * Ex:
      *  "Esclave.Master_id" => (#Esclave#1,#Esclave#2) (objets de type esclave)
-     *  
+     *
      * @var array<alias,vraieRelation> contient une hash "nomTechnique" => $objet
      */
     protected $relations = array();
@@ -84,7 +84,7 @@ class SinapsModel {
     /**
      * Stocke les données ne devant pas être persistée en bdd.
      *
-     * @var string<clef,valeur> 
+     * @var string<clef,valeur>
      */
     protected $__transient = array();
 
@@ -97,7 +97,7 @@ class SinapsModel {
 
     /**
      * Liste des colonnes à ne pas inclure dans la vision exterieure.
-     * 
+     *
      * @var array
      */
     static protected $setExclude = array("id", "dirty", "relations", "aliases", '__transient', '__conversions');
@@ -107,7 +107,7 @@ class SinapsModel {
     static protected $cache = array();
     /**
      * Constructeur
-     * 
+     *
      * @param array $values: liste clef/valeur des champs à renseigner
      */
     function __construct(array $values=NULL) {
@@ -127,7 +127,7 @@ class SinapsModel {
 
     /**
      * Retrouve un objet par sa clef primaire
-     * 
+     *
      * @param int $primary_key: la clef à rechercher
      * @return NULL si aucun n'existe, objet correspondant sinon
      */
@@ -138,7 +138,7 @@ class SinapsModel {
         if (array_key_exists($calledClass, static::$cache)) {
             if (array_key_exists($primaryKey, static::$cache[$calledClass])) {
                 $objet = static::$cache[$calledClass][$primaryKey];
-            } else { 
+            } else {
                 $objet = $query->where("id", "=", $primaryKey)->first();
                 static::$cache[$calledClass][$primaryKey] = $objet;
             }
@@ -154,7 +154,7 @@ class SinapsModel {
 
     /**
      * Retourne tous les objets de la table
-     * 
+     *
      * @returns array: les objets
      */
     static function all() {
@@ -163,7 +163,7 @@ class SinapsModel {
     }
 
     /**
-     * Alias de all 
+     * Alias de all
      */
     static function get() {
         $query = self::getRawRequest();
@@ -173,7 +173,7 @@ class SinapsModel {
 
     /**
      * Retourne le nb d'éléments matchant les critères
-     * 
+     *
      * @return int le nb d"élements
      */
     static function count() {
@@ -207,7 +207,7 @@ class SinapsModel {
 
     /**
      * Retourne une OrmQuery portant sur cette entité
-     * 
+     *
      * @return OrmQuery
      */
     static function getRawRequest() {
@@ -217,11 +217,11 @@ class SinapsModel {
 
     /**
      * Retourne une OrmQuery portant sur cette entité et ayant déjà une clause where
-     * 
+     *
      * @param string $colonne     la colonne à filtrer
      * @param string $comparateur le comparateur
      * @param string $valeur      la valeur recherchée
-     * 
+     *
      * @return OrmQuery
      */
     static function where($colonne, $comparateur, $valeur=NULL) {
@@ -233,7 +233,7 @@ class SinapsModel {
 
     /**
      * Retourne une OrmQuery portant sur cette entité et ayant déjà une clause whereIn
-     * 
+     *
      * @param string $colonne la colonne à filtrer
      * @param array  $valeurs les valeurs possibles
      * @return OrmQuery
@@ -248,11 +248,11 @@ class SinapsModel {
 
     /**
      * Retourne une OrmQuery portant sur cette entité et ayant déjà une clause where
-     * 
+     *
      * @param string $colonne     la colonne à filtrer
      * @param string $comparateur le comparateur
      * @param string $valeur      la valeur recherchée
-     * 
+     *
      * @return OrmQuery
      */
     static function whereUpper($colonne, $comparateur, $valeur=NULL) {
@@ -264,11 +264,11 @@ class SinapsModel {
 
     /**
      * Retourne une OrmQuery portant sur cette entité et ayant déjà une clause where
-     * 
+     *
      * @param string $colonne     la colonne à filtrer
      * @param string $comparateur le comparateur
      * @param string $valeur      la valeur recherchée
-     * 
+     *
      * @return OrmQuery
      */
     static function whereLower($colonne, $comparateur, $valeur=NULL) {
@@ -280,9 +280,9 @@ class SinapsModel {
 
     /**
      * Méthode "magique" pour acceder à un attribut ou une relation.
-     * 
-     * Si il s'agit d'une relation celle-ci est dynamiquement recherchée en BDD 
-     * 
+     *
+     * Si il s'agit d'une relation celle-ci est dynamiquement recherchée en BDD
+     *
      * @param String $name: attribut ou relation recherchée
      * @throws OrmException Si le $name n'est ni une relation ni un attribut.
      * @return la valeur demandée
@@ -290,7 +290,7 @@ class SinapsModel {
     public function &__get($name) {
         // la propriete existe, on la retourne
         if ( property_exists($this, $name)) {
-            // Sauf si on a un format à appiquer 
+            // Sauf si on a un format à appiquer
             if (property_exists(get_called_class(), "formats") &&
                 array_key_exists($name, static::$formats)) {
                 // Si la conversion n'a pas encore été faite, on la fait
@@ -324,17 +324,18 @@ class SinapsModel {
 
     /**
      * Affecte une valeur à un attribut.
-     * 
+     *
      * Ne marche pas sur les relations.
      * Il est par contre possible de setter une foreigh key
-     *  Ex: 
+     *  Ex:
      *      $myMaster->maRelation1N         ==> ne fonctionne pas
      *      $myEsclave->Master_id = 3       ==> fonctionne
-     * 
+     *
      * @param String $name   le nom de l'attribut
      * @param String $valeur la valeur de l'attribut
      */
     public function __set($name, $valeur) {
+
         $valeurTransformee = self::sql2php($name, $valeur);
         if ($valeurTransformee !== $valeur) {
             $this->__conversions["$name"] = $valeurTransformee;
@@ -364,7 +365,7 @@ class SinapsModel {
 
     /**
      * Persiste les attributs du modèle.
-     * 
+     *
      * Fait un insert ou un update suivant que l'objet existant précédement ou pas.
      */
     public function save() {
@@ -373,19 +374,21 @@ class SinapsModel {
         }
 
         $query = new OrmQuery(self::getDatatableName());
+        $queryFind = new OrmQuery(self::getDatatableName());
 
         $valeursModifiees = array();
         foreach( $this->dirty as $dirty) {
             $valeursModifiees[$dirty] = self::php2Sql($dirty, $this->$dirty);
         }
 
-        if ($this->id === FALSE) {
+        if ($this->id === FALSE || $queryFind->where("id", $this->id)->first() === NULL) {
             // Cas d'une création
             $this->id = $query->insertGetId($valeursModifiees);
         } else {
-            // Cas d'une mise à jour            
+            // Cas d'une mise à jour
             $query  ->where("id", $this->id)
                     ->update($valeursModifiees);
+
         }
 
         $this->dirty = array();
@@ -401,7 +404,7 @@ class SinapsModel {
     }
 
 
-    /** 
+    /**
      * Force le recharchement des données depuis la BDD
      */
     public function reload() {
@@ -424,7 +427,7 @@ class SinapsModel {
     *
     * L'id est préservé dans le cas d'un update
     *
-    * @param array $exclusionList Liste des colonnes à ne pas mettre à jour 
+    * @param array $exclusionList Liste des colonnes à ne pas mettre à jour
     * (elles doivent être NULLABLE ou DEFAULT pour les inserts)
     */
    public function insertOrUpdate(array $excludeListe=array()) {
@@ -437,29 +440,29 @@ class SinapsModel {
                 $updateProperties[$propertyName] = self::php2Sql($propertyName, $propertyValue);
         }
 
-        $query->insertOrUpdate("id", $this->id, $updateProperties); 
+        $query->insertOrUpdate("id", $this->id, $updateProperties);
     }
 
     /**
      * Permet le eager fetching: chargement en masse des données adjacentes
-     * 
+     *
      * Peut prendre plusieurs relation en paramètre séparées par des ,
      * Peut suivre les relations en les séparant par des .
-     * 
+     *
      *  "maRelation.uneRelationDeMaRelation,monAutreRelation"
-     * 
+     *
      * Voir la document de laravel pour plus détails
      * http://four.laravel.com/docs/eloquent#eager-loading
-     * 
-     * Ex: 
+     *
+     * Ex:
      *  Master::with("maRelation1N)->get();
-     * 
-     * fera 2 requetes 
+     *
+     * fera 2 requetes
      *  select * from Master;
      *  select * from Slave where Master_id IN (..,..,..,..)
-     *  
-     *  Alors que 
-     *  
+     *
+     *  Alors que
+     *
      *  foreach( Master::get() as $master) {
      *      print $master->maRelation1N->nom;
      *  }
@@ -469,7 +472,7 @@ class SinapsModel {
      *  select * from Slave where Master_id = ..
      *  select * from Slave where Master_id = ..
      *  ...
-     *  
+     *
      * @param string $relationNames nom public des relations
      * @return QueryBuilder
      */
@@ -485,9 +488,9 @@ class SinapsModel {
 
     /**
      * Méthode chargée de retourner la valeur d'une relation.
-     * 
+     *
      * Peut déclencher une requete SQL quand la valeur n'a jamais été chargée
-     * 
+     *
      * @param String $relation: le nom public de la relaiton
      * @return la valeur de la relation
      */
@@ -498,7 +501,7 @@ class SinapsModel {
              static::$pasDeCacheDesRelations) {
             // La relation n'a pas encore été chargée, on recupère sa valeur
             $this->relations[$relationUniqueName] = $this->$relation()->resolve();
-        } 
+        }
         // Création d'un alias entre la relation demandée et sa clef réelle
         $this->aliases[$relation] = $relationUniqueName;
         return $this->relations[$relationUniqueName];
@@ -526,12 +529,12 @@ class SinapsModel {
         $retour = array_diff($listeProperties, $listeExclusions);
         return $retour;
     }
-    
+
     /**
      * Retourne la liste de tous les champs ayant été modifiés.
-     * 
+     *
      * Mal géré à l'heure actuelle
-     * 
+     *
      * @return multitype:
      */
     public function getDirty() {
@@ -540,20 +543,20 @@ class SinapsModel {
 
     /**
      * Déclare une relation 1-1 dont la clef est dans l'objet cible
-     * 
+     *
      * @param String $destination: le nom de la classe destination
      * @return SinapsRelation: object SinapsRelation correspondant à la relation
      */
     protected function hasOne($destination) {
-        $relation = new SinapsRelation($this, $destination, SinapsRelation::HAS_ONE);    
+        $relation = new SinapsRelation($this, $destination, SinapsRelation::HAS_ONE);
         return $relation;
     }
-    
+
 
 
     /**
      * Déclare une relation 1-1 ou 1-N dont la clef est dans l'objet
-     * 
+     *
      * @param String $destination: le nom de la classe destination
      * @return SinapsRelation: object SinapsRelation correspondant à la relation
      */
@@ -568,7 +571,7 @@ class SinapsModel {
      * @param String $destination: le nom de la classe destination
      * @return SinapsRelation: object SinapsRelation correspondant à la relation
      */
-    
+
     protected function hasMany($destination) {
         $relation = new SinapsRelation($this, $destination, SinapsRelation::HAS_MANY);
         return $relation;
@@ -576,9 +579,9 @@ class SinapsModel {
 
     /**
      * Retourne le nom de la table en BDD correspondant à ce modèle.
-     * 
+     *
      * Egale le nom de la classe si static:$table n'est pas défini.
-     * 
+     *
      * @return string
      */
     static protected function getDatatableName() {
@@ -592,12 +595,12 @@ class SinapsModel {
 
     /**
      * Permet d'appliquer des transformation sur une colonne de php vers le SQL.
-     * 
+     *
      * Nécessite que le champs static::formats soit renseigné.
-     * 
-     * Format supportés: 
+     *
+     * Format supportés:
      *  - timestamp : transforme un DATETIME SQL en timestamp UNIX
-     *  
+     *
      * @param String $colonne le nom de la colonne
      * @param Mixed  $valeur  la valeur de l'attribut
      * @return la valeur
@@ -615,18 +618,18 @@ class SinapsModel {
     }
 
     /**
-     * Permet d'appliquer des transformation sur une colonne de php vers le SQL 
-     * 
-     * Format supportés: 
+     * Permet d'appliquer des transformation sur une colonne de php vers le SQL
+     *
+     * Format supportés:
      *  - timestamp : transforme un DATETIME SQL en timestamp UNIX
-     *  
+     *
      * @param String $type   le type de format
      * @param Mixed  $valeur la valeur de l'attribut
      * @return la valeur formattée
      */
         static protected function applyFormat($type, $valeur) {
         $result = FALSE;
-       
+
         if(!is_numeric($valeur)) {
             return $valeur;
         }
@@ -636,7 +639,7 @@ class SinapsModel {
                 $result = date("Y-m-d H:i:s", $valeur);
             break;
 
-            default: 
+            default:
             throw new Exception("Le type $type n'est pas supporté par l'ORM");
         }
 
@@ -645,7 +648,7 @@ class SinapsModel {
 
     /**
      * Permet d'appliquer des transformation sur une colonne de SQL vers le php.
-     * 
+     *
      * Nécessite que le champs static::formats soit renseigné.
      *
      * Format supportés:
@@ -689,7 +692,7 @@ class SinapsModel {
                 }
             break;
 
-            default: 
+            default:
             throw new Exception("Le type $type n'est pas supporté par l'ORM");
         }
 
@@ -698,9 +701,9 @@ class SinapsModel {
 
     /**
      * Ajoute directement un objet à une relation.
-     * 
+     *
      * Utilisation interne uniquement - Utilisation dans QueryBuilder et OrmQuery
-     * 
+     *
      * @param String $relationName le nom "public" de la relation
      * @param Object $dstObject    l'objet à inserer
      */
@@ -724,9 +727,9 @@ class SinapsModel {
 
     /**
      * Affecte directement un objet à une relation.
-     * 
+     *
      * Utilisation interne uniquement - Utilisation dans QueryBuilder et OrmQuery
-     * 
+     *
      * @param String $relationName le nom "public" de la relation
      * @param Object $dstObject    l'objet à inserer
      */
@@ -741,9 +744,9 @@ class SinapsModel {
 
     /**
      * Affecte directement un objet à une relation.
-     * 
+     *
      * Utilisation interne uniquement - Utilisation dans QueryBuilder et OrmQuery
-     * 
+     *
      * @param String $relationName le nom "privé" de la relation
      * @param Object $dstObject    l'objet à inserer
      */
@@ -753,9 +756,9 @@ class SinapsModel {
 
     /**
      * Affecte directement un objet à une relation.
-     * 
+     *
      * Utilisation interne uniquement - Utilisation dans QueryBuilder et OrmQuery
-     * 
+     *
      * @param String $relationName le nom "privé" de la relation
      * @param Object $dstObject    l'objet à inserer
      */
@@ -765,9 +768,9 @@ class SinapsModel {
 
     /**
      * Récupère la valeur d'une relation à partir de son nom "privé"
-     * 
+     *
      * Utilisation interne uniquement - Utilisation dans QueryBuilder et OrmQuery
-     * 
+     *
      * @param String $relationName: le nom "privé" de la relation
      * @return SinapsModel le modèle correspondant à la relation
      */
@@ -784,9 +787,9 @@ class SinapsModel {
     }
     /**
      * Retourne true si la relation a déjà été chargée
-     * 
+     *
      * Utilisation interne uniquement - Utilisation dans QueryBuilder et OrmQuery
-     * 
+     *
      * @param String $relationName: le nom "public" de la relation
      * @return boolean true si la relation a déjà été chargée
      */
@@ -800,10 +803,10 @@ class SinapsModel {
 
     /**
      * Retourne un tableau associatif contenant les champs de la classe.
-     * 
+     *
      * Exclu les champs aliases/dirty/relations ainsi que le tableau passé en paramètre
      * (par exemple en surchargant la méthode on peut exclure le champs password @see Utilisateur
-     * 
+     *
      * @param array<String> $excludeListe: liste des champs à exclure
      * @return array<String,String>
      */
@@ -851,9 +854,9 @@ class SinapsModel {
 
     /**
      * Similaire à toArray.
-     * 
+     *
      * Applique automatiquement les méthodes format<Champs> si elles existent
-     * 
+     *
      * @param array<string> $excludeListe champs à ne pas exporter
      * @return Ambigous <multitype:, multitype:>
      */
@@ -869,12 +872,12 @@ class SinapsModel {
 
         return $fields;
     }
-    
-	/**
+
+    /**
      * Met à jour l'id de sequence de la table
-     * 
+     *
      * @param string $colonne     la colonne à filtrer
-     * 
+     *
      * @return OrmQuery
      */
     static function updateSequence($nextId=NULL) {
@@ -883,22 +886,22 @@ class SinapsModel {
 
         return $ormQuery;
     }
-    
+
     /**
      * return jour l'id de sequence de la table
-     * 
+     *
      * @param string $colonne     la colonne à filtrer
      * @param string $comparateur le comparateur
      * @param string $valeur      la valeur recherchée
-     * 
+     *
      * @return OrmQuery
      */
     static function getSequence() {
-		
+
         $ormQuery = new OrmQuery(self::getDatatableName(), get_called_class());
         $ormQuery = $ormQuery->getSequence();
 
         return $ormQuery;
     }
-    
+
 }

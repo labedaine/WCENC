@@ -1,4 +1,14 @@
 
+===================== v0.2 23/05 =====================
+
+Suppression table stade +sequence que l'on ne retrouvait pas dans les données football-data
+Renommage table etat_match en etat
+Modification table equipe:
+    - champ code_equipe en id (que l'on ne retrouvait pas dans les données football-data)
+    - relation equipe_dom et equipe_ext
+
+===================== v0.1 12/05 =====================
+
 Suppression de la table Groupe sachant qu'elle n'a qu'une colonne
 On met les primary key, foreign key dans la déclaration de la table
 Modification de tous les char en varchar
