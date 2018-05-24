@@ -10,6 +10,13 @@ class ParisController extends BaseController {
     }
 
     /**
+     * Sauvegarde les paris de l'utilisateur
+     */
+    public function sauvegarderParis() {
+
+      return JsonService::createResponse('ok');
+    }
+    /**
      * Récupère la liste des groupes de l'utilisateur spécifié
      */
     public function getListeMatch() {
