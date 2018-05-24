@@ -37,7 +37,7 @@ class CurlApiScript extends SinapsScript {
                      ->setDescription("Va chercher les infos sur le site api.football-data.org")
 
                      ->addOption(
-                         "--update",
+                         "update",
                          SinapsScript::OBLIGATOIRE | SinapsScript::VALUE_NONE,
                          "Met à jour en base de données suivant "
                      )
@@ -45,7 +45,7 @@ class CurlApiScript extends SinapsScript {
                      //
                      ->startAlternative()
                      ->addOption(
-                         "--show",
+                         "no_update",
                          SinapsScript::OBLIGATOIRE| SinapsScript::VALUE_NONE,
                          "Affiche les matches devant être mis à jour"
                      );
@@ -55,7 +55,7 @@ class CurlApiScript extends SinapsScript {
         try {
 
             // On récupère les données de match à mettre à jour
-            $this->getMatchDeLaVeille();
+            $this->getMatchDansLHeure();
 
             // Si on update on met à jour la base
             if(isset($this->options->update)) {
@@ -63,7 +63,7 @@ class CurlApiScript extends SinapsScript {
             }
 
             // Sinon on montre juste
-            if(isset($this->options->show)) {
+            if(isset($this->options->no_update)) {
                 $this->update(FALSE);
             }
 
@@ -73,9 +73,56 @@ class CurlApiScript extends SinapsScript {
         }
     }
 
-    private function getMatchDeLaVeille() {
+    private function getMatchDansLHeure() {
         $now = $this->timeService->now();
+        $now = 1529141812;
 
+        $matchsDansLH = Match::where('date_match', '>', $this->dateService->timeToUS($now))
+                             ->where('date_match', '<', $this->dateService->timeToUS($now+3600))
+                             ->get();
+
+        var_dump($matchsDansLH);
+
+        // Si on a récupéré une liste de match,
+        // on va chercher pour chacun ses infos
+        if(!empty($matchsDansLH)) {
+            foreach($matchsDansLH as $match) {
+
+                // Récupération des données
+                $infoMatch = $this->api->getMatchById($match->id);
+
+                // On regarde si le match à un status différent de celui en base
+                if($match->etat_id != $infoMatch->etat_id) {
+                    $libEtatOld = $match->etat->libelle;
+                    $objEtatNew = Etat::find($infoMatch->etat_id)->first();
+                    $libEtatNew = $objEtatNew->libelle;
+
+                    $this->logger->addInfo(sprintf("%d: état %s => %s",
+                                                    $match->id, $libEtatOld, $libEtatNew));
+
+                    $match->etat_id = $infoMatch->etat_id;
+                }
+
+                // On regarde si le score est différent de celui en base
+                if(($match->score_dom != $infoMatch->score_dom) ||
+                   ($match->score_ext != $infoMatch->score_ext)) {
+
+                    $this->logger->addInfo(sprintf("%d: score %d - %d => %d - %d",
+                                                    $match->id,
+                                                    $match->score_dom, $match->score_ext,
+                                                    $infoMatch->score_dom, $infoMatch->score_ext));
+
+
+                    $match->score_dom = $infoMatch->score_dom;
+                    $match->score_ext = $infoMatch->score_ext;
+                }
+
+                var_dump($match);
+            }
+        }
+    }
+
+    private function update($update=FALSE) {
 
     }
 
@@ -95,39 +142,6 @@ class CurlApiScript extends SinapsScript {
         $this->logger->finirEtape(
             "Récupération terminée",
             "getCompetition"
-        );
-    }
-
-    private function getEquipe() {
-
-        $this->logger->debuterEtape(
-            "getEquipe",
-            "Récupération des informations sur l'équipe"
-        );
-
-        $this->logger->contexte="EQUIPE";
-
-        $equipes = $this->api->getEquipes();
-        var_dump($equipes);
-        $this->logger->finirEtape(
-            "Récupération terminée",
-            "getEquipe"
-        );
-    }
-
-    private function getMatchs($idMatch) {
-        $this->logger->debuterEtape(
-            "getMatch",
-            "Récupération des informations sur un match"
-        );
-
-        $this->logger->contexte="MATCH";
-
-        $match = $this->api->getMatchById($idMatch);
-        var_dump($match);
-        $this->logger->finirEtape(
-            "Récupération terminée",
-            "getMatch"
         );
     }
 }

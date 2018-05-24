@@ -123,12 +123,14 @@ var LoginViewClass = function(args) {
 
             // On appelle la fonction d'enregistrement
             RestApi.enregistrerUtilisateur(
+
                 $("#inputPseudoE").val(),
                 $("#inputEmailE").val(),
                 $("#inputPrenomE").val(),
                 $("#inputNomE").val(),
                 $("#inputPasswordE").val(),
                 $("#selPromoE").val(),
+
                 function(data) {
 
                     if (data) {
