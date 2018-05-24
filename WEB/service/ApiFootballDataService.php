@@ -193,7 +193,7 @@ class ApiFootballDataService {
         }
 
         if(count($retourMatchs) == 1) {
-            return $retourMatchs[0];
+            return array_pop($retourMatchs);
         }
 
         return $retourMatchs;

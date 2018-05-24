@@ -255,6 +255,13 @@ var RestApi = new function() {
               "grp" : nom
           }, success, error);
         },
+        // sauvegarde paris
+        sauvegarderParis : function (listParis, success, error) {
+          console.log("restapi sauvegardeParis -" + url.PARIS + "/sauvegarder");
+          performPost(url.PARIS + "/sauvegarder", {
+              "listParis" : listParis
+          }, success, error);
+        },
 
         // classement
         getListeClassement : function (type, success, error) {

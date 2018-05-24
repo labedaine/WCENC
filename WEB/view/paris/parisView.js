@@ -11,7 +11,7 @@ var ParisViewClass = function(args) {
         template : 'view/paris/tmpl/paris.html?rd='+application.getUniqueId(),
 
         events : {
-          // "click .parisNav a" : "menuParis"
+          "click #sauvParis" : "sauvegardeParis"
         },
 
         timers : {},
@@ -50,6 +50,16 @@ var ParisViewClass = function(args) {
                });
 
 
+        },
+        sauvegardeParis : function(e) {
+          var listParis = 'listeMatch';
+          RestApi.sauvegarderParis(listParis, function(data) {
+              if (data.success) {
+                console.log('sauvegarde paris ' + data.payload);
+                console.log(data);
+              }
+
+            }, function(data) {  console.log(data);});
         },
 
         menuParis : function(e = null) {
