@@ -11,7 +11,7 @@ var ParisViewClass = function(args) {
         template : 'view/paris/tmpl/paris.html?rd='+application.getUniqueId(),
 
         events : {
-          "click #sauvParis" : "sauvegardeParis"
+          "click #sauvParis" : "sauvegardeParis",
         },
 
         timers : {},
@@ -35,6 +35,18 @@ var ParisViewClass = function(args) {
             $(".activeGroupe").removeClass('activeGroupe');
             $(".parisNav li a[href='#paris/" + args[0] + "']").parent('li').addClass('activeGroupe');
             this.menuParis();
+            $('.phaseItem').on('click', function () {
+              $(this).next('ul').toggle();
+              if ($(this).find('.fas').hasClass('fa-chevron-down'))
+              {
+                $(this).find('.fas').removeClass('fa-chevron-down').addClass('fa-chevron-up')
+              }
+              else {
+                  $(this).find('.fas').removeClass('fa-chevron-up').addClass('fa-chevron-down');
+              }
+
+
+            });
         },
 
         /**
@@ -58,7 +70,10 @@ var ParisViewClass = function(args) {
             var id = $(this).data('idmatch');
             var dom = $(this).find('.inputParisDom').first().val();
             var ext = $(this).find('.inputParisExt').first().val();
-            listParis.push({ "id" : id, "scoreDom" : dom, "scoreExt" : ext});
+            if (dom != "" || ext != "")
+            {
+              listParis.push({ "id" : id, "scoreDom" : dom, "scoreExt" : ext});
+            }
           });
           RestApi.sauvegarderParis(listParis, function(data) {
               if (data.success) {
@@ -66,6 +81,10 @@ var ParisViewClass = function(args) {
               }
 
             }, function(data) {  console.log(data);});
+        },
+
+        showPhase : function(e) {
+          console.log($(e));
         },
 
         menuParis : function(e = null) {

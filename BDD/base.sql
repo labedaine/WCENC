@@ -135,10 +135,12 @@ CONSTRAINT fk_match_etat FOREIGN KEY (etat_id) REFERENCES etat (id)
 --
 -- Name: paris; Type: TABLE; Schema: public; Owner: pari
 --
-DROP TABLE IF EXISTS pari CASCADE;
+DROP SEQUENCE IF EXISTS paris_id_seq CASCADE;
+CREATE SEQUENCE paris_id_seq;
 
 DROP TABLE IF EXISTS paris CASCADE;
 CREATE TABLE paris (
+    id integer NOT NULL DEFAULT nextval('paris_id_seq'::regclass),
     match_id integer NOT NULL, -- Match parie [match 1-N paris] paris
     utilisateur_id integer NOT NULL, -- Utilisateur faisant le paris [utilisateur 1-N paris] paris
     score_dom integer NOT NULL,

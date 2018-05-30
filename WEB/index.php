@@ -25,6 +25,13 @@ SinapsApp::bind(
     }
 );
 SinapsApp::bind(
+    "ParisService",
+    function () {
+        $objParisService = new ParisService();
+        return $objParisService;
+    }
+);
+SinapsApp::bind(
     "SystemService",
     function () {
         $objSystemService = new SystemService();
@@ -66,7 +73,7 @@ SinapsApp::singleton(
 SinapsApp::register("FileService");
 SinapsApp::register("SystemService");
 SinapsApp::register("RestClientService");
-SinapsApp::register("IndicateurParserService");
+SinapsApp::register("ParisService");
 
 if (!Route::resolve($_SERVER['REQUEST_URI'])) {
     print "<h1>404</h1>";

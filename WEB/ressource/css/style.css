@@ -335,3 +335,14 @@ html, body {
 .titlePage {
   display: inline-block;
 }
+
+.dropicon {
+    float: right;
+    margin-top: 5px;
+}
+
+.phaseItem {
+    padding: 12px;
+    color: #CF0E0E;
+    cursor: pointer;
+}

@@ -63,6 +63,7 @@ class SinapsApp extends App {
         static::register("FileService");
         static::register("SystemService");
         static::register("LoginService");
+        static::register("ParisService");
         static::register("Log");
     }
 
