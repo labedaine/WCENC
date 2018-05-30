@@ -32,7 +32,8 @@ class ParisController extends BaseController {
      */
     public function getListeMatch() {
 
-      $groupe = Input::get('grp');
+      // Valeur par défaut groupe A
+      $groupe = Input::get('grp', "A");
       if (preg_match("/[A-H]/", $groupe))
       {
         $sqlQuery = self::SQL_LISTE_GROUPES;
