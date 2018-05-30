@@ -71,6 +71,7 @@ class SinapsApp extends App {
      */
     protected static function registerFilters() {
         static::filter("authentification", "AuthentificationFilter");
+        static::filter("administration", "AdministrationFilter");
     }
 
     /**
