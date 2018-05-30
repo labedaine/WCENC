@@ -35,6 +35,14 @@ host    pari            pari            192.168.122.0/24         md5
 " >> $fichierHBA
 fi
 
+if [[ $(grep "test" $fichierHBA | wc -l) == 0 ]]
+then
+    echo "Mise à jour du fichier hba_conf (pour test)"
+    echo "
+host    test            test            192.168.122.0/24         trust
+" >> $fichierHBA
+fi
+
 echo "Redémarrage de l'instance pari"
 sudo service pgsql_$PGINST restart
 

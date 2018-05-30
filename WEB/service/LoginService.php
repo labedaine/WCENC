@@ -41,6 +41,12 @@ class LoginService {
         $user = Utilisateur::where("login", $username)->first();
 
         if ( $user && $user->password === $password) {
+
+            // L'utilisateur n'est pas actif: 402
+            if(!$user->isactif) {
+                return 402;
+            }
+
             $retour = $this->performLogin($user);
 
             return $retour;
@@ -93,7 +99,6 @@ class LoginService {
         $token = md5(uniqid("bhlsde".$user->login, TRUE));
 
         // Save session info to DB ...
-        // @TODO: Utiliser le cache et/ou memcached
         $session = new Session();
         $session->token = $token;
         $session->date = App::make("TimeService")->now();
@@ -102,7 +107,6 @@ class LoginService {
 
         SinapsApp::setUtilisateurCourant($user);
         Cookie::session("token", $token);
-
         return $user;
     }
 }

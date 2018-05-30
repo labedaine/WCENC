@@ -7,15 +7,18 @@
  * @author cgi <cgi@cgi.com>
  */
 
+require_once __DIR__."/../../WEB/ressource/php/services/SystemService.php";
+
 class FakeServer {
-    static public function init($databaseType) {
+
+    static public function init() {
         FakeInput::init();
         FakeConfigReaderService::init();
         FakeMailService::init();
 
         SinapsApp::singleton(
-            "dbConnection", function () use ($databaseType) {
-                $dbConnectionString = FakeServer::getDbConnectionString($databaseType, "test");
+            "dbConnection", function () {
+                $dbConnectionString = FakeServer::getDbConnectionString();
 
                 $dbh = new ReconnectPDO(
                     $dbConnectionString,
@@ -39,60 +42,20 @@ class FakeServer {
         return SinapsApp::make("dbConnection");
     }
 
-    static public function truncateAll($tables=NULL) {
-        if ($tables === NULL)
-            $tables = static::$tables;
+    static public function truncateAll() {
 
-        $dbh = App::make("dbConnection");
-
-        $prefix = "";
-        $cmdResetSeqId = NULL;
-
-        $cmd = "DELETE FROM ";
-
-        foreach($tables as $table) {
-            $tableNoQuote = $table;
-            $table = "\"$table\"";
-            $dbh->query($cmd. $table . $prefix);
-
-            // On remet les ids à zéro
-            $cmdResetSeqId = "SELECT setval(pg_get_serial_sequence('".$tableNoQuote."', 'id'), 1) FROM $table;";
-            $cmdResetSeqId = "ALTER SEQUENCE \"".$tableNoQuote."_id_seq\" RESTART WITH 1;";
-            $dbh->query($cmdResetSeqId);
-        }
+        // On réinstalle la base
+        $chemin = "/usr/bin/php ".__DIR__."/../../WEB/tool/populate_db.php";
+        exec("$chemin --recreate --test", $output);
     }
 
-    static public function truncateSession() {
-        $dbh = App::make("dbConnection");
-
-        $prefix = "";
-        $cmdResetSeqId = NULL;
-
-        $cmd = "DELETE FROM ";
-
-        $tableNoQuote = "session";
-        $table = "session";
-        $dbh->query($cmd. $table . $prefix);
-
-        // On remet les ids à zéro
-        $cmdResetSeqId = "SELECT setval(pg_get_serial_sequence('".$tableNoQuote."', 'id'), 1) FROM $table;";
-        $cmdResetSeqId = "ALTER SEQUENCE \"".$tableNoQuote."_id_seq\" RESTART WITH 1;";
-        $dbh->query($cmdResetSeqId);
-
-    }
-
-    static public function getDbConnectionString($databaseType, $nomDb) {
+    static public function getDbConnectionString() {
         if(!getenv("DB_SERVER")) {
             putenv("DB_SERVER=192.168.122.100");
         }
 
-        $dbConnectionString = "pgsql:host=" .  getenv("DB_SERVER") . ";dbname=$nomDb";
+        $dbConnectionString = "pgsql:host=" .  getenv("DB_SERVER") . ";dbname=test";
 //print ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> $dbConnectionString\n";
         return $dbConnectionString;
     }
-
-    static $tables = array(
-        "equipe","etat_match","phase","stade","match","session","utilisateur"
-        );
-
 }

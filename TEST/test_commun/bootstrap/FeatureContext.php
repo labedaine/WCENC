@@ -44,10 +44,9 @@ class FeatureContext implements Context
     private $moteurModele = NULL;
     private $now = FALSE;
     private $ipCount;
-    private static $sqlDialect = "MySQL";
     private $loggerName;
 
-    // Pour les recherches dans les fichiers NAGIOS du collecteur
+    // Pour les recherches
     static $fileBuffer;
 
     // Pour le sign-in
@@ -74,43 +73,29 @@ class FeatureContext implements Context
             }
         );
 
-        SinapsApp::registerLogger("DemandeCollecteurLogger", "demande");
-
-        // Base de données par défaut
-        if(getenv("SINAPS_DEFAUT_DB")) {
-            static::$sqlDialect = getenv("SINAPS_DEFAUT_DB");
-        } else {
-            putenv("SINAPS_DEFAUT_DB=MySQL");
-        }
+        //SinapsApp::registerLogger("DemandeCollecteurLogger", "demande");
     }
 
     /** @BeforeFeature */
     public static function setupFeature(\Behat\Behat\Hook\Scope\BeforeFeatureScope $event) {
 
-        static::$sqlDialect = "POSTGRESQL";
-//      print ">>>>>>>>>>>>>>>>>>>>>>>>>>>>> " . static::$sqlDialect . "\n";
     }
 
     /** @AfterFeature */
     public static function tearDownFeature(\Behat\Behat\Hook\Scope\AfterFeatureScope $event) {
-        static::$sqlDialect = "POSTGRESQL";
         Utils::truncateAll();
-//      print ">>>>>>>>>>>>>>>>>>>>>>>>>>>>> " . static::$sqlDialect . "\n";
     }
 
 
     /** @BeforeScenario */
     public function before($event) {
 
-        Utils::initFakeServeur(static::$sqlDialect);
+        Utils::initFakeServeur();
         Utils::truncateAll();
-
-        $this->insertInitialData();
-        $this->ipCount = 1;
 
         // Récupération des différents contexts
         $environment = $event->getEnvironment();
-        var_dump($environment);
+        //var_dump($environment);
         $this->populateContext = $environment->getContext('PopulateSubContext');
         // $this->populateContext->saveUneTableDeVerite($ie, TableDeVerite::ET, 0, $indicateurs, "", 0);
     }
@@ -126,41 +111,7 @@ class FeatureContext implements Context
      * @AfterStep
      */
     public function printLogAfterFailedStep( AfterStepScope $scope) {
-    }
 
-    public function insertInitialData() {
-        // Creating Dummy Objects
-        $this->dummyCollecteur = new Collecteur();
-        $this->dummyCollecteur->hostname = "dummy";
-        $this->dummyCollecteur->ipv4 = "0.0.0.0";
-        $this->dummyCollecteur->save();
-
-        // Ajout des profils
-        $listeProfils = array('N0', 'N1', 'N2', 'N3', 'administrateur');
-        $idx=1; // Pour le niveau : = $idx -1
-        foreach ($listeProfils as $nomProfil) {
-            $objProfil = new Profil();
-            $objProfil->nom = $nomProfil;
-            $objProfil->niveau = ($idx - 1);
-            $objProfil->save();
-            $idx++;
-        }
-
-        // Création de l'utilisateur sinaps par défaut
-        $usrSinaps = new Utilisateur();
-        $usrSinaps->nom = 'sinaps';
-        $usrSinaps->login = 'sinaps';
-        $usrSinaps->email = 'sinaps';
-        $usrSinaps->password = 'inactif';
-        $usrSinaps->isActif = FALSE;
-        $usrSinaps->save();
-
-        // Création d'un Moteur
-        $this->moteurModele = new Moteur();
-        $this->moteurModele->informations = "test";
-        $this->moteurModele->save();
-
-        // Variables
     }
 
 

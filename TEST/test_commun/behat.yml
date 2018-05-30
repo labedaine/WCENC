@@ -3,7 +3,7 @@ default:
         tests:
             autoload:
                 - %paths.base%/bootstrap
-            paths: [%paths.base%/../tests]
+            paths: [%paths.base%/../tests/]
             contexts:
                 - FeatureContext
                 - PopulateSubContext

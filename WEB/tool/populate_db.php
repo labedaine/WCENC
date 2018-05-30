@@ -85,7 +85,12 @@ class PopulateScript extends SinapsScript {
                          "recreate",
                          SinapsScript::OBLIGATOIRE | SinapsScript::VALUE_NONE,
                          "Recré la base de données"
-                     );
+                     )
+                     ->addOption(
+                        "test",
+                        SinapsScript::FACULTATIF | SinapsScript::VALUE_NONE,
+                        "charge les données dans la base de test"
+                    );
     }
 
     public function performRun() {
@@ -121,6 +126,20 @@ class PopulateScript extends SinapsScript {
         $db_user    = SinapsApp::getConfigValue("db_user");
         $db_pass    = SinapsApp::getConfigValue("db_pass");
 
+        // Cas de la base de test
+        if(isset($this->options->test)) {
+            $db_name = "test";
+            $db_user = "test";
+            $db_pass = "test";
+
+            SinapsApp::$config['db_name'] = $db_name;
+            SinapsApp::$config['db_user'] = $db_user;
+            SinapsApp::$config['db_pass'] = $db_pass;
+
+            SinapsApp::initDb();
+            $dbh = SinapsApp::make("dbConnection");
+            $dbh->beginTransaction();
+        }
 
         // Recréation de la base
         $baseSql    = __DIR__ . "/../../BDD/base.sql";

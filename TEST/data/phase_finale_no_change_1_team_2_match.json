@@ -1,0 +1,221 @@
+{
+  "_links": {
+    "self": {
+      "href": "http://api.football-data.org/v1/competitions/467/fixtures"
+    },
+    "competition": {
+      "href": "http://api.football-data.org/v1/competitions/467"
+    }
+  },
+  "count": 8,
+  "fixtures": [
+    {
+      "_links": {
+        "self": {
+          "href": "http://api.football-data.org/v1/fixtures/165119"
+        },
+        "competition": {
+          "href": "http://api.football-data.org/v1/competitions/467"
+        },
+        "homeTeam": {
+          "href": "http://api.football-data.org/v1/teams/808"
+        },
+        "awayTeam": {
+          "href": "http://api.football-data.org/v1/teams/757"
+        }
+      },
+      "date": "2018-06-30T14:00:00Z",
+      "status": "SCHEDULED",
+      "matchday": 4,
+      "homeTeamName": "Russia",
+      "awayTeamName": "",
+      "result": {
+        "goalsHomeTeam": null,
+        "goalsAwayTeam": null
+      },
+      "odds": null
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "http://api.football-data.org/v1/fixtures/165123"
+        },
+        "competition": {
+          "href": "http://api.football-data.org/v1/competitions/467"
+        },
+        "homeTeam": {
+          "href": "http://api.football-data.org/v1/teams/757"
+        },
+        "awayTeam": {
+          "href": "http://api.football-data.org/v1/teams/757"
+        }
+      },
+      "date": "2018-06-30T18:00:00Z",
+      "status": "SCHEDULED",
+      "matchday": 4,
+      "homeTeamName": "",
+      "awayTeamName": "",
+      "result": {
+        "goalsHomeTeam": null,
+        "goalsAwayTeam": null
+      },
+      "odds": null
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "http://api.football-data.org/v1/fixtures/165122"
+        },
+        "competition": {
+          "href": "http://api.football-data.org/v1/competitions/467"
+        },
+        "homeTeam": {
+          "href": "http://api.football-data.org/v1/teams/757"
+        },
+        "awayTeam": {
+          "href": "http://api.football-data.org/v1/teams/757"
+        }
+      },
+      "date": "2018-07-01T14:00:00Z",
+      "status": "SCHEDULED",
+      "matchday": 4,
+      "homeTeamName": "",
+      "awayTeamName": "",
+      "result": {
+        "goalsHomeTeam": null,
+        "goalsAwayTeam": null
+      },
+      "odds": null
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "http://api.football-data.org/v1/fixtures/165121"
+        },
+        "competition": {
+          "href": "http://api.football-data.org/v1/competitions/467"
+        },
+        "homeTeam": {
+          "href": "http://api.football-data.org/v1/teams/757"
+        },
+        "awayTeam": {
+          "href": "http://api.football-data.org/v1/teams/757"
+        }
+      },
+      "date": "2018-07-01T18:00:00Z",
+      "status": "SCHEDULED",
+      "matchday": 4,
+      "homeTeamName": "",
+      "awayTeamName": "",
+      "result": {
+        "goalsHomeTeam": null,
+        "goalsAwayTeam": null
+      },
+      "odds": null
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "http://api.football-data.org/v1/fixtures/165118"
+        },
+        "competition": {
+          "href": "http://api.football-data.org/v1/competitions/467"
+        },
+        "homeTeam": {
+          "href": "http://api.football-data.org/v1/teams/757"
+        },
+        "awayTeam": {
+          "href": "http://api.football-data.org/v1/teams/757"
+        }
+      },
+      "date": "2018-07-02T14:00:00Z",
+      "status": "SCHEDULED",
+      "matchday": 4,
+      "homeTeamName": "",
+      "awayTeamName": "",
+      "result": {
+        "goalsHomeTeam": null,
+        "goalsAwayTeam": null
+      },
+      "odds": null
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "http://api.football-data.org/v1/fixtures/165120"
+        },
+        "competition": {
+          "href": "http://api.football-data.org/v1/competitions/467"
+        },
+        "homeTeam": {
+          "href": "http://api.football-data.org/v1/teams/757"
+        },
+        "awayTeam": {
+          "href": "http://api.football-data.org/v1/teams/757"
+        }
+      },
+      "date": "2018-07-02T18:00:00Z",
+      "status": "SCHEDULED",
+      "matchday": 4,
+      "homeTeamName": "",
+      "awayTeamName": "",
+      "result": {
+        "goalsHomeTeam": null,
+        "goalsAwayTeam": null
+      },
+      "odds": null
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "http://api.football-data.org/v1/fixtures/165117"
+        },
+        "competition": {
+          "href": "http://api.football-data.org/v1/competitions/467"
+        },
+        "homeTeam": {
+          "href": "http://api.football-data.org/v1/teams/757"
+        },
+        "awayTeam": {
+          "href": "http://api.football-data.org/v1/teams/757"
+        }
+      },
+      "date": "2018-07-03T14:00:00Z",
+      "status": "SCHEDULED",
+      "matchday": 4,
+      "homeTeamName": "",
+      "awayTeamName": "",
+      "result": {
+        "goalsHomeTeam": null,
+        "goalsAwayTeam": null
+      },
+      "odds": null
+    },
+    {
+      "_links": {
+        "self": {
+          "href": "http://api.football-data.org/v1/fixtures/165124"
+        },
+        "competition": {
+          "href": "http://api.football-data.org/v1/competitions/467"
+        },
+        "homeTeam": {
+          "href": "http://api.football-data.org/v1/teams/757"
+        },
+        "awayTeam": {
+          "href": "http://api.football-data.org/v1/teams/757"
+        }
+      },
+      "date": "2018-07-03T18:00:00Z",
+      "status": "SCHEDULED",
+      "matchday": 4,
+      "homeTeamName": "",
+      "awayTeamName": "",
+      "result": {
+        "goalsHomeTeam": null,
+        "goalsAwayTeam": null
+      },
+      "odds": null
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 <?php
 /**
- * Verifie la présence d'un cookie valide d'authentification.
+ * Verifie si le user est bien admin.
  *
  * Set Sinaps::utilisateurCourant si l'authentification a réussi
  *
@@ -9,7 +9,7 @@
  * @author David Jacques <supervision-jacques.consultant@dgfip.finances.gouv.fr>
  */
 
-class AuthentificationFilter extends Filter {
+class AdministrationFilter extends Filter {
     /**
      * Service de sécurité.
      *
@@ -35,6 +35,7 @@ class AuthentificationFilter extends Filter {
      *
      * @see    Filter::apply()
      */
+
     public function apply() {
 
         if ( Cookie::has("token") === FALSE) {
@@ -47,7 +48,7 @@ class AuthentificationFilter extends Filter {
         if ($user === NULL) {
             $this->throw401();
 
-        } else if(!$user->isactif) {
+        } else if(!$user->isadmin) {
             $this->throw401();
         }
 

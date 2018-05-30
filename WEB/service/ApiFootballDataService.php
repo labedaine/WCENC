@@ -84,17 +84,22 @@ class ApiFootballDataService {
         $equipes = array();
 
         $retour = $this->getFromAPI(SinapsApp::getConfigValue("api.classement"));
+
         // On supprime tout ce qui ne sert pas
+        if(isset($retour->standings)) {
 
-        foreach($retour->standings as $groups) {
-            foreach($groups as $equipe) {
+            foreach($retour->standings as $groups) {
+                foreach($groups as $equipe) {
 
-                $objEquipe = new stdClass();
-                $objEquipe->pays = $equipe->team;
-                $objEquipe->code_groupe = $equipe->group;
-                $equipes[$equipe->teamId] = $objEquipe;
-                //$equipes[substr($url, strrpos( $url, '/')+1)] = $equipe->name;
+                    $objEquipe = new stdClass();
+                    $objEquipe->pays = $equipe->team;
+                    $objEquipe->code_groupe = $equipe->group;
+                    $equipes[$equipe->teamId] = $objEquipe;
+                    //$equipes[substr($url, strrpos( $url, '/')+1)] = $equipe->name;
+                }
             }
+        } else {
+            return JsonService::createErrorResponse("Aucune équipe trouvée");
         }
 
         return $equipes;
@@ -134,10 +139,14 @@ class ApiFootballDataService {
         // On ne garde que ce qui sert
 
         // On a qu'un objet retourné ?
-        if(!isset($retour->fixtures)) {
-            $matchs = array($retour->fixture);
-        } else {
+        if(isset($retour->fixtures)) {
             $matchs = $retour->fixtures;
+
+        } else if(isset($retour->fixture)) {
+            $matchs = array($retour->fixture);
+
+        } else {
+            return JsonService::createErrorResponse("Aucun match trouvé");
         }
 
         foreach($matchs as $match) {

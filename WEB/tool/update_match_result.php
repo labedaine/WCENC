@@ -19,6 +19,8 @@ class CurlApiScript extends SinapsScript {
 
     private $test = FALSE;
 
+    const DEBUT_PHASE_FINALE=4;
+
     public function __construct() {
 
         parent::__construct(__DIR__."/../config","ApiLogger","api");
@@ -55,7 +57,8 @@ class CurlApiScript extends SinapsScript {
         try {
 
             // On récupère les données de match à mettre à jour
-            $this->getMatchDansLHeure();
+            //$this->getMatchDansLHeure();
+            $this->majPhaseFinale();
 
             // Si on update on met à jour la base
             if(isset($this->options->update)) {
@@ -74,19 +77,27 @@ class CurlApiScript extends SinapsScript {
     }
 
     private function getMatchDansLHeure() {
+
         $now = $this->timeService->now();
-        $now = 1529141812;
+        $now = 1529145000;
 
-        $matchsDansLH = Match::where('date_match', '>', $this->dateService->timeToUS($now))
-                             ->where('date_match', '<', $this->dateService->timeToUS($now+3600))
-                             ->get();
-
-        var_dump($matchsDansLH);
+        // Les matches qui ont déja commencé
+        $matchsDansLH  = Match::where('date_match', '>', $this->dateService->timeToUS($now-3600))
+                              ->where('date_match', '<', $this->dateService->timeToUS($now))
+                              ->get();
 
         // Si on a récupéré une liste de match,
         // on va chercher pour chacun ses infos
         if(!empty($matchsDansLH)) {
+
+            $this->logger->debuterEtape(
+                "majMatch",
+                "Récupération des informations sur la compétition"
+            );
+
             foreach($matchsDansLH as $match) {
+
+                $this->logger->contexte=$match->id;
 
                 // Récupération des données
                 $infoMatch = $this->api->getMatchById($match->id);
@@ -97,8 +108,8 @@ class CurlApiScript extends SinapsScript {
                     $objEtatNew = Etat::find($infoMatch->etat_id)->first();
                     $libEtatNew = $objEtatNew->libelle;
 
-                    $this->logger->addInfo(sprintf("%d: état %s => %s",
-                                                    $match->id, $libEtatOld, $libEtatNew));
+                    $this->logger->addInfo(sprintf("état %s => %s",
+                                                   $libEtatOld, $libEtatNew));
 
                     $match->etat_id = $infoMatch->etat_id;
                 }
@@ -107,23 +118,73 @@ class CurlApiScript extends SinapsScript {
                 if(($match->score_dom != $infoMatch->score_dom) ||
                    ($match->score_ext != $infoMatch->score_ext)) {
 
-                    $this->logger->addInfo(sprintf("%d: score %d - %d => %d - %d",
-                                                    $match->id,
-                                                    $match->score_dom, $match->score_ext,
-                                                    $infoMatch->score_dom, $infoMatch->score_ext));
+                    $this->logger->addInfo(sprintf("score %d - %d => %d - %d",
+                                                   $match->score_dom, $match->score_ext,
+                                                   $infoMatch->score_dom, $infoMatch->score_ext));
 
 
                     $match->score_dom = $infoMatch->score_dom;
                     $match->score_ext = $infoMatch->score_ext;
                 }
 
-                var_dump($match);
+                if(count($match->dirty) > 0) {
+                    $match->save();
+                    $this->logger->addInfo("Sauvegarde du match effectuée avec succès");
+                }
+
             }
+            $this->logger->finirEtape(
+                "Mise à jour terminée",
+                "majMatch"
+            );
         }
     }
 
-    private function update($update=FALSE) {
+    private function update($up=FALSE) {
 
+    }
+
+    private function majPhaseFinale($update=FALSE) {
+        $matchDay = $this->getCompetition();
+
+        // Ne fonctionne que pour les phases finales
+        //if($matchDay >= CurlApiScript::DEBUT_PHASE_FINALE) {
+
+            // On récupère les matchs de la phase en cours
+            // dont les équipes ne sont pas remplis
+            $phase = Phase::find($matchDay);
+            $matchsDeLaPhase = $this->api->getMatchByPhase($phase);
+
+            // On ne récupère que ceux qui n'ont pas encore été mis à jour
+            $matchsFiltre = array_filter($matchs, function($element) {
+                                var_dump($element);
+                                if($element->equipe_id_dom === NULL)
+                                    return 1;
+                                if($element->equipe_id_ext === NULL)
+                                    return 1;
+                                return 0;
+                            });
+
+            // On recherche maintenant le match correspondant pour trouver les équipes mise à jour
+            foreach($matchsDeLaPhase as $match) {
+                $objMatch = Match::find($match->id);
+
+                // Si on a des valeurs donnée par l'API
+                if($match->equipe_id_dom !== NULL && $match->equipe_id_ext !== NULL) {
+
+                    // Si c'est valeur sont à mettre à jour
+                    if($objMatch->equipe_id_dom === NULL && $objMatch->equipe_id_ext === NULL) {
+                        $objMatch->equipe_id_dom = $match->equipe_id_dom;
+                        $objMatch->equipe_id_ext = $match->equipe_id_ext;
+
+                        if(1) {
+                            $objMatch->save();
+                            $this->logger->addInfo("Sauvegarde du match effectuée avec succès");
+                        }
+                    }
+                }
+            }
+        //}
     }
 
     private function getCompetition() {
@@ -136,8 +197,7 @@ class CurlApiScript extends SinapsScript {
         $this->logger->contexte="COMPETITION";
 
         $competition = $this->api->getCompetition();
-        var_dump($competition);
-        $matchDay = $competition->currentMatchday;
+        return $competition->currentMatchday;
 
         $this->logger->finirEtape(
             "Récupération terminée",

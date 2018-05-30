@@ -9,16 +9,11 @@
 
 use \Mockery as m;
 
-$HOME = __DIR__ . "/../../../../apps";
-
-require_once $HOME . "/commun/php/Autoload.php";
-require_once $HOME . "/../tests/test_commun/Utils.php";
-require_once $HOME . "/restitution/services/controllers/GroupeController.php";
-require_once $HOME . "/restitution/services/controllers/TableauxDeBordController.php";
-require_once $HOME . "/restitution/services/services/GroupeService.php";
-require_once $HOME . "/restitution/services/services/DroitsService.php";
-require_once $HOME."/restitution/services/services/IndicateurGrapheService.php";
-require_once $HOME . "/commun/php/controllers/LoginController.php";
+$HOME = __DIR__ . "/../../../WEB/";
+require_once $HOME . "/ressource/php/Autoload.php";
+require_once $HOME . "/../TEST/test_commun/Utils.php";
+require_once $HOME . "/controller/GroupeController.php";
+require_once $HOME . "/controller/LoginController.php";
 
 //class GroupeControllerTest extends \PHPUnit_Framework_TestCase {
 class GroupeControllerTest extends SinapsTestCase {
@@ -34,7 +29,6 @@ class GroupeControllerTest extends SinapsTestCase {
         SinapsApp::singleton("LoginService", function() { return new LoginService();});
         SinapsApp::singleton("JsonService", function() { return new JsonService();});
         SinapsApp::singleton("JqGridService", function() { return new JqGridService();});
-        SinapsApp::singleton("FileService", function() { return new FileService();});
         SinapsApp::singleton("SystemService", function() { return new SystemService();});
         SinapsApp::singleton("MailService", function() { return new FakeMailService();});
         SinapsApp::register("DateService");

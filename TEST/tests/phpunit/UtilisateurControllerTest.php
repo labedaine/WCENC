@@ -10,13 +10,12 @@
 
 use \Mockery as m;
 
-$HOME = __DIR__ . "/../../../../apps";
+$HOME = __DIR__ . "/../../../WEB";
 
-require_once $HOME . "/commun/php/Autoload.php";
-require_once $HOME . "/../tests/test_commun/Utils.php";
-require_once $HOME . "/restitution/services/services/DroitsService.php";
-require_once $HOME . "/restitution/services/controllers/UtilisateurController.php";
-require_once $HOME . "/restitution/services/services/UtilisateurService.php";
+require_once $HOME . "/ressource/php/Autoload.php";
+require_once $HOME . "/../TEST/test_commun/Utils.php";
+require_once $HOME . "/controller/UtilisateurController.php";
+require_once $HOME . "/service/UtilisateurService.php";
 
 //class UtilisateurControllerTest extends \PHPUnit_Framework_TestCase {
 class UtilisateurControllerTest extends SinapsTestCase {

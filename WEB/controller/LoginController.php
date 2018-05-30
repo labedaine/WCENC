@@ -36,6 +36,7 @@ class LoginController extends BaseController {
         $password = Input::get("password");
 
         $user = $this->loginService->login($username, $password);
+
         if ( ($user === 401) || ($user === 402) ) {
             $retour = $this->jsonService->createErrorResponse($user);
             return $retour;
@@ -59,7 +60,6 @@ class LoginController extends BaseController {
         $password = Input::get("passwd");
 
         $user = $this->loginService->loginDepuisConf($username, $password);
-
 
         if ( ($user === 401) || ($user === 402) || ($user === 403) ) {
             $retour = $this->jsonService->createErrorResponse($user);
