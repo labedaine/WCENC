@@ -1,0 +1,9 @@
+Déposer les fichiers *.txt dans /tmp du serveur de base de données
+Déposer les fichiers *.sql dans /tmp du serveur de base de données
+
+scp BDD/*.txt BDD/*.sql 192.168.122.100:/tmp
+
+sur le serveur de base de données 
+base pari
+psql -U pari < /tmp/populate.sql
+

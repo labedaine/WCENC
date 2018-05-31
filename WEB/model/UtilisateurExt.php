@@ -15,26 +15,25 @@ class UtilisateurExt extends SinapsModel {
      */
 
     const PSE = 1;
-    const ISE = 2;
+    const ISA = 2;
     const ISC = 3;
     const CSP = 4;
     const TG  = 5;
     const ENSEIGNANT = 6;
-    const ACTIVE_USER_VALUE = 1; 
-    
+    const ACTIVE_USER_VALUE = 1;
+
     // Correspondance
     public static function numToString($num) {
 
         switch($num) {
             case 1: return "PSE"; break;;
-            case 2: return "ISE"; break;;
+            case 2: return "ISA"; break;;
             case 3: return "ISC"; break;;
             case 4: return "CSP"; break;;
             case 5: return "TG"; break;;
             case 6: return "ENSEIGNANT"; break;;
             default: return "Inconnu"; break;;
         }
-
         return "Inconnu";
     }
 

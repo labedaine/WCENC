@@ -48,4 +48,4 @@ Route::post('administration/activerUtilisateur', 'AdministrationController@activ
 Route::post('paris$', 'ParisController@getListeMatch');
 Route::post('paris/sauvegarder', 'ParisController@sauvegarderParis');
 //Classement
-Route::post('classement', 'ClassementController@getListeClassement');
+Route::post('classement$', 'ClassementController@getListeClassement');

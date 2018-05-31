@@ -14,40 +14,34 @@ class ClassementController extends BaseController {
      */
     public function getListeClassment() {
 
-      $type = Input::get('type');
+      $type = Input::get('promo');
 
       $sqlQuery = self::SQL_GET_CLASSEMENT;
 
       $dbh = SinapsApp::make("dbConnection");
       $stmt = $dbh->prepare($sqlQuery);
       $stmt->setFetchMode(PDO::FETCH_ASSOC);
-      $stmt->execute(array($type));
+      $stmt->execute();
       $matchs = $stmt->fetchAll();
 
       return JsonService::createResponse($matchs);
-
-      // $listeMatch = Match::all();
-      // //Match::where('id', '=', 'o')->get();
-      // $listeUsers = array();
-      // foreach ($mesUsers as $user) {
-      //     $tmp = $user->toArray();
-      //     unset($tmp->password);
-      //     $listeUsers[] = $tmp;
-      // }
 
 
     }
 
     const SQL_GET_CLASSEMENT = <<<EOF
-    SELECT date_match, code_equipe_1, e1.pays as "pays1", score_equipe_1, e1.code_groupe,code_equipe_2, e2.pays as "pays2", score_equipe_2, e2.code_groupe
-FROM Match m
-INNER JOIN equipe e1
-ON m.code_equipe_1 = e1.code_equipe
-INNER JOIN equipe e2
-ON m.code_equipe_2 = e2.code_equipe
-WHERE e1.code_groupe = ?;
+    SELECT promotion, points, prenom, nom, login
+    FROM utilisateur
+    WHERE promotion != 0
+    ORDER BY points DESC;
 EOF;
-
+    const SQL_GET_CLASSEMENT_PROMO = <<<EOF
+    SELECT promotion, SUM(points) as total, COUNT(id) as nb, SUM(points) / COUNT(id) as moyenne
+    FROM utilisateur
+    WHERE promotion != 0
+    GROUP BY promotion
+    ORDER BY moyenne DESC;
+EOF;
 
 
 }

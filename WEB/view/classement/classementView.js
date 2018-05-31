@@ -11,16 +11,12 @@ var ClassementViewClass = function(args) {
         template : 'view/classement/tmpl/classement.html?rd='+application.getUniqueId(),
 
         events : {
-          "click .classementNav a" : "menuClassement"
         },
 
         timers : {},
 
         initialize : function() {
-          if (!args[0])
-          {
-            args[0] = "Individuel";  
-          }
+
         },
 
         renderView : function() {
@@ -31,9 +27,7 @@ var ClassementViewClass = function(args) {
         miseEnForme : function() {
             // on crée les jqContainers
             this.initToolTips();
-            //sousmenu classement
-            $(".activeGroupe").removeClass('activeGroupe');
-            $(".classementNav li a[href='#classement/" + args[0] + "']").parent('li').addClass('activeGroupe');
+
         },
 
         /**
@@ -49,11 +43,7 @@ var ClassementViewClass = function(args) {
                });
         },
 
-        menuClassement : function(e) {
-          var target = $( e.target );
-          console.log('Chargement classement ' + target.data('nom'));
-
-        },
+        
     });
     return Clazz;
 };

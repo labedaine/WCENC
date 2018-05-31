@@ -1,0 +1,32 @@
+RUS;Russie;A
+SAU;rabie Saoudite;A
+EGY;Egypte;A
+URU;Uruguay;A
+POR;Portugal;B
+ESP;Espagne;B
+MAR;Maroc;B
+IRN;Iran;B
+FRA;France;C
+AUS;Australie;C
+PER;Pérou;C
+DNK;Danemark;C
+ARG;Argentina;D
+ISL;Islande;D
+HRV;Croatie;D
+NGA;Nigeria;D
+BRA;Brésil;E
+CHE;Suisse;E
+CRI;Costa Rica;E
+SRB;Serbie;E
+DEU;Allemagne;F
+MEX;Mexique;F
+SWE;Suède;F
+KOR;Corée du Sud;F
+BEL;Belgique;G
+PAN;Panama;G
+TUN;Tunisie;G
+ENG;Angleterre;G
+POL;Pologne;H
+SEN;Sénégal;H
+COL;Colombie;H
+JPN;Japon;H

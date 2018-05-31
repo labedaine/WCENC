@@ -240,6 +240,7 @@ var application = $.extend({} , Framework, {
         var module = "classement";
         application.user.moduleEnCours="classement";
         this.currentView = new ClassementViewClass(args, module);
+        this.currentView.render('#pageContainer');
     },
 
     afficherEcranAdministration: function(args) {

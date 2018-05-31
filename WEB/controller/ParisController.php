@@ -92,29 +92,29 @@ class ParisController extends BaseController {
         WHERE e1.code_groupe = :groupe;
 EOF;
 
-const SQL_LISTE_MATCH_PHASE = <<<EOF
-SELECT
-    m.id as "id",
-    date_match,
-    equipe_id_dom,
-    e1.pays as "pays1",
-    m.score_dom as "score_dom",
-    e1.code_groupe,
-    equipe_id_ext,
-    e2.pays as "pays2",
-    m.score_ext as "score_ext",
-    e2.code_groupe,
-    p.score_dom as "paris_dom",
-    p.score_ext as "paris_ext"
-FROM Match m
-LEFT JOIN equipe e1
-    ON m.equipe_id_dom = e1.id
-LEFT JOIN equipe e2
-    ON m.equipe_id_ext = e2.id
-LEFT JOIN paris p
-    ON p.match_id = m.id
-    AND p.utilisateur_id = :id
-    WHERE m.phase_id = :groupe;
+    const SQL_LISTE_MATCH_PHASE = <<<EOF
+    SELECT
+        m.id as "id",
+        date_match,
+        equipe_id_dom,
+        e1.pays as "pays1",
+        m.score_dom as "score_dom",
+        e1.code_groupe,
+        equipe_id_ext,
+        e2.pays as "pays2",
+        m.score_ext as "score_ext",
+        e2.code_groupe,
+        p.score_dom as "paris_dom",
+        p.score_ext as "paris_ext"
+    FROM Match m
+    LEFT JOIN equipe e1
+        ON m.equipe_id_dom = e1.id
+    LEFT JOIN equipe e2
+        ON m.equipe_id_ext = e2.id
+    LEFT JOIN paris p
+        ON p.match_id = m.id
+        AND p.utilisateur_id = :id
+        WHERE m.phase_id = :groupe;
 EOF;
 
 
