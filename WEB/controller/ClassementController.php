@@ -40,7 +40,7 @@ class ClassementController extends BaseController {
       foreach ($matchs['indiv'] as $key => $value) {
 
         //echo UtilisateurExt::numToString($value['promotion']);
-        
+        $matchs['indiv'][$key]['promotion'] = UtilisateurExt::numToString($value['promotion']);
         $value['promotxt'] = UtilisateurExt::numToString($value['promotion']);
         $matchs['promo'][$value['promotion']][] = $value;
       }
