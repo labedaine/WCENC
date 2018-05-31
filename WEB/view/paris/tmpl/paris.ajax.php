@@ -14,9 +14,7 @@ setlocale(LC_TIME, "fr_FR");
           <td><img src="ressource/img/drapeaux/drapeau-<?php echo strtolower($match["pays1"]); ?>.png"/></td>
         <?php endif; ?>
         <td class="col-md-3"><?php echo $match["pays1"]? $match["pays1"] : "Equipe inconnu"; ?></td>
-        <?php echo $match["date_match"].' > '.strtotime('now'); ?>
         <?php if (strtotime($match["date_match"]) > strtotime('now')): ?>
-
           <td class="paris"><input class="inputParisDom" type="number" name="idequipe_match" data-idequipe="<?php echo $match["equipe_id_dom"];?>" data-equipe="dom" min="0" value="<?php echo $match["paris_dom"];?>"></td>
           <td>-</td>
           <td class="paris"><input class="inputParisExt" type="number" name="idequipe_match" data-idequipe="<?php echo $match["equipe_id_ext"];?>" data-equipe="ext" min="0" value="<?php echo $match["paris_ext"];?>"></td>
