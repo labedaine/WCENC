@@ -76,6 +76,7 @@ var application = $.extend({} , Framework, {
                     self.user = new UserModelClass();
                     self.user.id = data.payload.id;
                     self.user.login = data.payload.login;
+                    self.user.isadmin = data.payload.isadmin;
 
                     self.gotoModuleByHash();
                     self.menuView = new MenuViewClass();

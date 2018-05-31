@@ -10,7 +10,7 @@
 class MailService {
     
     const OBJECT_MAIL_ACTIVATION_UTILISATEUR = "Activation Compte BetFip";
-    const MESSAGE_MAIL_ACTIVATION_UTILISATEUR = "Bienvenue @NOM@,<br/><br/>Nous sommes ravis de vous accueillir parmi nos nouveaux utilisateurs.<br/><br/>À bientôt,<br/>L'équipe BetFip";
+    const MESSAGE_MAIL_ACTIVATION_UTILISATEUR = "Bienvenue @NOM@,\n\nNous sommes ravis de vous accueillir parmi nos nouveaux utilisateurs.\n\nÀ bientôt,\nL'équipe BetFip";
     
     
     static protected $instance = NULL;
