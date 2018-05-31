@@ -1,6 +1,0 @@
-AVE;A venir
-ENC;En cours
-TER;Terminé
-REP;Reporté
-ANN;Annulé
-INT;Interrompu
