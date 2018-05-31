@@ -1,1 +1,1 @@
-1;admin;admin;admin;admin@betfip.fr;admin;0;0;1
+1;admin;admin;admin;admin@betfip.fr;f6fdffe48c908deb0f4c3bd36c032e72;0;0;1
