@@ -18,10 +18,12 @@ var MenuViewClass = function(args) {
         timers : {"affichageinfoApplisMasquees" : 5000},
 
         initialize : function() {
-
+        	 
         },
 
         renderView : function() {
+        	//controle des liens accessible
+        	this.checkDroitsAcces();
             // on met en forme le menu
             this.miseEnForme();
 
@@ -65,8 +67,9 @@ var MenuViewClass = function(args) {
             if (application.user) {
 
                 // ADMINISTRATION
-                if (!application.user.hasModuleAccess('administration')) {
-                    $('#administration').remove();
+            	//if (!application.user.hasModuleAccess('administration')) {
+            	if (application.user.isadmin != "1" ) {
+                    $('#administrationLink').remove();
                 }
             }
         },

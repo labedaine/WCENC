@@ -43,9 +43,7 @@ class AdministrationController extends BaseController {
                 $listeUsers[] = $tmp;
             }
             
-            $this->mailService->envoyerMailActivationCompte("ouad.jbili@gmail.com", "Fouad");
-            
-            return JsonService::createResponse($listeUsers); //{"success":true,"code":"","payload":[{"id":1,"nom":"admin","prenom":"admin","login":"admin","email":"admin@betfip.fr","password":"admin","isactif":null,"isadmin":1}]}
+            return JsonService::createResponse($listeUsers);
 
         } catch(SinapsException $err) {
             $retour = JsonService::createErrorResponse("500", $err->getMessage());
