@@ -44,6 +44,14 @@ class Paris extends SinapsModel {
      * @var integer NOT NULL
      */
     protected $score_ext = NULL;
+    
+    
+    /**
+     *
+     *
+     * @var integer NOT NULL
+     */
+    protected $points_acquis = NULL;
 
 
     /*
