@@ -18,8 +18,6 @@ class MockedRestClient {
     public static $instance;
 
     public static function initMock() {
-        echo "initialisation du mock";
-
         self::$instance = new MockedRestClient();
 
         $mockedRestClientService = m::mock("RestClientService")
@@ -64,7 +62,6 @@ class MockedRestClient {
             return $contenu;
         };
 
-var_dump(self::getInstance()->payload);
     }
 
     public static function close() {

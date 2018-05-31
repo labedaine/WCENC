@@ -14,7 +14,7 @@ require_once $rootDir."/ressource/php/Autoload.php";
 require_once $rootDir."/../TEST/test_commun/Utils.php";
 require_once $rootDir."/Autoload.php";
 
-require_once $rootDir."/ressource/php/services/TimeService.php";
+//~ require_once $rootDir."/ressource/php/services/TimeService.php";
 require_once $rootDir.'/ressource/php/framework/Log.php';
 
 $heureCourante = 0;
@@ -29,7 +29,6 @@ class ApiServiceSubContext implements Context {
     // Pour les recherches dans les fichiers
     static $fileBuffer;
 
-
     // Pour le sign-in
     private $mock=NULL;
     private $token=NULL;
@@ -42,7 +41,6 @@ class ApiServiceSubContext implements Context {
      * @param array $parameters context parameters (set them up through behat.yml)
      */
     public function __construct() {
-        $this->timeService = SinapsApp::make("TimeService");
         $this->apiController = new ApiFootballDataController();
     }
 
@@ -60,19 +58,14 @@ class ApiServiceSubContext implements Context {
         return json_decode($retour->payload);
     }
 
-
     /** ***************************************************************************
      * SIMULATION DE CONNEXION AVEC L'API
      *****************************************************************************/
-
-
 
     /**
      * @Given /^je lis le fichier (\S+)$$/
      */
     public function jeLisLeFichier($fichier) {
-
-        var_dump($this->timeService->now());
 
         $this->mock = MockedRestClient::getInstance();
         $this->mock->callFakeFootballApi($fichier);
@@ -87,12 +80,30 @@ class ApiServiceSubContext implements Context {
     public function ilEstCorrect() {
 
          $retour = $this->getPayload();
-         var_dump($retour);
          assertEquals($retour->fixture->_links->competition->href, "http://api.football-data.org/v1/competitions/467");
 
          $this->mock->close();
     }
 
+    /**
+     * @Given /^je récupère (\d+) matchs$/
+     */
+    public function jeRecupereXMatch() {
+
+         //echo "heure dans jeRecupereXMatch: ".$this->mainContext->timeService->now() . "\n";
+
+         SinapsApp::$config["log.api.writers"] = 'MemoryLogWriter';
+         SinapsApp::$config["log.api.niveau"] = '0';
+
+         SinapsApp::registerLogger("ApiLogger", "api");
+
+         $this->apiController->getMatchDansLHeure();
+         $retour = $this->getPayload();
+
+         assertEquals($retour->fixture->_links->competition->href, "http://api.football-data.org/v1/competitions/467");
+
+         $this->mock->close();
+    }
 
 
 

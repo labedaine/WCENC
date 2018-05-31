@@ -40,10 +40,8 @@ $heureCourante = 0;
 
 class FeatureContext implements Context
 {
-    private $moteur = FALSE;
-    private $moteurModele = NULL;
+    private $phaseFinale = 1;
     private $now = FALSE;
-    private $ipCount;
     private $loggerName;
 
     // Pour les recherches
@@ -54,6 +52,8 @@ class FeatureContext implements Context
 
     // Pour le code retour du login
     private $codeRetour;
+
+
 
     /**
      * Initializes context.
@@ -72,8 +72,6 @@ class FeatureContext implements Context
                 return new UtilisateurService();
             }
         );
-
-        //SinapsApp::registerLogger("DemandeCollecteurLogger", "demande");
     }
 
     /** @BeforeFeature */
@@ -172,9 +170,11 @@ class FeatureContext implements Context
 
     public function ilEstTemps($heures, $minutes, $secondes) {
         global $heureCourante;
+
         // Note: le temps commence à jeudi 1970-01-01 01:00:00
-        $time = mktime(2018, 06, 14, 0, 0, 0);
-        $heureCourante = ($heures - 1) * 3600 + $minutes * 60 + $secondes + $time;
+        $time = mktime(0, 0, 0, 6, 14, 2018);
+        $heureCourante = ($heures) * 3600 + $minutes * 60 + $secondes + $time;
+
         $heureCouranteServiceMock = m::mock("TimeService")->shouldReceive("now")->andReturnUsing(
             function () {
                 global $heureCourante;
@@ -270,25 +270,6 @@ class FeatureContext implements Context
     }
 
     /**
-     * @Given /^je demande à afficher les nouvelles alertes$/
-     */
-    public function jeDemandeAAfficherLesNouvellesAlertes() {
-
-        Cookie::set("token", $this->populateContext->getToken());
-        $controller = new AlerteController();
-
-        // On simule le passage postData de mesApplication: [listeDesApplications] et du _search à false
-        Input::set("mesApplications", array(1));
-        Input::set('_search','false');
-
-        $_REQUEST['sidx'] = 'date';
-        $_REQUEST['sord'] = 'desc';
-
-        $this->response = $controller->invoke("getListeNouvelles");
-        $this->code = Response::$code;
-    }
-
-    /**
      * @Given /^j'obtiens une erreur de code (\d+)$/
      */
     public function jObtiensUneErreurDeCode($code) {
@@ -326,5 +307,255 @@ class FeatureContext implements Context
     function moveTimeSecondes($delai) {
         global $heureCourante;
         $heureCourante += $delai;
+    }
+
+
+    /******* API *************/
+
+    public function getPayload() {
+
+        $retour = json_decode($this->mock->toJSON());
+        return json_decode($retour->payload);
+    }
+
+    /** ***************************************************************************
+     * SIMULATION DE CONNEXION AVEC L'API
+     *****************************************************************************/
+
+    /**
+     * @Given /^je demande la mise à jour via (\S+)$$/
+     */
+    public function jeDemandeLaMAJ($fichier) {
+
+        // On modifie la sortie du log
+        SinapsApp::$config["log.api.writers"] = 'MemoryLogWriter';
+        SinapsApp::$config["log.api.niveau"] = '0';
+        SinapsApp::$config["log.api.formats"] = "TimeLogFormat,BaseLogFormat";
+
+        SinapsApp::registerLogger("ApiLogger", "api");
+        $logger = SinapsApp::make("ApiLogger");
+
+        // On simule un retour webn c'est le fichier qui sera renvoyé
+        $this->mock = MockedRestClient::getInstance();
+        $this->mock->callFakeFootballApi($fichier);
+
+        $this->apiController = new ApiFootballDataController();
+        $this->apiController->miseAJourMatchDansLHeure();
+
+        // On ferme le mock
+        $this->mock->close();
+
+        var_dump($this->returnAllLevelOfLog($logger));
+
+    }
+
+    /**
+     * @Given /^je n\'ai pas de changement$/
+     */
+    public function aucunChangement() {
+
+         $retour = $this->getPayload();
+         assertEquals($retour->fixture->_links->competition->href, "http://api.football-data.org/v1/competitions/467");
+         $this->mock->close();
+    }
+
+    /**
+     * @Given /^le match d'id (\d+) n'a pas de score$/
+     */
+    public function matchNAPasDeScore($id) {
+
+        $match = Match::find($id);
+        assertNotNull($match);
+
+        assertEquals(NULL, $match->score_dom, "Le score de l'équipe domicile n'est pas correct");
+        assertEquals(NULL, $match->score_ext, "Le score de l'équipe extérieure n'est pas correct");
+    }
+
+    /**
+     * @Given /^le match d'id (\d+) a le score (\d+)-(\d+)$/
+     */
+    public function matchALeScore($id, $scoreDom, $scoreExt) {
+
+        $match = Match::find($id);
+        assertNotNull($match);
+
+        assertEquals($scoreDom, $match->score_dom, "Le score de l'équipe domicile n'est pas correct");
+        assertEquals($scoreExt, $match->score_ext, "Le score de l'équipe extérieure n'est pas correct");
+    }
+
+    /**
+     * @Given /^le match d'id (\d+) a le statut (\S+)$/
+     */
+    public function matchALeStatut($id, $etat) {
+
+        $match = Match::find($id);
+        assertNotNull($match);
+
+        $etat = Etat::where("libelle", $etat)->first();
+        assertNotNull($etat);
+
+        assertEquals($etat->id, $match->etat_id, "Le statut du match n'est pas correct");
+    }
+
+
+    /********** MAJ PHASE FINALE *********************/
+
+    /**
+     * @Given /^la phase en cours est la phase de groupe$/
+     */
+    public function jeRecupereLaPhaseEnCoursGroupe() {
+
+        // On modifie la sortie du log
+        SinapsApp::$config["log.api.writers"] = 'MemoryLogWriter';
+        SinapsApp::$config["log.api.niveau"] = '0';
+        SinapsApp::$config["log.api.formats"] = "TimeLogFormat,BaseLogFormat";
+
+        SinapsApp::registerLogger("ApiLogger", "api");
+        $logger = SinapsApp::make("ApiLogger");
+
+        // On simule un retour webn c'est le fichier qui sera renvoyé
+        $this->mock = MockedRestClient::getInstance();
+        $this->mock->callFakeFootballApi("match_day_1");
+
+        // On invoque la méthode (comme si on exécutait en ligne de commande le script)
+        // Initialisation du controller
+        $this->apiController = new ApiFootballDataController();
+        $this->apiController->setPhaseEnCours();
+
+        $this->phaseEnCours = $this->apiController->phaseEnCours;
+
+        // On ferme le mock
+        $this->mock->close();
+    }
+
+    /**
+     * @Given /^la phase en cours est les phases finales$/
+     */
+    public function jeRecupereLaPhaseEnCoursPF() {
+
+        // On modifie la sortie du log
+        SinapsApp::$config["log.api.writers"] = 'MemoryLogWriter';
+        SinapsApp::$config["log.api.niveau"] = '0';
+        SinapsApp::$config["log.api.formats"] = "TimeLogFormat,BaseLogFormat";
+
+        SinapsApp::registerLogger("ApiLogger", "api");
+        $logger = SinapsApp::make("ApiLogger");
+
+        // On simule un retour webn c'est le fichier qui sera renvoyé
+        $this->mock = MockedRestClient::getInstance();
+        $this->mock->callFakeFootballApi("match_day_4");
+
+        // On invoque la méthode (comme si on exécutait en ligne de commande le script)
+        // Initialisation du controller
+        $this->apiController = new ApiFootballDataController();
+        $this->apiController->setPhaseEnCours();
+
+        $this->phaseEnCours = $this->apiController->phaseEnCours;
+
+        // On ferme le mock
+        $this->mock->close();
+    }
+
+    /**
+     * @Given /^la phase en cours a la valeur (\d+)$/
+     */
+    public function laPhaseEnCoursALaValeur($valeur) {
+        assertEquals($this->apiController->phaseEnCours, $valeur);
+    }
+
+    /**
+     * @Given /^je demande la mise à jour des phases finales via (\S+)$/
+     */
+    public function jeDemandeLaMAJPhaseFinale($fichier) {
+
+        // On modifie la sortie du log
+        SinapsApp::$config["log.api.writers"] = 'MemoryLogWriter';
+        SinapsApp::$config["log.api.niveau"] = '0';
+        SinapsApp::$config["log.api.formats"] = "TimeLogFormat,BaseLogFormat";
+
+        SinapsApp::registerLogger("ApiLogger", "api");
+        $logger = SinapsApp::make("ApiLogger");
+
+        // On simule un retour webn c'est le fichier qui sera renvoyé
+        $this->mock = MockedRestClient::getInstance();
+        $this->mock->callFakeFootballApi($fichier);
+
+        // On invoque la méthode (comme si on exécutait en ligne de commande le script)
+        // Initialisation du controller
+        $this->apiController = new ApiFootballDataController();
+        $this->apiController->phaseEnCours = $this->phaseEnCours;
+        $this->apiController->majPhaseFinale();
+
+        // On ferme le mock
+        $this->mock->close();
+    }
+
+    /**
+     * @Given /^le match d'id (\d+) n'est pas initialisé$/
+     */
+    public function matchNEstPasInitialise($id) {
+
+        $match = Match::find($id);
+        assertNotNull($match);
+
+        assertEquals(NULL, $match->equipe_id_dom, "L'équipe domicile n'est pas correcte");
+        assertEquals(NULL, $match->equipe_id_ext, "L'équipe extérieure n'est pas correcte");
+    }
+
+    /**
+     * @Given /^le match d'id (\d+) se joue entre <(.*)> et <(.*)>$/
+     */
+    public function matchSeJoueEntre($id, $eqDom, $eqExt) {
+
+        $match = Match::find($id);
+        assertNotNull($match);
+
+        $eqDomObj = Equipe::where("pays", $eqDom)->first();
+        assertNotNull($eqDomObj);
+
+        $eqExtObj = Equipe::where("pays", $eqExt)->first();
+        assertNotNull($eqExtObj);
+
+        assertEquals($eqDomObj->id, $match->equipe_id_dom, "L'équipe domicile n'est pas correcte");
+        assertEquals($eqExtObj->id, $match->equipe_id_ext, "L'équipe extérieure n'est pas correcte");
+    }
+
+    /** LOG **/
+
+        /**
+     * @Given /^le log contient (.*)$/
+     */
+    public function leLogDeLApiContient($regexp) {
+        $logger = SinapsApp::make("ApiLogger");
+        $regexp = preg_quote($regexp, '/');
+
+        assertGreaterThan(0, count(
+                                preg_grep("/{$regexp}/",
+                                          $this->returnAllLevelOfLog($logger))),
+                            "La chaîne recherchée n'a pas été trouvée");
+    }
+
+    /**
+     * @Given /^le log ne contient pas (.*)$/
+     */
+    public function leLogDeLApiNeContientPas($regexp) {
+        $logger = SinapsApp::make("ApiLogger");
+        $regexp = preg_quote($regexp, '/');
+        assertEquals(0, count(
+                                preg_grep("/{$regexp}/",
+                                          $this->returnAllLevelOfLog($logger))),
+                            "La chaîne recherchée n'a pas été trouvée");
+    }
+
+    function returnAllLevelOfLog($logger) {
+        $log = array_merge(
+            $logger->dump("error"),
+            $logger->dump("info"),
+            $logger->dump("debug"),
+            $logger->dump("critical"),
+            $logger->dump("warning")
+        );
+
+        return $log;
     }
 }
