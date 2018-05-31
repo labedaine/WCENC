@@ -222,15 +222,15 @@ var RestApi = new function() {
         /*supprimerUtilisateur : function(id, success, error) {
             performDelete(url.USER + "/supprimer/" + id, success, error);
         },*/
-        
-        
+
+
         // *****************************************
         // Retourne la liste des utilisateur inscrit
         // *****************************************
         getListeUtilisateurs : function(success, error) {
             performPost(url.ADMINISTRATION, {}, success, error);
         },
-        
+
         // *****************************************
         // supprimer un utilisateur
         // *****************************************
@@ -239,7 +239,7 @@ var RestApi = new function() {
                 "userId" : userId
             }, success, error);
         },
-        
+
         // *****************************************
         // activer un utilisateur
         // *****************************************
@@ -255,6 +255,7 @@ var RestApi = new function() {
               "grp" : nom
           }, success, error);
         },
+
         // sauvegarde paris
         sauvegarderParis : function (listParis, success, error) {
           console.log("restapi sauvegardeParis -" + url.PARIS + "/sauvegarder");
@@ -265,9 +266,7 @@ var RestApi = new function() {
 
         // classement
         getListeClassement : function (type, success, error) {
-          performPost(url.PARIS, {
-              "type" : type
-          }, success, error);
+          performPost(url.CLASSEMENT, {}, success, error);
         },
 
         // *************************************
