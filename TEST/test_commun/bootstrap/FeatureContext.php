@@ -83,7 +83,7 @@ class FeatureContext implements Context
 
     /** @AfterFeature */
     public static function tearDownFeature(\Behat\Behat\Hook\Scope\AfterFeatureScope $event) {
-        Utils::truncateAll();
+        //Utils::truncateAll();
     }
 
 
@@ -91,7 +91,7 @@ class FeatureContext implements Context
     public function before($event) {
 
         Utils::initFakeServeur();
-        Utils::truncateAll();
+        //Utils::truncateAll();
 
         // Récupération des différents contexts
         $environment = $event->getEnvironment();
@@ -117,7 +117,7 @@ class FeatureContext implements Context
 
     /** @AfterScenario */
     public function after($event) {
-        Utils::truncateAll();
+        //Utils::truncateAll();
     }
 
     /** @BeforeStep */
@@ -165,13 +165,16 @@ class FeatureContext implements Context
     /** *******************************************************
      * TEMPS
      ******************************************************** */
+
     /**
      * @Given /^il est (\d+)h(\d+):(\d+)$/
      */
+
     public function ilEstTemps($heures, $minutes, $secondes) {
         global $heureCourante;
         // Note: le temps commence à jeudi 1970-01-01 01:00:00
-        $heureCourante = ($heures - 1) * 3600 + $minutes * 60 + $secondes;
+        $time = mktime(2018, 06, 14, 0, 0, 0);
+        $heureCourante = ($heures - 1) * 3600 + $minutes * 60 + $secondes + $time;
         $heureCouranteServiceMock = m::mock("TimeService")->shouldReceive("now")->andReturnUsing(
             function () {
                 global $heureCourante;

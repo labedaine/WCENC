@@ -46,7 +46,7 @@ class FakeServer {
 
         // On réinstalle la base
         $chemin = "/usr/bin/php ".__DIR__."/../../WEB/tool/populate_db.php";
-        exec("$chemin --recreate --test", $output);
+        //exec("$chemin --recreate --test", $output);
     }
 
     static public function getDbConnectionString() {

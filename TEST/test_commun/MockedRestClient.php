@@ -13,10 +13,13 @@ class MockedRestClient {
     public $success = TRUE;
     public $code = 0;
     public $payload = "ok";
+    public $file = NULL;
 
     public static $instance;
 
     public static function initMock() {
+        echo "initialisation du mock";
+
         self::$instance = new MockedRestClient();
 
         $mockedRestClientService = m::mock("RestClientService")
@@ -54,11 +57,14 @@ class MockedRestClient {
         return json_encode($reponse);
     }
 
-    public function callRepartitionService() {
-        self::getInstance()->payload = function () {
-            $repartitionService = new RepartitionService(array(), TRUE);
-            $repartitionService->repartirDomaines();
+    public function callFakeFootballApi($fichier) {
+
+        self::getInstance()->payload = function () use ($fichier) {
+            $contenu = file_get_contents("./data/$fichier.json");
+            return $contenu;
         };
+
+var_dump(self::getInstance()->payload);
     }
 
     public static function close() {

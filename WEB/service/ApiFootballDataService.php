@@ -146,7 +146,7 @@ class ApiFootballDataService {
             $matchs = array($retour->fixture);
 
         } else {
-            return JsonService::createErrorResponse("Aucun match trouvé");
+            return NULL;
         }
 
         foreach($matchs as $match) {
@@ -223,7 +223,6 @@ class ApiFootballDataService {
 
     $retour = $this->jsonService->createResponse($alerteId);
     return $retour;*/
-
 
 
 /**
