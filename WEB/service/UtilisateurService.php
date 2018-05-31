@@ -42,7 +42,7 @@ class UtilisateurService {
             $user->prenom = $prenom;
             $user->login = $login;
             $user->email = $email;
-            $user->password = md5($passwd.strtolower($username));
+            $user->password = md5($passwd);
             $user->promotion = $promo;
             $user->isactif = 0;
             $user->isadmin = 0;
