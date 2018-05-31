@@ -31,7 +31,7 @@ class AdministrationController extends BaseController {
      * @return type
      */
     public function getUtilisateursListe() {
-        try {
+        try { 
             $this->applyFilter("administration");
 
             $mesUsers = Utilisateur::all();
@@ -42,6 +42,9 @@ class AdministrationController extends BaseController {
                 unset($tmp->password);
                 $listeUsers[] = $tmp;
             }
+            
+            $this->mailService->envoyerMailActivationCompte("ouad.jbili@gmail.com", "Fouad");
+            
             return JsonService::createResponse($listeUsers); //{"success":true,"code":"","payload":[{"id":1,"nom":"admin","prenom":"admin","login":"admin","email":"admin@betfip.fr","password":"admin","isactif":null,"isadmin":1}]}
 
         } catch(SinapsException $err) {

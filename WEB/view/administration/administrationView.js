@@ -58,24 +58,24 @@ var AdministrationViewClass = function(args) {
                 		  
                 		  $("#divUsers").append("<div class='row' rowUser='" + element.id + "'></div>");
                 		  $("div[rowUser="+ element.id+"]")
-                		  		.append("<div class='col-sm'>" + element.nom + "</div>")
-                		  		.append("<div class='col-sm'>" + element.prenom + "</div>")
-                		  		.append("<div class='col-sm'>" + element.login + "</div>")
-                		  		.append("<div class='col-sm'>" + element.email + "</div>")
-                		  		.append("<div class='col-sm'>" + element.promotion + "</div>")
-                		  		.append("<div class='col-sm'>" + isAdmin + "</div>");
+                		  		.append("<div class='col-sm-2'>" + element.nom + "</div>")
+                		  		.append("<div class='col-sm-2'>" + element.prenom + "</div>")
+                		  		.append("<div class='col-sm-2'>" + element.login + "</div>")
+                		  		.append("<div class='col-sm-3'>" + element.email + "</div>")
+                		  		.append("<div class='col-sm-1'>" + element.promotion + "</div>")
+                		  		.append("<div class='col-sm-1'>" + isAdmin + "</div>");
                 		  
                 		  if (element.isadmin == "1" ) {
-                			  $("div[rowUser="+ element.id+"]").append("<div class='col-sm'></div>");
+                			  $("div[rowUser="+ element.id+"]").append("<div class='col-sm-1'></div>");
                 		  } else {
                 			  if (element.isactif == 1) {
 		                		  $("div[rowUser="+ element.id+"]")
-	                		  		.append("<div class='col-sm'>" +
+	                		  		.append("<div class='col-sm-1'>" +
 	                		  					"<i class='fas fa-trash' style='cursor:pointer;'></i>" +
 	                		  				"</div>");
                 			  } else {
 		                		  $("div[rowUser="+ element.id+"]")
-		                		  		.append("<div class='col-sm'>" +
+		                		  		.append("<div class='col-sm-1'>" +
 		                		  					"<i class='fas fa-trash' style='cursor:pointer;'></i>" +
 		                		  					"&nbsp;&nbsp;<i class='fas fa-unlock' style='cursor:pointer;'></i>" +
 		                		  				"</div>");
