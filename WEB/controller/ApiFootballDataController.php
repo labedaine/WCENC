@@ -1,5 +1,5 @@
 <?php
-/** 
+/**
  * Controller utilisé par le script de mise à jour
  *
  *
@@ -39,12 +39,10 @@ class ApiFootballDataController extends BaseController {
     public function miseAJourMatchDansLHeure() {
 
 
-var_dump($this->now);
         // Les matches qui ont déja commencé (fenêtre de deux heures)
         $matchsDansLH  = Match::where('date_match', '>', $this->dateService->timeToUS($this->now-1800))
                               ->where('date_match', '<', $this->dateService->timeToUS($this->now+1800))
                               ->get();
-var_dump($matchsDansLH);
         // Si on a récupéré une liste de match,
         // on va chercher pour chacun ses infos
         $this->logger->addInfo(sprintf("%d matchs trouvés", count($matchsDansLH)));
@@ -83,7 +81,6 @@ var_dump($matchsDansLH);
                                                    $match->score_dom, $match->score_ext,
                                                    $infoMatch->score_dom, $infoMatch->score_ext));
 
-
                     $match->score_dom = $infoMatch->score_dom;
                     $match->score_ext = $infoMatch->score_ext;
                 }
@@ -95,9 +92,8 @@ var_dump($matchsDansLH);
 
                 // on lance le calcul des points acquis pour tous les paris du match
                 $this->parisService->calculerPointsParis($match->id);
-                
             }
-            
+
             // on met a jours le nombre de points acquis pour tous utilisateurs
             $this->parisService->miseAJourPointsUtilisateurs();
             
