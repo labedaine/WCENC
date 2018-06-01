@@ -66,9 +66,9 @@ class ParisService {
                     if ($paris) {
                         
                         $pointsAcquis = 0;
-                        $coef = $match->phase_id;
-                        if($coef < 5) {
-                            $coef = 1;
+                        $coef = 1;
+                        if($match->phase_id > 3) {
+                            $coef = ($match->phase_id - 2) ;
                         }
                         
                         if ($paris->score_dom != NULL) {
@@ -78,21 +78,17 @@ class ParisService {
                                 
                                 $pointsAcquis += 3*$coef;
                                 
-                            } else {
-                  
-                                // vainqueur ou match null trouver
-                                if ((($paris->score_dom == $paris->score_ext) && ($match->score_dom == $match->score_ext))
+                            // vainqueur ou match null trouvé
+                            } else if ((($paris->score_dom == $paris->score_ext) && ($match->score_dom == $match->score_ext))
                                  || (($paris->score_dom > $paris->score_ext) && ($match->score_dom > $match->score_ext))
                                  || (($paris->score_dom < $paris->score_ext) && ($match->score_dom < $match->score_ext))) {
                                     
-                                     $pointsAcquis += 1*$coef;
-                                    
-                                    // ecart exacte
-                                    if (($paris->score_dom - $paris->score_ext) == ($match->score_dom - $match->score_ext)) {
-                                        $pointsAcquis += 1*$coef;
-                                    }
-                                    
-                                } 
+                                 $pointsAcquis += 1*$coef;
+                                
+                                // ecart exacte
+                                if (($paris->score_dom - $paris->score_ext) == ($match->score_dom - $match->score_ext)) {
+                                    $pointsAcquis += 1*$coef;
+                                }    
                             }
                         }
 
