@@ -65,19 +65,23 @@ var ParisViewClass = function(args) {
         },
         sauvegardeParis : function(e) {
           var listParis = [];
+          console.log("Récupération des paris");
 
           $('.match').each(function (e) {
             var id = $(this).data('idmatch');
             var dom = $(this).find('.inputParisDom').first().val();
             var ext = $(this).find('.inputParisExt').first().val();
-            if (dom != "" || ext != "")
+
+            if (dom != "" && ext != "")
             {
               listParis.push({ "id" : id, "scoreDom" : dom, "scoreExt" : ext});
             }
           });
+
+          console.log(listParis);
           RestApi.sauvegarderParis(listParis, function(data) {
               if (data.success) {
-                console.log(data);
+                console.log("Sauvegarde terminée");
               }
 
             }, function(data) {  console.log(data);});
@@ -96,10 +100,8 @@ var ParisViewClass = function(args) {
             var target = $( e.target );
             var nom =  target.data('nom');
           }
-          console.log('Chargement paris ' + nom);
           RestApi.getListeMatch(nom, function(data) {
               if (data.success) {
-                console.log('Chargement paris ' + nom);
                 $.ajax({
                    beforeSend: function() { $('#contenuParis').hide();},
                    type: "POST",

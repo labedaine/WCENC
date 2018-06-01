@@ -316,7 +316,7 @@ class PopulateScript extends SinapsScript {
             $dateFormat = $this->dateService->timeToFullDate($match->date_match);
             $objMatch->date_match = $dateFormat;
 
-            if( $match->equipe_id_dom != "757" or $match->equipe_id_ext != "757") {
+            if( $match->equipe_id_dom != NULL or $match->equipe_id_ext != NULL) {
                 $objMatch->equipe_id_dom = $match->equipe_id_dom;
                 $objMatch->equipe_id_ext = $match->equipe_id_ext;
                 $equipeDom  = $objMatch->equipe_dom()->pays;
