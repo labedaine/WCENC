@@ -16,20 +16,18 @@ class ParisController extends BaseController {
     /**
      * Sauvegarde les paris de l'utilisateur
      */
-
     public function sauvegarderParis() {
       $listParis = Input::get('listParis');
       $user = SinapsApp::utilisateurCourant()->id;
 
       foreach ($listParis as $key => $unParis) {
-            $listParis[$key] = $this->parisService->sauvegarderParis($user, $unParis->id,  $unParis->scoreDom, $unParis->scoreExt);
+        $listParis[$key] = $this->parisService->sauvegarderParis($user, $unParis->id,  $unParis->scoreDom, $unParis->scoreExt);
       }
 
       return JsonService::createResponse($listParis);
     }
     /**
      * Récupère la liste des groupes de l'utilisateur spécifié
-     *
      */
     public function getListeMatch() {
 
@@ -81,7 +79,8 @@ class ParisController extends BaseController {
         m.score_ext as "score_ext",
         e2.code_groupe,
         p.score_dom as "paris_dom",
-        p.score_ext as "paris_ext"
+        p.score_ext as "paris_ext",
+        etat_id
     FROM Match m
         INNER JOIN equipe e1
         ON m.equipe_id_dom = e1.id
@@ -106,7 +105,8 @@ EOF;
         m.score_ext as "score_ext",
         e2.code_groupe,
         p.score_dom as "paris_dom",
-        p.score_ext as "paris_ext"
+        p.score_ext as "paris_ext",
+        etat_id
     FROM Match m
     LEFT JOIN equipe e1
         ON m.equipe_id_dom = e1.id

@@ -82,6 +82,7 @@ var ParisViewClass = function(args) {
           RestApi.sauvegarderParis(listParis, function(data) {
               if (data.success) {
                 console.log("Sauvegarde terminée");
+                console.log(data);
               }
 
             }, function(data) {  console.log(data);});
