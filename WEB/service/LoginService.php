@@ -40,7 +40,7 @@ class LoginService {
 
         $user = Utilisateur::where("login", $username)->first();
         
-        if ( $user && $user->password === md5($password.strtolower($username))) {
+        if ( $user && $user->password === md5($password)) {
 
             // L'utilisateur n'est pas actif: 402
             if(!$user->isactif) {
