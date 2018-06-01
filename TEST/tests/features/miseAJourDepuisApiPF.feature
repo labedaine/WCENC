@@ -21,7 +21,7 @@ Fonctionnalité: Controle de la mise a jour des phases finales
         Et la phase en cours est les phases finales
         Alors la phase en cours a la valeur 4
         Et je demande la mise à jour des phases finales via phase_finale_no_change_1_team
-        Et le match d'id 165119 se joue entre <Russia> et <Saudi Arabi>
+        Et le match d'id 165119 se joue entre Russie et Arabie_Saoudite
 
 
 

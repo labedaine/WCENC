@@ -18,7 +18,6 @@ require_once __DIR__."/FakeMailService.php";
 require_once __DIR__."/bootstrap/FakeCookie.php";
 require_once __DIR__."/Response.php";
 require_once __DIR__."/MockedRestClient.php";
-require_once __DIR__."/TestDataRestitutionStd.php";
 require_once __DIR__."/FakeServer.php";
 
 require_once __DIR__."/../../WEB/ressource/php/services/TimeService.php";
@@ -33,10 +32,6 @@ class Utils {
 
     static public function initFakeMailService() {
         return FakeMailService::init();
-    }
-
-    static public function populate($besoinDHistorique=FALSE) {
-        TestDataRestitutionStd::populate($besoinDHistorique);
     }
 
     static function fakeTime($time) {

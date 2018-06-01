@@ -1,11 +1,7 @@
 #!/usr/bin/php
 <?php
 /**
- * Script pour enregistrer la correspondance entre une application interne (Application.
- *
- * Et une application externe (EvenementExterieurApplication)
- * Par défaut, le script requiert l'existence préalable des 2 applications.
- * Néanmoins, il est possible en évoquant l'arguemnt --force de passer outre ces vérifications
+ * Met des données dans la base de données
  *
  * PHP version 5
  *
@@ -32,34 +28,6 @@ class PopulateScript extends SinapsScript {
                                  6 => "Demi-finales",
                                  7 => "Match pour la troisième place",
                                  8 => "Finale");
-
-    private $correspondancesEquipe = array(
-         "Russia" => "Russie",
-         "Saudi Arabia" => "Arabie Saoudite",
-         "Egypt" => "Egypte",
-         "Morocco" => "Maroc",
-         "Spain" => "Espagne",
-         "Australia" => "Australie",
-         "Peru" => "Pérou",
-         "Denmark" => "Danemark",
-         "Argentina" => "Argentine",
-         "Iceland" => "Islande",
-         "Croatia" => "Croatie",
-         "Serbia" => "Serbie",
-         "Brazil" => "Brésil",
-         "Switzerland" => "Suisse",
-         "Germany" => "Allemagne",
-         "Mexico" => "Mexique",
-         "Sweden" => "Suède",
-         "Korea Republic" => "Corée du sud",
-         "Belgium" => "Belgique",
-         "Tunisia" => "Tunisie",
-         "England" => "Angleterre",
-         "Poland" => "Pologne",
-         "Senegal" => "Senegal",
-         "Colombia" => "Colombie",
-         "Japan" => "Japon"
-    );
 
     public function __construct() {
         parent::__construct(__DIR__."/../config","PopulateLogger","populate");
@@ -278,8 +246,8 @@ class PopulateScript extends SinapsScript {
             $objEquipe->code_groupe = $equipe->code_groupe;
 
             // On gère les noms français
-            if(array_key_exists($equipe->pays, $this->correspondancesEquipe)) {
-                $objEquipe->pays = $this->correspondancesEquipe[$equipe->pays];
+            if(array_key_exists($equipe->pays, EquipeExt::$correspondancesEquipe)) {
+                $objEquipe->pays = EquipeExt::$correspondancesEquipe[$equipe->pays];
             } else {
                 $objEquipe->pays = $equipe->pays;
             }
