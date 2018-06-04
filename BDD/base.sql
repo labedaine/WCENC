@@ -145,6 +145,7 @@ CREATE TABLE paris (
     utilisateur_id integer NOT NULL, -- Utilisateur faisant le paris [utilisateur 1-N paris] paris
     score_dom integer NOT NULL,
     score_ext integer NOT NULL,
+    points_acquis integer NOT NULL DEFAULT '0',
 PRIMARY KEY(match_id, utilisateur_id),
 CONSTRAINT fk_paris_match FOREIGN KEY (match_id) REFERENCES match (id),
 CONSTRAINT fk_paris_utilisateur FOREIGN KEY (utilisateur_id) REFERENCES utilisateur (id)
