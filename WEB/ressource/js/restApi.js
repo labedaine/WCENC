@@ -9,6 +9,7 @@ var RestApi = new function() {
         ADMINISTRATION : 'services/administration',
         PARIS : 'services/paris',
         CLASSEMENT : 'services/classement',
+        REGLEMENT : 'services/reglement',
     };
 
     var messageByErrorCode = {
@@ -269,7 +270,12 @@ var RestApi = new function() {
               "type" : type
           }, success, error);
         },
-
+        
+        // reglement
+        getReglement : function (success, error) {
+        	performGet(url.REGLEMENT, success, error);
+        },
+        
         // *************************************
         // AUTO REFRESH
         // *************************************

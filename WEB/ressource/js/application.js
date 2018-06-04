@@ -5,10 +5,11 @@ var application = $.extend({} , Framework, {
         'ressource/js/config.js',                     // configuration de l'application
         'view/menu/menuView.js',                      // vue pour le menu
         'view/paris/parisView.js',                    // vue pour les paris
-        'view/classement/classementView.js',               // vue pour les classement
-        'view/login/loginView.js',                   // vue pour le login
+        'view/classement/classementView.js',          // vue pour les classement
+        'view/reglement/reglementView.js',			  // vue pour le reglement
+        'view/login/loginView.js',                    // vue pour le login
         'view/administration/administrationView.js',  // vue pour l'administration
-                'ressource/js/popUp.js'
+        'ressource/js/popUp.js'
     ],
 
     // utilisateur actuellement connecte
@@ -208,6 +209,11 @@ var application = $.extend({} , Framework, {
                 case "gestion-utilisateurs": // Menu Gestion Utilisateurs
                     this.afficherEcranGestionUtilisateurs(args);
                     break;
+                    
+                // BLOC 'Reglement'
+                case "reglement": // Menu reglement
+                    this.afficherEcranReglement(args);
+                    break;
 
                 // BLOC 'Administration'
                 case "administration": // Menu Gestion Utilisateurs
@@ -242,7 +248,14 @@ var application = $.extend({} , Framework, {
         application.user.moduleEnCours="classement";
         this.currentView = new ClassementViewClass(args, module);
     },
-
+    
+    afficherEcranReglement: function(args) {
+        var module = "reglement";
+        application.user.moduleEnCours="reglement";
+        this.currentView = new ReglementViewClass(args, module);
+        this.currentView.render('#pageContainer');
+    },
+    
     afficherEcranAdministration: function(args) {
         var module = "administration";
         application.user.moduleEnCours="administration";
