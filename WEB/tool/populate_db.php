@@ -213,7 +213,7 @@ class PopulateScript extends SinapsScript {
         $objUtilisateur->prenom = "admin";
         $objUtilisateur->login = "admin";
         $objUtilisateur->email = "admin@betfip.fr";
-        $objUtilisateur->password =  "admin";
+        $objUtilisateur->password =  "f6fdffe48c908deb0f4c3bd36c032e72";
         $objUtilisateur->promotion = 0;
         $objUtilisateur->isactif = 1;
         $objUtilisateur->isadmin = 1;

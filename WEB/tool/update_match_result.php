@@ -53,7 +53,9 @@ class CurlApiScript extends SinapsScript {
         try {
 
             // On récupère les données de match à mettre à jour
-            //$this->getMatchDansLHeure();
+
+            $this->apiController->setPhaseEnCours();
+            $this->apiController->miseAJourMatchDansLHeure();
             $this->apiController->majPhaseFinale();
 
             // Si on update on met à jour la base

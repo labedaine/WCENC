@@ -11,12 +11,14 @@
 class ApiFootballDataController extends BaseController {
 
     private $test = FALSE;
+    private $now = 0;
+    public $phaseEnCours = 1;
 
     const DEBUT_PHASE_FINALE=4;
 
     public function __construct() {
 
-        SinapsApp::initialise(__DIR__."/../config");
+        //SinapsApp::initialise(__DIR__."/../config");
 
         SinapsApp::registerLogger("ApiLogger", "api");
         $this->logger = SinapsApp::make("ApiLogger");
@@ -27,20 +29,23 @@ class ApiFootballDataController extends BaseController {
         $this->restClientService    = SinapsApp::make("RestClientService");
 
         $this->api = new ApiFootballDataService();
+
+        $this->now = $now = $this->timeService->now();
     }
 
-    private function getMatchDansLHeure() {
+    public function miseAJourMatchDansLHeure() {
 
-        $now = $this->timeService->now();
-        $now = 1529145000;
 
-        // Les matches qui ont déja commencé
-        $matchsDansLH  = Match::where('date_match', '>', $this->dateService->timeToUS($now-3600))
-                              ->where('date_match', '<', $this->dateService->timeToUS($now))
+var_dump($this->now);
+        // Les matches qui ont déja commencé (fenêtre de deux heures)
+        $matchsDansLH  = Match::where('date_match', '>', $this->dateService->timeToUS($this->now-1800))
+                              ->where('date_match', '<', $this->dateService->timeToUS($this->now+1800))
                               ->get();
-
+var_dump($matchsDansLH);
         // Si on a récupéré une liste de match,
         // on va chercher pour chacun ses infos
+        $this->logger->addInfo(sprintf("%d matchs trouvés", count($matchsDansLH)));
+
         if(!empty($matchsDansLH)) {
 
             $this->logger->debuterEtape(
@@ -58,7 +63,7 @@ class ApiFootballDataController extends BaseController {
                 // On regarde si le match à un status différent de celui en base
                 if($match->etat_id != $infoMatch->etat_id) {
                     $libEtatOld = $match->etat->libelle;
-                    $objEtatNew = Etat::find($infoMatch->etat_id)->first();
+                    $objEtatNew = Etat::find($infoMatch->etat_id);
                     $libEtatNew = $objEtatNew->libelle;
 
                     $this->logger->addInfo(sprintf("état %s => %s",
@@ -98,14 +103,13 @@ class ApiFootballDataController extends BaseController {
     }
 
     public function majPhaseFinale($update=FALSE) {
-        $matchDay = $this->getCompetition();
 
         // Ne fonctionne que pour les phases finales
-        //if($matchDay >= CurlApiScript::DEBUT_PHASE_FINALE) {
+        if($this->phaseEnCours >= ApiFootballDataController::DEBUT_PHASE_FINALE) {
 
             // On récupère les matchs de la phase en cours
             // dont les équipes ne sont pas remplis
-            $phase = Phase::find($matchDay);
+            $phase = Phase::find($this->phaseEnCours);
             $matchsDeLaPhase = $this->api->getMatchByPhase($phase);
 
             if($matchsDeLaPhase === NULL) {
@@ -122,10 +126,10 @@ class ApiFootballDataController extends BaseController {
                                     return 1;
                                 return 0;
                             });
-
             // On recherche maintenant le match correspondant pour trouver les équipes mise à jour
-            foreach($matchsDeLaPhase as $match) {
-                $objMatch = Match::find($match->id);
+            foreach($matchsDeLaPhase as $idMatch => $match) {
+
+                $objMatch = Match::find($idMatch);
 
                 // Si on a des valeurs donnée par l'API
                 if($match->equipe_id_dom !== NULL && $match->equipe_id_ext !== NULL) {
@@ -142,10 +146,12 @@ class ApiFootballDataController extends BaseController {
                     }
                 }
             }
-        //}
+        } else {
+            $this->logger->addInfo("Date des phases finales non atteinte");
+        }
     }
 
-    private function getCompetition() {
+    public function setPhaseEnCours() {
 
         $this->logger->debuterEtape(
             "getCompetition",
@@ -156,14 +162,20 @@ class ApiFootballDataController extends BaseController {
 
         $competition = $this->api->getCompetition();
 
+        var_dump($competition);
+
+        $this->phaseEnCours = 0;
+
+        if(isset($competition->currentMatchday)) {
+            $this->phaseEnCours = $competition->currentMatchday;
+            $phase = Phase::find($this->phaseEnCours);
+            $this->logger->addInfo("La phase en cours est " . $phase->libelle . " (". $this->phaseEnCours .")");
+        }
+
         $this->logger->finirEtape(
             "Récupération terminée",
             "getCompetition"
         );
 
-        if(isset($competition->currentMatchday)) {
-            return $competition->currentMatchday;
-        }
-        return 0;
     }
 }
