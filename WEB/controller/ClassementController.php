@@ -12,9 +12,7 @@ class ClassementController extends BaseController {
     /**
      * Récupère la liste des groupes de l'utilisateur spécifié
      */
-    public function getListeClassment() {
-
-      $type = Input::get('promo');
+    public function getListeClassement() {
 
       $sqlQuery = self::SQL_GET_CLASSEMENT;
 
@@ -22,11 +20,33 @@ class ClassementController extends BaseController {
       $stmt = $dbh->prepare($sqlQuery);
       $stmt->setFetchMode(PDO::FETCH_ASSOC);
       $stmt->execute();
-      $matchs = $stmt->fetchAll();
+      $matchs['indiv'] = $stmt->fetchAll();
+
+
+
+      $sqlQuery = self::SQL_GET_CLASSEMENT_PROMO;
+
+      $dbh = SinapsApp::make("dbConnection");
+      $stmt = $dbh->prepare($sqlQuery);
+      $stmt->setFetchMode(PDO::FETCH_ASSOC);
+      $stmt->execute();
+      $matchs['collec'] = $stmt->fetchAll();
+
+      foreach ($matchs['collec'] as $key => $value) {
+        //echo UtilisateurExt::numToString($value['promotion']);
+        $matchs['collec'][$key]['promotion'] = UtilisateurExt::numToString($value['promotion']);
+      }
+
+      foreach ($matchs['indiv'] as $key => $value) {
+
+        //echo UtilisateurExt::numToString($value['promotion']);
+        
+        $value['promotxt'] = UtilisateurExt::numToString($value['promotion']);
+        $matchs['promo'][$value['promotion']][] = $value;
+      }
+
 
       return JsonService::createResponse($matchs);
-
-
     }
 
     const SQL_GET_CLASSEMENT = <<<EOF
@@ -35,6 +55,7 @@ class ClassementController extends BaseController {
     WHERE promotion != 0
     ORDER BY points DESC;
 EOF;
+
     const SQL_GET_CLASSEMENT_PROMO = <<<EOF
     SELECT promotion, SUM(points) as total, COUNT(id) as nb, SUM(points) / COUNT(id) as moyenne
     FROM utilisateur
