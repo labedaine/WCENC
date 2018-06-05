@@ -213,7 +213,8 @@ class PopulateScript extends SinapsScript {
         $objUtilisateur->prenom = "admin";
         $objUtilisateur->login = "admin";
         $objUtilisateur->email = "admin@betfip.fr";
-        $objUtilisateur->password =  "f6fdffe48c908deb0f4c3bd36c032e72";
+        $objUtilisateur->password =  "21232f297a57a5a743894a0e4a801fc3";
+
         $objUtilisateur->promotion = 0;
         $objUtilisateur->isactif = 1;
         $objUtilisateur->isadmin = 1;
@@ -316,7 +317,7 @@ class PopulateScript extends SinapsScript {
             $dateFormat = $this->dateService->timeToFullDate($match->date_match);
             $objMatch->date_match = $dateFormat;
 
-            if( $match->equipe_id_dom != "757" or $match->equipe_id_ext != "757") {
+            if( $match->equipe_id_dom != NULL or $match->equipe_id_ext != NULL) {
                 $objMatch->equipe_id_dom = $match->equipe_id_dom;
                 $objMatch->equipe_id_ext = $match->equipe_id_ext;
                 $equipeDom  = $objMatch->equipe_dom()->pays;
