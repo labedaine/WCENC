@@ -51,5 +51,67 @@ class ParisService {
 
 
     }
+    
+    
+    
+    public function calculerPointsParis($idMatch) {
+        
+        try {
+            $match = Match::where("id", $idMatch)->first();
+            
+            if ($match->score_dom != null && $match->score_ext != null /*&& strtotime($match->date_match) > strtotime('now') */ ) {
+                
+                $listeParis = Paris::where("match_id", $idMatch)->get();
+                foreach ($listeParis as $paris) {
+                    if (!$paris) {
+                        
+                        int $pointsAcquis = 0;
+                        int $coef = $match->phase_id;
+                        if($coef < 5) {
+                            $coef = 1;
+                        }
+                        
+                        if ($pari->score_dom != null && $pari->score_ext != null) {
+                            
+                            // score exacte
+                            if ($pari->score_dom == $match->score_dom && $pari->score_ext == $match->score_ext) {
+                                
+                                $pointsAcquis += 3*$coef;
+                                
+                            } else {
+                  
+                                // vainqueur ou match null trouver
+                                if ((($pari->score_dom == $pari->score_ext) && ($match->score_dom == $match->score_ext))
+                                 || (($pari->score_dom > $pari->score_ext) && ($match->score_dom > $match->score_ext))
+                                 || (($pari->score_dom < $pari->score_ext) && ($match->score_dom < $match->score_ext))) {
+                                    
+                                     $pointsAcquis += 1*$coef;
+                                    
+                                    // ecart exacte
+                                    if (($pari->score_dom - $pari->score_ext) == ($match->score_dom - $match->score_ext)) {
+                                        $pointsAcquis += 1*$coef;
+                                    }
+                                    
+                                } 
+                            }
+                        }
+
+                        $paris->points_acquis = $pointsAcquis;
+                        $paris->save();
+                        
+                    }
+                }
+                
+                return TRUE;
+            }
+            
+            return FALSE;
+            
+        } catch(Exception $exception) {
+            throw $exception;
+        }
+        
+        
+    }
 
 }
