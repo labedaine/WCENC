@@ -27,6 +27,7 @@ class ApiFootballDataController extends BaseController {
         $this->jsonService      = SinapsApp::make("JsonService");
         $this->dateService      = SinapsApp::make("DateService");
         $this->restClientService    = SinapsApp::make("RestClientService");
+        $this->parisService     = SinapsApp::make("ParisService");
 
         $this->api = new ApiFootballDataService();
 
@@ -90,7 +91,14 @@ var_dump($matchsDansLH);
                     $this->logger->addInfo("Sauvegarde du match effectuée avec succès");
                 }
 
+                // on lance le calcul des points acquis pour tous les paris du match
+                $this->$parisService->calculerPointsParis($match->id);
+                
             }
+            
+            // on met a jours le nombre de points acquis pour tous utilisateurs
+            $this->$parisService->miseAJourPointsUtilisateurs();
+            
             $this->logger->finirEtape(
                 "Mise à jour terminée",
                 "majMatch"

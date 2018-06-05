@@ -65,8 +65,8 @@ class ParisService {
                 foreach ($listeParis as $paris) {
                     if (!$paris) {
                         
-                        int $pointsAcquis = 0;
-                        int $coef = $match->phase_id;
+                        $pointsAcquis = 0;
+                        $coef = $match->phase_id;
                         if($coef < 5) {
                             $coef = 1;
                         }
@@ -113,5 +113,28 @@ class ParisService {
         
         
     }
+    
+    
+    
+    public function miseAJourPointsUtilisateurs() {
+    
+        $sqlQuery = self::SQL_UPDATE_TOTAL_POINTS_USER;
+        
+        $dbh = SinapsApp::make("dbConnection");
+        $stmt = $dbh->prepare($sqlQuery);
+        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+        $stmt->execute();
+        
+        return TRUE;
+    }
+    
+    
+    const SQL_UPDATE_TOTAL_POINTS_USER = <<<EOF
+    UPDATE utilisateur u SET points = (
+        SELECT SUM(p.points_acquis)
+        FROM paris p
+        WHERE utilisateur_id = u.id
+    );
+EOF;
 
 }
