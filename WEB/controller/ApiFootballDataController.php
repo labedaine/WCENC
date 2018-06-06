@@ -180,6 +180,5 @@ class ApiFootballDataController extends BaseController {
             "Récupération terminée",
             "getCompetition"
         );
-
     }
 }

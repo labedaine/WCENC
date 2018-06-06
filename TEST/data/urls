@@ -1,0 +1,9 @@
+
+# Competition
+http://api.football-data.org/v1/competitions/467/
+
+# Premier match
+http://api.football-data.org/v1/fixtures/165069
+
+# Tous les matchs de la phase 4
+http://api.football-data.org/v1/competitions/467/fixtures?matchday=4
