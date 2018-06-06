@@ -38,7 +38,7 @@ class LoginService {
     private function getLogin($username, $password) {
 
         $user = Utilisateur::where("login", $username)->first();
-        
+
         if ( $user && $user->password === md5($password)) {
 
             // L'utilisateur n'est pas actif: 402

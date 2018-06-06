@@ -345,7 +345,7 @@ class FeatureContext implements Context
         // On ferme le mock
         $this->mock->close();
 
-        var_dump($this->returnAllLevelOfLog($logger));
+        //var_dump($this->returnAllLevelOfLog($logger));
 
     }
 
@@ -503,12 +503,14 @@ class FeatureContext implements Context
     }
 
     /**
-     * @Given /^le match d'id (\d+) se joue entre <(.*)> et <(.*)>$/
+     * @Given /^le match d'id (\d+) se joue entre (\S+) et (\S+)$/
      */
     public function matchSeJoueEntre($id, $eqDom, $eqExt) {
 
+        $eqDom = str_replace("_"," ", $eqDom);
+        $eqExt = str_replace("_"," ", $eqExt);
+
         $match = Match::find($id);
-        assertNotNull($match);
 
         $eqDomObj = Equipe::where("pays", $eqDom)->first();
         assertNotNull($eqDomObj);

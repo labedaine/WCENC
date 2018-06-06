@@ -18,4 +18,36 @@ class EquipeExt extends SinapsModel {
          $matchs = array_merge($matchsDomicile, $matchsExterieur);
          return $matchs;
     }
+
+    /**
+     * Tableau de correspondance des équipes
+     */
+
+    static public $correspondancesEquipe = array(
+         "Russia" => "Russie",
+         "Saudi Arabia" => "Arabie Saoudite",
+         "Egypt" => "Egypte",
+         "Morocco" => "Maroc",
+         "Spain" => "Espagne",
+         "Australia" => "Australie",
+         "Peru" => "Pérou",
+         "Denmark" => "Danemark",
+         "Argentina" => "Argentine",
+         "Iceland" => "Islande",
+         "Croatia" => "Croatie",
+         "Serbia" => "Serbie",
+         "Brazil" => "Brésil",
+         "Switzerland" => "Suisse",
+         "Germany" => "Allemagne",
+         "Mexico" => "Mexique",
+         "Sweden" => "Suède",
+         "Korea Republic" => "Corée du sud",
+         "Belgium" => "Belgique",
+         "Tunisia" => "Tunisie",
+         "England" => "Angleterre",
+         "Poland" => "Pologne",
+         "Senegal" => "Senegal",
+         "Colombia" => "Colombie",
+         "Japan" => "Japon"
+    );
 }
