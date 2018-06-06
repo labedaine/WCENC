@@ -7,7 +7,7 @@
     <div class="col-11">
     <h3  class="titlePage">Classement Individuel</h3>
     <table id="tabParisIndiv" class="table table-hover table-sm no-gutter">
-      <thead>
+      <thead  class="thead-light">
         <tr>
           <th></th>
           <th>Login</th>

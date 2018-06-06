@@ -27,10 +27,9 @@ class ParisService {
 
           if (isset($scoreDom) && isset($scoreExt) && preg_match("/^[\d]+$/", $scoreDom) && preg_match("/^[\d]+$/", $scoreExt))
           {
-            //$user = $this->loginService->getUtilisateurDepuisToken(Cookie::get('token'));
             $match = Match::where("id", $idMatch)->first();
 
-            if (strtotime($match->date_match) < strtotime('now'))
+            if ($match->date_match > strtotime('now'))
             {
               $paris = Paris::where("match_id", $idMatch)->where("utilisateur_id", $user)->first();
               if (!$paris)
@@ -51,79 +50,83 @@ class ParisService {
 
 
     }
-    
-    
-    
+
+
+
     public function calculerPointsParis($idMatch) {
-        
+
         try {
             $match = Match::where("id", $idMatch)->first();
-            
+
             if ($match->score_dom != NULL) {
-                
+
                 $listeParis = Paris::where("match_id", $idMatch)->get();
                 foreach ($listeParis as $paris) {
                     if ($paris) {
-                        
+
                         $pointsAcquis = 0;
-                        $coef = 1;
-                        if($match->phase_id > 3) {
-                            $coef = ($match->phase_id - 2) ;
+                        $coef = $match->phase_id;
+                        if($coef < 5) {
+                            $coef = 1;
                         }
-                        
+
                         if ($paris->score_dom != NULL) {
-                        
+
                             // score exacte
                             if ($paris->score_dom == $match->score_dom && $paris->score_ext == $match->score_ext) {
-                                
+
                                 $pointsAcquis += 3*$coef;
-                                
-                            // vainqueur ou match null trouvé
-                            } else if ((($paris->score_dom == $paris->score_ext) && ($match->score_dom == $match->score_ext))
+
+                            } else {
+
+                                // vainqueur ou match null trouver
+                                if ((($paris->score_dom == $paris->score_ext) && ($match->score_dom == $match->score_ext))
                                  || (($paris->score_dom > $paris->score_ext) && ($match->score_dom > $match->score_ext))
                                  || (($paris->score_dom < $paris->score_ext) && ($match->score_dom < $match->score_ext))) {
-                                    
-                                 $pointsAcquis += 1*$coef;
-                                
-                                // ecart exacte
-                                if (($paris->score_dom - $paris->score_ext) == ($match->score_dom - $match->score_ext)) {
-                                    $pointsAcquis += 1*$coef;
-                                }    
+
+                                     $pointsAcquis += 1*$coef;
+
+                                    // ecart exacte
+                                    if (($paris->score_dom - $paris->score_ext) == ($match->score_dom - $match->score_ext)) {
+                                        $pointsAcquis += 1*$coef;
+                                    }
+
+                                }
                             }
                         }
 
                         $paris->points_acquis = $pointsAcquis;
                         $paris->save();
-                        
+
                     }
                 }
-                
+
                 return TRUE;
             }
-            
+
             return FALSE;
-            
+
         } catch(Exception $exception) {
             throw $exception;
         }
-        
-        
+
+
     }
-    
-    
+
+
     public function miseAJourPointsUtilisateurs() {
-    
+
         $sqlQuery = self::SQL_UPDATE_TOTAL_POINTS_USER;
-        
+
         $dbh = SinapsApp::make("dbConnection");
         $stmt = $dbh->prepare($sqlQuery);
         $stmt->setFetchMode(PDO::FETCH_ASSOC);
         $stmt->execute();
-        
+
         return TRUE;
     }
-    
-    
+
+
     const SQL_UPDATE_TOTAL_POINTS_USER = <<<EOF
     UPDATE utilisateur u SET points = (
         SELECT COALESCE(SUM(p.points_acquis), 0)

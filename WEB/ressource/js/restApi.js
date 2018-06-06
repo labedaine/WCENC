@@ -259,7 +259,8 @@ var RestApi = new function() {
 
         // sauvegarde paris
         sauvegarderParis : function (listParis, success, error) {
-          console.log("restapi sauvegardeParis -" + url.PARIS + "/sauvegarder");
+          console.log("restApi sauvegardeParis -" + url.PARIS + "/sauvegarder");
+          
           performPost(url.PARIS + "/sauvegarder", {
               "listParis" : listParis
           }, success, error);
@@ -269,12 +270,12 @@ var RestApi = new function() {
         getListeClassement : function (type, success, error) {
           performPost(url.CLASSEMENT, {}, success, error);
         },
-        
+
         // reglement
         getReglement : function (success, error) {
         	performGet(url.REGLEMENT, success, error);
         },
-        
+
         // *************************************
         // AUTO REFRESH
         // *************************************
