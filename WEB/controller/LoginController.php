@@ -13,7 +13,6 @@ class LoginController extends BaseController {
 
     private $TimeService;
     private $jsonService;
-    private $restClientService;
     private $loginService;
     private $utilisateurService;
 
@@ -52,49 +51,6 @@ class LoginController extends BaseController {
             return $retour;
         }
     }
-
-
-    public function verifieUserSurRestitution() {
-
-        $username = Input::get("login");
-        $password = Input::get("passwd");
-
-        $user = $this->loginService->loginDepuisConf($username, $password);
-
-        if ( ($user === 401) || ($user === 402) || ($user === 403) ) {
-            $retour = $this->jsonService->createErrorResponse($user);
-            return $retour;
-
-        } else {
-
-            try {
-                $user->password = "";
-
-                // Il faut également les applications auquel a droit l'utilisateur
-                $droits = $this->droitsService->getProfilsUtilisateur($user->id);
-
-                // Si aucun droits on sort
-                if($droits === NULL) {
-                    $user = 402;
-                    $retour = $this->jsonService->createErrorResponse(serialize($user));
-                    return $retour;
-                }
-
-                $aRetourner = array(
-                    "utilisateur"   => $user,
-                    "droits"        => $droits,
-                    "id"            => $user->id
-                );
-                $retour = $this->jsonService->createResponse(serialize($aRetourner));
-
-            } catch(Exception $e) {
-                $retour = $this->jsonService->createErrorResponse("500", $e->getMessage());
-            }
-
-            return $retour;
-        }
-    }
-
 
     /**
      * Opération de logout

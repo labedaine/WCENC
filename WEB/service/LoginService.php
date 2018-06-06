@@ -17,7 +17,6 @@ class LoginService {
 
     public function __construct() {
         $this->dateService       = App::make("DateService");
-        $this->fileService       = App::make("FileService");
     }
 
      /**

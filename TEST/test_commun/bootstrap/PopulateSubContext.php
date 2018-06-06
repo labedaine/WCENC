@@ -85,8 +85,9 @@ class PopulateSubContext implements Context
             $objUtilisateur->prenom = $unUser['nom'];
             $objUtilisateur->login = $unUser['nom'];
             $objUtilisateur->email = $unUser['nom']."@betfip.fr";
-            $objUtilisateur->password =  $unUser['password'];
+            $objUtilisateur->password =  md5($unUser['password']);
             $objUtilisateur->promotion = 0;
+            $objUtilisateur->points = 0;
             $objUtilisateur->isactif = $unUser['isActif'];
             $objUtilisateur->isadmin = $unUser['isAdmin'];
             $objUtilisateur->save();
