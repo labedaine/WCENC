@@ -59,40 +59,36 @@ class ParisService {
         try {
             $match = Match::where("id", $idMatch)->first();
             
-            if ($match->score_dom != null && $match->score_ext != null /*&& strtotime($match->date_match) > strtotime('now') */ ) {
+            if ($match->score_dom != NULL) {
                 
                 $listeParis = Paris::where("match_id", $idMatch)->get();
                 foreach ($listeParis as $paris) {
-                    if (!$paris) {
+                    if ($paris) {
                         
                         $pointsAcquis = 0;
-                        $coef = $match->phase_id;
-                        if($coef < 5) {
-                            $coef = 1;
+                        $coef = 1;
+                        if($match->phase_id > 3) {
+                            $coef = ($match->phase_id - 2) ;
                         }
                         
-                        if ($pari->score_dom != null && $pari->score_ext != null) {
-                            
+                        if ($paris->score_dom != NULL) {
+                        
                             // score exacte
-                            if ($pari->score_dom == $match->score_dom && $pari->score_ext == $match->score_ext) {
+                            if ($paris->score_dom == $match->score_dom && $paris->score_ext == $match->score_ext) {
                                 
                                 $pointsAcquis += 3*$coef;
                                 
-                            } else {
-                  
-                                // vainqueur ou match null trouver
-                                if ((($pari->score_dom == $pari->score_ext) && ($match->score_dom == $match->score_ext))
-                                 || (($pari->score_dom > $pari->score_ext) && ($match->score_dom > $match->score_ext))
-                                 || (($pari->score_dom < $pari->score_ext) && ($match->score_dom < $match->score_ext))) {
+                            // vainqueur ou match null trouvé
+                            } else if ((($paris->score_dom == $paris->score_ext) && ($match->score_dom == $match->score_ext))
+                                 || (($paris->score_dom > $paris->score_ext) && ($match->score_dom > $match->score_ext))
+                                 || (($paris->score_dom < $paris->score_ext) && ($match->score_dom < $match->score_ext))) {
                                     
-                                     $pointsAcquis += 1*$coef;
-                                    
-                                    // ecart exacte
-                                    if (($pari->score_dom - $pari->score_ext) == ($match->score_dom - $match->score_ext)) {
-                                        $pointsAcquis += 1*$coef;
-                                    }
-                                    
-                                } 
+                                 $pointsAcquis += 1*$coef;
+                                
+                                // ecart exacte
+                                if (($paris->score_dom - $paris->score_ext) == ($match->score_dom - $match->score_ext)) {
+                                    $pointsAcquis += 1*$coef;
+                                }    
                             }
                         }
 
@@ -115,7 +111,6 @@ class ParisService {
     }
     
     
-    
     public function miseAJourPointsUtilisateurs() {
     
         $sqlQuery = self::SQL_UPDATE_TOTAL_POINTS_USER;
@@ -131,9 +126,10 @@ class ParisService {
     
     const SQL_UPDATE_TOTAL_POINTS_USER = <<<EOF
     UPDATE utilisateur u SET points = (
-        SELECT SUM(p.points_acquis)
+        SELECT COALESCE(SUM(p.points_acquis), 0)
         FROM paris p
-        WHERE utilisateur_id = u.id
+        WHERE p.utilisateur_id = u.id
+        AND p.points_acquis is not null
     );
 EOF;
 

@@ -12,7 +12,9 @@ class ApiFootballDataController extends BaseController {
 
     private $test = FALSE;
     private $now = 0;
+    private $parisService;
     public $phaseEnCours = 1;
+    
 
     const DEBUT_PHASE_FINALE=4;
 
@@ -90,12 +92,11 @@ class ApiFootballDataController extends BaseController {
 
                 // on lance le calcul des points acquis pour tous les paris du match
                 $this->parisService->calculerPointsParis($match->id);
-
             }
 
             // on met a jours le nombre de points acquis pour tous utilisateurs
             $this->parisService->miseAJourPointsUtilisateurs();
-
+            
             $this->logger->finirEtape(
                 "Mise à jour terminée",
                 "majMatch"
