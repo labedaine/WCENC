@@ -81,7 +81,7 @@ class FeatureContext implements Context
 
     /** @AfterFeature */
     public static function tearDownFeature(\Behat\Behat\Hook\Scope\AfterFeatureScope $event) {
-        //Utils::truncateAll();
+        Utils::truncateAll();
     }
 
 
@@ -89,7 +89,7 @@ class FeatureContext implements Context
     public function before($event) {
 
         Utils::initFakeServeur();
-        //Utils::truncateAll();
+        Utils::truncateAll();
 
         // Récupération des différents contexts
         $environment = $event->getEnvironment();
@@ -190,6 +190,31 @@ class FeatureContext implements Context
     }
 
     /**
+     * @Given /^nous sommes le (\d+)-(\d+) (\d+)h(\d+):(\d+)$/
+     */
+
+    public function nousSommesLe($jour, $mois,$heures, $minutes, $secondes) {
+        global $heureCourante;
+
+        // Note: le temps commence à jeudi 1970-01-01 01:00:00
+        $time = mktime(0, 0, 0, $mois, $jour, 2018);
+        $heureCourante = ($heures) * 3600 + $minutes * 60 + $secondes + $time;
+
+        $heureCouranteServiceMock = m::mock("TimeService")->shouldReceive("now")->andReturnUsing(
+            function () {
+                global $heureCourante;
+                return $heureCourante;
+            }
+        )->getMock();
+
+        App::singleton(
+            "TimeService", function () use ($heureCouranteServiceMock) {
+                return $heureCouranteServiceMock;
+            }
+        );
+    }
+
+    /**
      * @Then /^je devrais avoir en memcache une valeur de (\S+) pour l\'indicateur (\S+)$/
      */
 
@@ -200,20 +225,6 @@ class FeatureContext implements Context
             $valeurData = $data->valeur;
         }
         assertEquals($valeur, $valeurData);
-    }
-
-
-    /**
-     *
-     * @Given /^je devrais avoir les utilisateurs suivants:$/
-     * @param \Behat\Gherkin\Node\TableNode $tab_utilisateur :
-     * | login | nom | prenom |
-     */
-    public function jeDevraisAvoirLesUtilisateurs(TableNode $tab_utilisateur) {
-//        var_dump($tab_utilisateur);
-        foreach( $tab_utilisateur->getHash() as $user) {
-
-        }
     }
 
     /**
@@ -520,6 +531,72 @@ class FeatureContext implements Context
 
         assertEquals($eqDomObj->id, $match->equipe_id_dom, "L'équipe domicile n'est pas correcte");
         assertEquals($eqExtObj->id, $match->equipe_id_ext, "L'équipe extérieure n'est pas correcte");
+    }
+
+
+    /** CALCUL DES POINTS **/
+
+    /**
+     * @Given /^le joueur (\S+) a un score de (\d+)$/
+     */
+    public function leJoueurAUnScoreDe($user, $points) {
+        $user = Utilisateur::where('login', $user)->first();
+
+        assertNotNull($user);
+
+        assertEquals($user->points, $points);
+    }
+
+    /**
+     *
+     * @Given /^les paris:$/
+     * @param \Behat\Gherkin\Node\TableNode $tab_pari :
+     * | login | match | score_dom | score_ext |
+     */
+    public function lesParisSuivants(TableNode $tab_pari) {
+
+        $parisService = new ParisService();
+        foreach( $tab_pari->getHash() as $pari) {
+
+            $user = Utilisateur::where('login', $pari['login'])->first();
+            $parisService->sauvegarderParis($user->id, $pari['match'], $pari['score_dom'], $pari['score_ext']);
+        }
+    }
+
+    /**
+     * @Given /^je demande le calcul des score pour le match (\d+)$/
+     */
+    public function jeDemandeLeCalculDesScoresPourMatch($matchId) {
+        $parisService = new ParisService();
+        $parisService->calculerPointsParis($matchId);
+
+    }
+
+    /**
+     * @Given /^je demande le calcul des score pour les utilisateurs$/
+     */
+    public function jeDemandeLeCalculDesScoresPourUser() {
+        $parisService = new ParisService();
+        $parisService->miseAJourPointsUtilisateurs();
+
+    }
+
+    /**
+     * @Given /^le pari de (\S+) n\'est pas pris en compte$/
+     */
+    public function pariNonPrisEnCompte($login) {
+        $user = Utilisateur::where('login', $login)->first();
+        assertNotNull($user);
+        assertEmpty($user->paris);
+    }
+
+    /**
+     * @Given /^le pari de (\S+) est pris en compte$/
+     */
+    public function pariPrisEnCompte($login) {
+        $user = Utilisateur::where('login', $login)->first();
+        assertNotNull($user);
+        assertNotEmpty($user->paris);
     }
 
     /** LOG **/

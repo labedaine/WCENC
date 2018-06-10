@@ -1,0 +1,41 @@
+{
+  "fixture": {
+    "_links": {
+      "self": {
+        "href": "http://api.football-data.org/v1/fixtures/165083"
+      },
+      "competition": {
+        "href": "http://api.football-data.org/v1/competitions/467"
+      },
+      "homeTeam": {
+        "href": "http://api.football-data.org/v1/teams/815"
+      },
+      "awayTeam": {
+        "href": "http://api.football-data.org/v1/teams/840"
+      }
+    },
+    "date": "2018-06-15T15:00:00Z",
+    "status": "FINISHED",
+    "matchday": 1,
+    "homeTeamName": "Maroc",
+    "awayTeamName": "Iran",
+    "result": {
+      "goalsHomeTeam": 0,
+      "goalsAwayTeam": 0
+    },
+    "odds": null
+  },
+  "head2head": {
+    "count": null,
+    "timeFrameStart": null,
+    "timeFrameEnd": null,
+    "homeTeamWins": null,
+    "awayTeamWins": null,
+    "draws": null,
+    "lastHomeWinHomeTeam": null,
+    "lastWinHomeTeam": null,
+    "lastAwayWinAwayTeam": null,
+    "lastWinAwayTeam": null,
+    "fixtures": []
+  }
+}

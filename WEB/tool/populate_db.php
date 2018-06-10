@@ -58,7 +58,7 @@ class PopulateScript extends SinapsScript {
                         "test",
                         SinapsScript::FACULTATIF | SinapsScript::VALUE_NONE,
                         "charge les données dans la base de test"
-                    );
+                     );
     }
 
     public function performRun() {
@@ -199,28 +199,8 @@ class PopulateScript extends SinapsScript {
         $this->logger->contexte="COMPETITION";
 
 
-        // http://api.football-data.org/v1/competitions/467/leagueTable
-
-        $this->url     = SinapsApp::getConfigValue("api.competition");
-        $url = "http://" . $this->srv . $this->url;
-        $param = array();
-
-        $status = array();
-
-        try {
-
-            $this->logger->addInfo="Demande de $url";
-            $json = $this->restClientService->getURL($url, $param, TRUE, $this->timeoutCurl, $this->apiKey);
-            $this->restClientService->throwExceptionOnError($json);
-
-        } catch (SinapsException $exc) {
-            return $exc->getCode();
-        }
-
-        $response = json_decode($json, FALSE);
-
-
-        $payload = json_decode($response->payload, FALSE);
+        $compet = $this->api->getCompetition();
+        var_dump($compet);
         $matchDay = $payload->matchday;
 
         $this->logger->finirEtape(

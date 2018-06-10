@@ -37,14 +37,6 @@ class CurlApiScript extends SinapsScript {
                          "update",
                          SinapsScript::OBLIGATOIRE | SinapsScript::VALUE_NONE,
                          "Met à jour en base de données suivant "
-                     )
-
-                     //
-                     ->startAlternative()
-                     ->addOption(
-                         "no_update",
-                         SinapsScript::OBLIGATOIRE| SinapsScript::VALUE_NONE,
-                         "Affiche les matches devant être mis à jour"
                      );
     }
 
@@ -53,19 +45,11 @@ class CurlApiScript extends SinapsScript {
         try {
 
             // On récupère les données de match à mettre à jour
-
-            $this->apiController->setPhaseEnCours();
-            $this->apiController->miseAJourMatchDansLHeure();
-            $this->apiController->majPhaseFinale();
-
             // Si on update on met à jour la base
             if(isset($this->options->update)) {
-                $this->apiController->update(TRUE);
-            }
-
-            // Sinon on montre juste
-            if(isset($this->options->no_update)) {
-                $this->apiController->update(FALSE);
+                $this->apiController->setPhaseEnCours();
+                $this->apiController->miseAJourMatchDansLHeure();
+                $this->apiController->majPhaseFinale();
             }
 
         } catch( SinapsException $e) {
