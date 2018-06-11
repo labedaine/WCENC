@@ -1,0 +1,41 @@
+{
+  "fixture": {
+    "_links": {
+      "self": {
+        "href": "http://api.football-data.org/v1/fixtures/165124"
+      },
+      "competition": {
+        "href": "http://api.football-data.org/v1/competitions/467"
+      },
+      "homeTeam": {
+        "href": "http://api.football-data.org/v1/teams/773"
+      },
+      "awayTeam": {
+        "href": "http://api.football-data.org/v1/teams/1066"
+      }
+    },
+    "date": "2018-07-03T18:00:00Z",
+    "status": "FINISHED",
+    "matchday": 4,
+    "homeTeamName": "France",
+    "awayTeamName": "Islande",
+    "result": {
+      "goalsHomeTeam": 3,
+      "goalsAwayTeam": 2
+    },
+    "odds": null
+  },
+  "head2head": {
+    "count": null,
+    "timeFrameStart": null,
+    "timeFrameEnd": null,
+    "homeTeamWins": null,
+    "awayTeamWins": null,
+    "draws": null,
+    "lastHomeWinHomeTeam": null,
+    "lastWinHomeTeam": null,
+    "lastAwayWinAwayTeam": null,
+    "lastWinAwayTeam": null,
+    "fixtures": []
+  }
+}

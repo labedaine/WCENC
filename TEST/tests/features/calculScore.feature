@@ -117,3 +117,22 @@ Fonctionnalité: Controle de la mise a jour des points après paris
         Et le match d'id 165083 a le score 0-0
         Et le joueur jack a un score de 2
         Et le joueur bob a un score de 4
+
+    Scénario: test sur les coefficients
+        Quand nous sommes le 3-7 15h00:00
+        Et la phase en cours est les phases finales
+        Alors la phase en cours a la valeur 4
+        Et je demande la mise à jour des phases finales via phase_finale_no_change_2_team_2_match
+        Et le match d'id 165123 se joue entre Russie et Arabie_Saoudite
+        Et le match d'id 165124 se joue entre France et Islande
+        Quand nous sommes le 3-7 16h00:00
+        Et les paris:
+        | login | match | score_dom | score_ext |
+        | jack | 165124 | 3 | 2 |
+        | bob  | 165124 | 4 | 3 |
+        Quand nous sommes le 3-7 22h00:00
+        Et je demande la mise à jour via match_termine_165124
+        Alors le match d'id 165124 a le statut FINISHED
+        Et le match d'id 165124 a le score 3-2
+        Et le joueur jack a un score de 6
+        Et le joueur bob a un score de 4
