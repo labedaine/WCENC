@@ -1,6 +1,6 @@
 <?php
 /**
- * Ensemble de fonctions liées à l'identification.
+ * Ensemble de fonction utiles pour le calcul des points
  *
 * PHP version 5
 *
@@ -10,14 +10,8 @@
 
 class ParisService {
 
-    // Variable liées au curl
-    // Variable liées au curl
-    protected $timeoutCurl = 5;
-    protected $url = NULL;
-    protected $srvApp = NULL;
-
     public function __construct() {
-        $this->loginService         = SinapsApp::make("LoginService");
+        $this->timeService = SinapsApp::make("TimeService");
     }
 
 
@@ -27,18 +21,24 @@ class ParisService {
 
           if (isset($scoreDom) && isset($scoreExt) && preg_match("/^[\d]+$/", $scoreDom) && preg_match("/^[\d]+$/", $scoreExt))
           {
-            $match = Match::where("id", $idMatch)->first();
+            $match = Match::find($idMatch);
 
-            if ($match->date_match > strtotime('now'))
-            {
-              $paris = Paris::where("match_id", $idMatch)->where("utilisateur_id", $user)->first();
-              if (!$paris)
-                $paris = new Paris();
-              $paris->match_id = $idMatch;
-              $paris->utilisateur_id = $user;
+            // Si le match n'est pas passé
+            if ($match->date_match > $this->timeService->now()) {
+
+              $paris = Paris::where("match_id", $idMatch)
+                            ->where("utilisateur_id", $user)
+                            ->first();
+              if (!$paris) {
+                  $paris = new Paris();
+                  $paris->match_id = $idMatch;
+                  $paris->utilisateur_id = $user;
+              }
+
               $paris->score_dom = $scoreDom;
               $paris->score_ext = $scoreExt;
               $paris->save();
+
               return TRUE;
             }
           }
@@ -56,21 +56,23 @@ class ParisService {
     public function calculerPointsParis($idMatch) {
 
         try {
-            $match = Match::where("id", $idMatch)->first();
+            $match = Match::find($idMatch);
 
-            if ($match->score_dom != NULL) {
+            if ($match->score_dom !== NULL) {
+                $listeParis = $match->paris;
 
-                $listeParis = Paris::where("match_id", $idMatch)->get();
                 foreach ($listeParis as $paris) {
                     if ($paris) {
 
                         $pointsAcquis = 0;
                         $coef = $match->phase_id;
-                        if($coef < 5) {
+                        if($coef < 4) {
                             $coef = 1;
+                        } else {
+                            $coef=$coef-2;
                         }
 
-                        if ($paris->score_dom != NULL) {
+                        if ($paris->score_dom !== NULL) {
 
                             // score exacte
                             if ($paris->score_dom == $match->score_dom && $paris->score_ext == $match->score_ext) {
@@ -84,7 +86,7 @@ class ParisService {
                                  || (($paris->score_dom > $paris->score_ext) && ($match->score_dom > $match->score_ext))
                                  || (($paris->score_dom < $paris->score_ext) && ($match->score_dom < $match->score_ext))) {
 
-                                     $pointsAcquis += 1*$coef;
+                                    $pointsAcquis += 1*$coef;
 
                                     // ecart exacte
                                     if (($paris->score_dom - $paris->score_ext) == ($match->score_dom - $match->score_ext)) {
@@ -94,10 +96,8 @@ class ParisService {
                                 }
                             }
                         }
-
                         $paris->points_acquis = $pointsAcquis;
                         $paris->save();
-
                     }
                 }
 

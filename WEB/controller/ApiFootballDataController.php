@@ -33,19 +33,20 @@ class ApiFootballDataController extends BaseController {
 
         $this->api = new ApiFootballDataService();
 
-        $this->now = $now = $this->timeService->now();
+        $this->now = $this->timeService->now();
     }
 
     public function miseAJourMatchDansLHeure() {
 
+        // Les matches qui ont déja commencé (fenêtre de trois heures)
+        $matchsDansLH  = Match::where('date_match', '>', $this->dateService->timeToUS($this->now-10800))
+                               ->where('date_match', '<', $this->dateService->timeToUS($this->now))
+                               ->get();
 
-        // Les matches qui ont déja commencé (fenêtre de deux heures)
-        $matchsDansLH  = Match::where('date_match', '>', $this->dateService->timeToUS($this->now-1800))
-                              ->where('date_match', '<', $this->dateService->timeToUS($this->now+1800))
-                              ->get();
         // Si on a récupéré une liste de match,
         // on va chercher pour chacun ses infos
         $this->logger->addInfo(sprintf("%d matchs trouvés", count($matchsDansLH)));
+
 
         if(!empty($matchsDansLH)) {
 
@@ -74,8 +75,8 @@ class ApiFootballDataController extends BaseController {
                 }
 
                 // On regarde si le score est différent de celui en base
-                if(($match->score_dom != $infoMatch->score_dom) ||
-                   ($match->score_ext != $infoMatch->score_ext)) {
+                if(($match->score_dom !== $infoMatch->score_dom) ||
+                   ($match->score_ext !== $infoMatch->score_ext)) {
 
                     $this->logger->addInfo(sprintf("score %d - %d => %d - %d",
                                                    $match->score_dom, $match->score_ext,
@@ -89,7 +90,6 @@ class ApiFootballDataController extends BaseController {
                     $match->save();
                     $this->logger->addInfo("Sauvegarde du match effectuée avec succès");
                 }
-
                 // on lance le calcul des points acquis pour tous les paris du match
                 $this->parisService->calculerPointsParis($match->id);
             }

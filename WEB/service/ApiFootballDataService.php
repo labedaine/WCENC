@@ -47,7 +47,6 @@ class ApiFootballDataService {
 
         $url = "http://" . $this->srv . $url;
         $param = array();
-
         $status = array();
 
         try {
