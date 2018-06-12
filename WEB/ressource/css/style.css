@@ -31,6 +31,25 @@ width:50%;
     border-radius: 0 !important;
 }
 
+.classementTable {
+  border-spacing: 0  !important;
+}
+
+.classementTable td{
+  background: white;
+  border: 0;
+
+}
+.classementTable th{
+  background: #95072F  !important;
+  border: none !important;
+  color: white  !important;
+}
+
+.center {
+  text-align: center;
+}
+
 .nav-tabs > li > a {
     color: #575757 !important;
 }

@@ -49,6 +49,76 @@ class ClassementController extends BaseController {
       return JsonService::createResponse($matchs);
     }
 
+    /**
+     *
+     */
+    public function getListeClassementCollectif() {
+
+      $sqlQuery = self::SQL_GET_CLASSEMENT_PROMO;
+
+      $dbh = SinapsApp::make("dbConnection");
+      $stmt = $dbh->prepare($sqlQuery);
+      $stmt->setFetchMode(PDO::FETCH_ASSOC);
+      $stmt->execute();
+      $matchs['collec'] = $stmt->fetchAll();
+
+      foreach ($matchs['collec'] as $key => $value) {
+        //echo UtilisateurExt::numToString($value['promotion']);
+        $matchs['collec'][$key]['promotion'] = UtilisateurExt::numToString($value['promotion']);
+      }
+
+      return JsonService::createResponse($matchs);
+    }
+
+    /**
+     *
+     */
+    public function getListeClassementIndiv() {
+
+
+            $sqlQuery = self::SQL_GET_CLASSEMENT;
+
+            $dbh = SinapsApp::make("dbConnection");
+            $stmt = $dbh->prepare($sqlQuery);
+            $stmt->setFetchMode(PDO::FETCH_ASSOC);
+            $stmt->execute();
+            $matchs['indiv'] = $stmt->fetchAll();
+
+
+
+            foreach ($matchs['indiv'] as $key => $value) {
+
+              //echo UtilisateurExt::numToString($value['promotion']);
+              $matchs['indiv'][$key]['promotion'] = UtilisateurExt::numToString($value['promotion']);
+
+            }
+
+
+            return JsonService::createResponse($matchs);
+    }
+
+    /**
+     *
+     */
+    public function getListeClassementPromo() {
+
+            $sqlQuery = self::SQL_GET_CLASSEMENT;
+
+            $dbh = SinapsApp::make("dbConnection");
+            $stmt = $dbh->prepare($sqlQuery);
+            $stmt->setFetchMode(PDO::FETCH_ASSOC);
+            $stmt->execute();
+            $matchs['indiv'] = $stmt->fetchAll();
+
+            foreach ($matchs['indiv'] as $key => $value) {
+              $matchs['indiv'][$key]['promotion'] = UtilisateurExt::numToString($value['promotion']);
+              $value['promotxt'] = UtilisateurExt::numToString($value['promotion']);
+              $matchs['promo'][$value['promotion']][] = $value;
+            }
+
+            return JsonService::createResponse($matchs);
+    }
+
     const SQL_GET_CLASSEMENT = <<<EOF
     SELECT promotion, points, prenom, nom, login
     FROM utilisateur
