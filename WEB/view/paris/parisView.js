@@ -111,6 +111,10 @@ var ParisViewClass = function(args) {
                    success: function(result){
                        $('#contenuParis').html(result);
                        $('#contenuParis').show();
+                       $('#tabParis').before("<p style='font-size:12px'><i class='fas fa-question-circle' style='color:blue'></i><i> Vos pronostics ne sont pas définitifs tant que le match n'a pas commencé... Changez les à votre guise.</i></p>");
+                       if($("td:contains(Equipe inconnu)").length>1) {
+                           $('#tabParis').before("<p style='font-size:12px'><i class='fas fa-question-circle' style='color:blue'></i><i> Les équipes de phase finales seront mises à jour automatiquement dès qu'elles seront connues. Vous n'êtes pas obligés de pronostiquer sans connaitre les équipes.</i></p>");
+                       }
                    },
                    error: function(msg, textStatus, errorThrown) {
                        console.log("Status: " + textStatus);

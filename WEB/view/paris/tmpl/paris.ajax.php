@@ -13,7 +13,7 @@ setlocale(LC_TIME, "fr_FR");
         <?php else: ?>
           <td><img src="ressource/img/drapeaux/drapeau-<?php echo strtolower($match["pays1"]); ?>.png"/></td>
         <?php endif; ?>
-        <td><?php echo $match["pays1"]? $match["pays1"] : "Equipe inconnu"; ?></td>
+        <td><?php echo $match["pays1"]? $match["pays1"] : "Equipe inconnue"; ?></td>
         <?php if (strtotime($match["date_match"]) > strtotime('now')): ?>
           <td class="paris"><input class="inputParisDom" type="number" name="idequipe_match" data-idequipe="<?php echo $match["equipe_id_dom"];?>" data-equipe="dom" min="0" value="<?php echo $match["paris_dom"];?>"></td>
           <td>-</td>
@@ -23,7 +23,7 @@ setlocale(LC_TIME, "fr_FR");
           <td class="resultat"><span class="rounded-circle"><?php echo $match["score_dom"]; ?></span>-<span class="rounded-circle"><?php echo $match["score_ext"]; ?></span></td>
           <td class="paris"></td>
         <?php endif; ?>
-        <td><?php echo $match["pays2"]? $match["pays2"] : "Equipe inconnu"; ?></td>
+        <td><?php echo $match["pays2"]? $match["pays2"] : "Equipe inconnue"; ?></td>
         <?php if ($match["pays2"] == "" ):?>
           <td><i class="fas fa-question"></i></td>
         <?php else: ?>
@@ -35,3 +35,4 @@ setlocale(LC_TIME, "fr_FR");
     <?php endforeach; ?>
   </tbody>
 </table>
+
