@@ -78,7 +78,6 @@ var ParisViewClass = function(args) {
             }
           });
 
-          console.log(listParis);
           RestApi.sauvegarderParis(listParis, function(data) {
               if (data.success) {
                 console.log("Sauvegarde terminée");
@@ -111,10 +110,19 @@ var ParisViewClass = function(args) {
                    success: function(result){
                        $('#contenuParis').html(result);
                        $('#contenuParis').show();
+
+                       // Mise en forme
                        $('#tabParis').before("<p style='font-size:12px'><i class='fas fa-question-circle' style='color:blue'></i><i> Vos pronostics ne sont pas définitifs tant que le match n'a pas commencé... Changez les à votre guise.</i></p>");
                        if($("td:contains(Equipe inconnu)").length>1) {
                            $('#tabParis').before("<p style='font-size:12px'><i class='fas fa-question-circle' style='color:blue'></i><i> Les équipes de phase finales seront mises à jour automatiquement dès qu'elles seront connues. Vous n'êtes pas obligés de pronostiquer sans connaitre les équipes.</i></p>");
                        }
+
+                       // Bon css au bon endroit
+                       $('tr[etat]').each(function() {
+                           var etat = $(this).attr('etat');
+                           var classEtat = "biseauteEtat" + etat;
+                           $(this).find('span').first().addClass(classEtat);
+                       });
                    },
                    error: function(msg, textStatus, errorThrown) {
                        console.log("Status: " + textStatus);

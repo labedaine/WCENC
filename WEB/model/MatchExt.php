@@ -24,4 +24,11 @@ class MatchExt extends SinapsModel {
          $equipe = Equipe::find($this->equipe_id_ext);
          return $equipe;
     }
+
+    public static $etatsMatch = array(  1 => "A DÉFINIR",
+                                        2 => "A VENIR",
+                                        3 => "REPORTÉ",
+                                        4 => "ANNULÉ",
+                                        5 => "EN COURS",
+                                        6 => "TERMINÉ");
 }

@@ -32,18 +32,18 @@ class ParisController extends BaseController {
     public function getListeMatch() {
 
       // Valeur par défaut groupe A
-      $groupe = Input::get('grp', "A");
-      if (preg_match("/[A-H]/", $groupe))
-      {
-        $sqlQuery = self::SQL_LISTE_GROUPES;
-      }
-      else {
+      $groupe = Input::get('grp', "1");
 
-        $sqlQuery = self::SQL_LISTE_MATCH_PHASE;
-        $corresp = array(1 => 7, 2 => 6, 4 => 5, 8 => 4);
-        $groupe = $corresp[$groupe];
-
+      //~ if (preg_match("/[A-H]/", $groupe))
+      //~ {
+        //~ $sqlQuery = self::SQL_LISTE_GROUPES;
+      //~ }
+      if (!preg_match("/^1|2|3|4|5|6|7|8$/", $groupe)) {
+          $groupe = "1";
       }
+
+      $sqlQuery = self::SQL_LISTE_MATCH_PHASE;
+
       $user = SinapsApp::utilisateurCourant()->id;
 
       $dbh = SinapsApp::make("dbConnection");
@@ -51,6 +51,10 @@ class ParisController extends BaseController {
       $stmt->setFetchMode(PDO::FETCH_ASSOC);
       $stmt->execute(array('groupe' => $groupe, 'id' => $user));
       $matchs = $stmt->fetchAll();
+
+      foreach($matchs as $key => $match) {
+          $matchs[$key]['etat'] = MatchExt::$etatsMatch[$match["etat_id"]];
+      }
 
       return JsonService::createResponse($matchs);
 
@@ -99,13 +103,14 @@ EOF;
         equipe_id_dom,
         e1.pays as "pays1",
         m.score_dom as "score_dom",
-        e1.code_groupe,
+        e1.code_groupe as "groupe1",
         equipe_id_ext,
         e2.pays as "pays2",
         m.score_ext as "score_ext",
-        e2.code_groupe,
+        e2.code_groupe as "groupe2",
         p.score_dom as "paris_dom",
         p.score_ext as "paris_ext",
+        p.points_acquis,
         etat_id
     FROM Match m
     LEFT JOIN equipe e1
@@ -115,7 +120,8 @@ EOF;
     LEFT JOIN paris p
         ON p.match_id = m.id
         AND p.utilisateur_id = :id
-        WHERE m.phase_id = :groupe;
+        WHERE m.phase_id = :groupe
+    ORDER BY m.date_match ASC;
 EOF;
 
 
