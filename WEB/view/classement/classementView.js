@@ -16,7 +16,10 @@ var ClassementViewClass = function(args) {
         timers : {},
 
         initialize : function() {
-
+          if (!args[0])
+          {
+            args[0] = "Individuel";
+          }
         },
 
         renderView : function() {
@@ -27,6 +30,8 @@ var ClassementViewClass = function(args) {
         miseEnForme : function() {
             // on crée les jqContainers
             this.initToolTips();
+            $(".activeGroupe").removeClass('activeGroupe');
+            $(".classementNav li a[href='#classement/" + args[0] + "']").parent('li').addClass('activeGroupe');
             this.chargementClassement();
 
 
@@ -46,6 +51,7 @@ var ClassementViewClass = function(args) {
 
         chargementClassement : function () {
           var tclass = this;
+          var type = args[0];
 
           RestApi.getListeClassement({}, function(data) {
               if (data.payload) {
@@ -58,7 +64,8 @@ var ClassementViewClass = function(args) {
                    data: {
                      dataCollec: data.payload.collec,
                      dataIndiv: data.payload.indiv,
-                     dataPromo: data.payload.promo
+                     dataPromo: data.payload.promo,
+                     type: type
 
                     },
                    success: function(result) {
