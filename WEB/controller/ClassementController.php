@@ -127,7 +127,7 @@ class ClassementController extends BaseController {
 EOF;
 
     const SQL_GET_CLASSEMENT_PROMO = <<<EOF
-    SELECT promotion, SUM(points) as total, COUNT(id) as nb, SUM(points) / COUNT(id) as moyenne
+    SELECT promotion, SUM(points) as total, COUNT(id) as nb, ROUND(( SUM(points) / COUNT(id) ), 2) as moyenne
     FROM utilisateur
     WHERE promotion != 0
     GROUP BY promotion
