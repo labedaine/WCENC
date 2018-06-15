@@ -137,7 +137,7 @@ var LoginViewClass = function(args) {
                         if (data.success) {
                             // On affiche une popUp qui confirme l'inscription
                             // avec le message qui va bien
-                            MessageBox("Votre inscription a été prise en compte. <br/>Vous recevrez un email pour confirmer l'activation de votre compte.",
+                            MessageBox("Votre inscription a été prise en compte. <br/>Vous recevrez un email pour confirmer l'activation de votre compte.<br/><i>(Il sera peut-être dans les spams)</i>",
                             "Inscription" );
 
                         } else {
