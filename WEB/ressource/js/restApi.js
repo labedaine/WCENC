@@ -129,41 +129,6 @@ var RestApi = new function() {
         },
 
         // ************************************
-        // SERVICES COMMUNS
-        // ************************************
-        getMessageAccueil : function(success, error) {
-            performGet(url.COMMUN  + "/messageAccueil", success, error);
-        },
-
-        // Récupère la liste des rapports en fonction du profil de l'utilisateur
-        getListeRapports: function(success, error) {
-            var niveauProfilUtilisateur = application.user.droits.profils.monProfil;
-            performPost(url.COMMUN + "/rapports/liste", {
-                            "niveauProfilUtilisateur" : niveauProfilUtilisateur
-                        }, success, error);
-        },
-        // ************************************
-        // Fonction qui retourne la liste des applications choisies à filtrer en base
-        // ************************************
-        getListeApplicationsChoisies : function() {
-            listeDefaut = ["0"];
-
-            if (application === null)
-                return listeDefaut;
-
-            if (application.user === null)
-                return listeDefaut;
-
-            if( application.user.mes_filtres.applicationsChoisies === null )
-                return listeDefaut;
-
-            if( application.user.mes_filtres.applicationsChoisies.length === 0 )
-                return listeDefaut;
-
-            return application.user.mes_filtres.applicationsChoisies;
-
-        },
-        // ************************************
         // AUTHENTIFICATION
         // ************************************
         login : function(login, password, success, error) {
@@ -220,9 +185,11 @@ var RestApi = new function() {
             },success, error);
         },
 
-        /*supprimerUtilisateur : function(id, success, error) {
-            performDelete(url.USER + "/supprimer/" + id, success, error);
-        },*/
+        getParisUtilisateur : function(userId, success, error) {
+            performPost(url.USER + "/parisAutre",
+                { userId : userId},
+                success, error);
+        },
 
 
         // *****************************************
@@ -260,7 +227,7 @@ var RestApi = new function() {
         // sauvegarde paris
         sauvegarderParis : function (listParis, success, error) {
           console.log("restApi sauvegardeParis -" + url.PARIS + "/sauvegarder");
-          
+
           performPost(url.PARIS + "/sauvegarder", {
               "listParis" : listParis
           }, success, error);
@@ -273,7 +240,7 @@ var RestApi = new function() {
 
         // reglement
         getReglement : function (success, error) {
-        	performGet(url.REGLEMENT, success, error);
+            performGet(url.REGLEMENT, success, error);
         },
 
         // *************************************

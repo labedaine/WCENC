@@ -77,6 +77,84 @@ var ClassementViewClass = function(args) {
                          "language": { "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/French.json"  }
                           });
                        $('#contenuClassement').show();
+
+                       // Evenement sur les boutons
+                       $('tr[ligne]').each(function() {
+                            var id = $(this).attr('id');
+                            var login = $(this).attr('login');
+
+                            $(this).find('button').on('click', function() {
+
+                                RestApi.getParisUtilisateur(id, function(data) {
+
+                                    if(data.success) {
+                                        var payload = data.payload;
+                                        var html = "";
+
+                                        html += '<h3 class="titlePage">légende</h3><div>';
+                                        html += '<div class="p-3 mb-2 bg-warning text-white pariUtilisateur">3 points</div>';
+                                        html += '<div class="p-3 mb-2 bg-danger text-white pariUtilisateur">2 points</div>';
+                                        html += '<div class="p-3 mb-2 bg-secondary text-white pariUtilisateur">1 points</div>';
+                                        html += '<div class="p-3 mb-2 bg-dark text-white pariUtilisateur">0 points</div>';
+                                        html += '<div style="clear:both"></div>';
+                                        html += "</div>";
+
+                                        var phase = "";
+
+                                        $.each(payload, function(index, value) {
+
+                                            if(phase != value.libelle) {
+                                                if(phase != "") {
+                                                    html += "</div><div style='clear:both'></div>";
+                                                }
+                                                html += "<h3 class='titlePage'>" + value.libelle + "</h3><div>";
+                                                phase = value.libelle;
+                                            }
+
+                                            var classPari = "bg-info";
+                                            if(value.paris_dom !== null && value.paris_ext != null) {
+                                                switch(value.points_acquis) {
+                                                    case 0:classPari = "bg-dark";
+                                                    break;
+                                                    case 1:classPari = "bg-secondary";
+                                                    break;
+                                                    case 2:classPari = "bg-danger";
+                                                    break;
+                                                    case 3:classPari = "bg-warning";
+                                                    break;
+                                                }
+                                            } else {
+                                                classPari = "bg-light";
+                                            }
+
+                                            html += '<div class="p-3 mb-2 '+classPari+' text-white pariUtilisateur">';
+                                            html += '<img style="padding:2px" src="ressource/img/drapeaux/drapeau-'+(value.pays1).toLowerCase()+'.png" title="'+value.pays1+'"/>';
+
+                                            if(value.paris_dom !== null && value.paris_ext != null) {
+                                                html += '<span style="padding:2px">' + value.paris_dom + '</span><span style="padding:2px">  -  </span><span style="padding:2px">' + value.paris_ext + "</span>";
+                                            } else {
+                                                html += '<span style="padding:2px;font-size:10px">Aucun pari</span>';
+                                            }
+
+
+                                            html += '<img style="padding:2px" src="ressource/img/drapeaux/drapeau-'+(value.pays2).toLowerCase()+'.png" title="'+value.pays2+'"/>';
+                                            html += "</div>";
+                                        });
+
+                                        html += "</div><div style='clear:both'></div>";
+
+                                        MessageBoxLarge(html, "Liste des paris de " + login);
+
+                                        // Un ascenseur pour faire joli
+                                        $('.bootbox-body').css('overflow-x','auto').css('max-height','350px');
+                                        $('.bootbox-body').find('.bg-light').css('border', '1px solid black').find('span').css('color', 'black');
+
+                                    } else {
+                                        ErrorMessageBox('Erreur lors de la récupération des paris de '+login);
+                                    }
+                                });
+                            });
+                       });
                    },
                    error: function(msg, textStatus, errorThrown) {
                        console.log("Status: " + textStatus);

@@ -26,6 +26,7 @@ class ParisController extends BaseController {
 
       return JsonService::createResponse($listParis);
     }
+
     /**
      * Récupère la liste des groupes de l'utilisateur spécifié
      */
@@ -68,6 +69,25 @@ class ParisController extends BaseController {
       // }
 
 
+    }
+
+    /**
+     * Récupère la liste des groupes de l'utilisateur spécifié
+     */
+    public function getListeParisUser() {
+
+      // Valeur par défaut groupe A
+      $userId = Input::get('userId');
+
+      $sqlQuery = self::SQL_LISTE_PARIS_AUTRE;
+
+      $dbh = SinapsApp::make("dbConnection");
+      $stmt = $dbh->prepare($sqlQuery);
+      $stmt->setFetchMode(PDO::FETCH_ASSOC);
+      $stmt->execute(array( 'id' => $userId));
+      $paris = $stmt->fetchAll();
+
+      return JsonService::createResponse($paris);
     }
 
     const SQL_LISTE_GROUPES = <<<EOF
@@ -124,6 +144,30 @@ EOF;
     ORDER BY m.date_match ASC;
 EOF;
 
-
+    const SQL_LISTE_PARIS_AUTRE = <<<EOF
+    SELECT
+        ph.libelle,
+        m.id as "id",
+        e1.pays as "pays1",
+        m.score_dom as "score_dom",
+        e2.pays as "pays2",
+        m.score_ext as "score_ext",
+        p.score_dom as "paris_dom",
+        p.score_ext as "paris_ext",
+        p.points_acquis,
+        etat_id
+    FROM Match m
+    LEFT JOIN equipe e1
+        ON m.equipe_id_dom = e1.id
+    LEFT JOIN phase ph
+        ON m.phase_id = ph.id
+    LEFT JOIN equipe e2
+        ON m.equipe_id_ext = e2.id
+    LEFT JOIN paris p
+        ON p.match_id = m.id
+        AND p.utilisateur_id = :id
+    WHERE m.etat_id = 6
+    ORDER BY m.date_match DESC;
+EOF;
 
 }

@@ -82,6 +82,9 @@ var ParisViewClass = function(args) {
               if (data.success) {
                 console.log("Sauvegarde terminée");
                 console.log(data);
+                MessageBox('Vos paris ont été pris en compte');
+              } else {
+                 ErrorMessageBox('Erreur lors de la prise en compte de vos paris.');
               }
 
             }, function(data) {  console.log(data);});

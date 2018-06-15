@@ -30,7 +30,7 @@ setlocale(LC_TIME, "fr_FR");
           <td><img src="ressource/img/drapeaux/drapeau-<?php echo strtolower($match["pays1"]); ?>.png"/></td>
         <?php endif; ?>
         <td><?php echo $match["pays1"]? $match["pays1"] : "Equipe inconnue"; ?></td>
-        <?php if($match["etat_id"] != 6): ?>
+        <?php if(in_array($match["etat_id"], array(1,2))): ?>
           <td class="paris"><input class="inputParisDom" type="number" name="idequipe_match" data-idequipe="<?php echo $match["equipe_id_dom"];?>" data-equipe="dom" min="0" value="<?php echo $match["paris_dom"];?>"></td>
           <td>-</td>
           <td class="paris"><input class="inputParisExt" type="number" name="idequipe_match" data-idequipe="<?php echo $match["equipe_id_ext"];?>" data-equipe="ext" min="0" value="<?php echo $match["paris_ext"];?>"></td>

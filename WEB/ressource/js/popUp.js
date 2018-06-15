@@ -40,7 +40,7 @@ function MsgBoxErreurCritique(message, title, callback){
     }
 
     bootbox.dialog({
-      size: "large",
+      size: "medium",
       title: title,
       message: message,
       buttons: {
@@ -94,7 +94,7 @@ function ErrorMessageBox(message, title, callback){
     $(".modal-title").addClass("text-white");
 }
 
-function MessageBox(message, title, callback){
+function MessageBoxLarge(message, title, callback){
 
     if (arguments.length === 2) {// if only two arguments were supplied
         if (Object.prototype.toString.call(title) === "[object Function]") {
@@ -115,6 +115,43 @@ function MessageBox(message, title, callback){
 
     bootbox.dialog({
       size: "large",
+      title: title,
+      message: message,
+      buttons: {
+        ok: {
+            label: "Ok",
+            className: 'btn-success',
+            callback: callback()
+        }
+      },
+      callback: function(){ callback(); }
+    });
+
+    $(".modal-header").addClass("bg-success");
+    $(".modal-title").addClass("text-white");
+}
+
+function MessageBox(message, title, callback){
+
+    if (arguments.length === 2) {// if only two arguments were supplied
+        if (Object.prototype.toString.call(title) === "[object Function]") {
+            callback = title;
+            title = 'Erreur';
+        }
+    }
+
+    if (callback === undefined) {
+        callback = (function () {
+            return;
+        });
+    }
+
+    if (title === undefined) {
+        title = 'Succès';
+    }
+
+    bootbox.dialog({
+      size: "medium",
       title: title,
       message: message,
       buttons: {

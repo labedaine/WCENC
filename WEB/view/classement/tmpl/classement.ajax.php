@@ -13,16 +13,18 @@
             <th>Prénom</th>
             <th>Promo</th>
             <th>Points</th>
+            <th>Paris</th>
           </tr>
         </thead>
         <tbody>
           <?php foreach ($classementIndiv as $key => $value): ?>
-            <tr>
+            <tr ligne id="<?php echo $value['id']; ?>" login="<?php echo $value['login']; ?>">
               <td class="center"><?php echo $key + 1 ; ?></td>
               <td><?php echo $value['login']; ?></td>
               <td><?php echo $value['prenom']; ?></td>
               <td><?php echo $value['promotion']; ?></td>
               <td><?php echo $value['points']; ?></td>
+              <td><button type="button" class="btn btn-primary">Voir ses paris terminés</button></td>
             </tr>
           <?php endforeach; ?>
         </tbody>
@@ -65,16 +67,18 @@
             <th>Prénom</th>
             <th>Promo</th>
             <th>Points</th>
+            <th>Paris</th>
           </tr>
         </thead>
         <?php foreach ($classementPromo as $numPromo => $promo): ?>
           <?php foreach ($promo as $key => $value): ?>
-            <tr class="ligneInter" data-promo="<?php echo $numPromo; ?>">
+            <tr ligne id="<?php echo $value['id']; ?>" login="<?php echo $value['login']; ?>" class="ligneInter" data-promo="<?php echo $numPromo; ?>">
               <td><?php echo $key + 1; ?></td>
               <td><?php echo $value['login']; ?></td>
               <td><?php echo $value['prenom']; ?></td>
               <td><?php echo $value['promotxt']; ?></td>
               <td><?php echo $value['points']; ?></td>
+              <td><button type="button" class="btn btn-primary">Voir ses paris terminés</button></td>
             </tr>
           <?php endforeach; ?>
         <?php endforeach; ?>
