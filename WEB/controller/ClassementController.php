@@ -35,6 +35,7 @@ class ClassementController extends BaseController {
       foreach ($matchs['collec'] as $key => $value) {
         //echo UtilisateurExt::numToString($value['promotion']);
         $matchs['collec'][$key]['promotion'] = UtilisateurExt::numToString($value['promotion']);
+        $matchs['collec'][$key]['moyenne'] = round($matchs['collec'][$key]['total'] / $matchs['collec'][$key]['nb'], 2);
       }
 
       foreach ($matchs['indiv'] as $key => $value) {
@@ -114,6 +115,8 @@ class ClassementController extends BaseController {
               $matchs['indiv'][$key]['promotion'] = UtilisateurExt::numToString($value['promotion']);
               $value['promotxt'] = UtilisateurExt::numToString($value['promotion']);
               $matchs['promo'][$value['promotion']][] = $value;
+
+
             }
 
             return JsonService::createResponse($matchs);
@@ -127,7 +130,7 @@ class ClassementController extends BaseController {
 EOF;
 
     const SQL_GET_CLASSEMENT_PROMO = <<<EOF
-    SELECT promotion, SUM(points) as total, COUNT(id) as nb, ROUND(( SUM(points) / COUNT(id) ), 2) as moyenne
+    SELECT promotion, SUM(points) as total, COUNT(id) as nb, 0 as moyenne
     FROM utilisateur
     WHERE promotion != 0
     GROUP BY promotion
