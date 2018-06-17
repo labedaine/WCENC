@@ -90,8 +90,10 @@ class ApiFootballDataController extends BaseController {
                     $match->save();
                     $this->logger->addInfo("Sauvegarde du match effectuée avec succès");
                 }
-                // on lance le calcul des points acquis pour tous les paris du match
-                $this->parisService->calculerPointsParis($match->id);
+                if($match->etat_id == 6) {
+                     // on lance le calcul des points acquis pour tous les paris du match
+                     $this->parisService->calculerPointsParis($match->id);
+                }
             }
 
             // on met a jours le nombre de points acquis pour tous utilisateurs
