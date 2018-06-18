@@ -74,7 +74,7 @@ class ParisService {
                         }
 
                         if ($paris->score_dom !== NULL) {
-
+                            $pointsAcquis = 0;
                             // score exacte
                             if ($paris->score_dom == $match->score_dom && $paris->score_ext == $match->score_ext) {
 
@@ -95,9 +95,7 @@ class ParisService {
                                     }
 
                                 }
-                            } else {
-                                $pointsAcquis = 0;
-                            }
+                            } 
                         }
                         $paris->points_acquis = $pointsAcquis;
                         $paris->save();
