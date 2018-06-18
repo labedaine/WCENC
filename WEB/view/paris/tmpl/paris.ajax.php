@@ -4,7 +4,7 @@
 setlocale(LC_TIME, "fr_FR");
 ?>
 <h3  class="titlePage">Liste des matchs</h3>
-<button type="button" class="btn btn-primary" id="sauvParis">Sauvegarder vos paris</button>
+<button type="button" class="btn btn-primary" id="sauvParis" style="position:fixed;right:20px;z-index:999;margin:10px">Sauvegarder vos paris</button>
 <table id="tabParis" class="table table-hover table-sm no-gutter">
   <tbody>
     <?php foreach ($data as $match): ?>
