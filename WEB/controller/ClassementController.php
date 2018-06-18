@@ -34,12 +34,13 @@ class ClassementController extends BaseController {
       }
 
       // Maintenant on tri le tableau par ordre de pari a 3 points gagnés
-      /*usort($matchs['indiv'], function($a, $b) {
+      usort($matchs['indiv'], function($a, $b) {
         if($a['points'] == $b['points']) {
             if($a['p3'] == $b['p3']) {
                 if($a['p2'] == $b['p2']) {
                     if($a['p1'] == $a['p1']) {
-                        return $a['nbPari'] < $b['nbPari'];
+                        //return $a['nbPari'] < $b['nbPari'];
+                        return 0;
                     } else {
                         return $a['p1'] < $b['p1'];
                     }
@@ -51,7 +52,7 @@ class ClassementController extends BaseController {
             }
         }
         return $a['points'] < $b['points'];
-      });*/
+      });
 
       $sqlQuery = self::SQL_GET_CLASSEMENT_PROMO;
 
