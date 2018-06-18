@@ -37,7 +37,7 @@
             <th>Promo</th>
             <th>Points</th>
             <th>Nb paris</th>
-            <th>Moyenne points/joueur</th>
+            <th>Moyenne points/paris</th>
           </tr>
           <?php foreach ($classementCollec as $key => $value): ?>
             <tr>
