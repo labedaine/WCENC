@@ -36,8 +36,8 @@
             <th></th>
             <th>Promo</th>
             <th>Points</th>
-            <th>Nb parieur</th>
-            <th>Moyenne points/joueurs</th>
+            <th>Nb paris</th>
+            <th>Moyenne points/joueur</th>
           </tr>
           <?php foreach ($classementCollec as $key => $value): ?>
             <tr>
