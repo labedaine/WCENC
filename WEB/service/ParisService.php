@@ -95,10 +95,11 @@ class ParisService {
                                     }
 
                                 }
+                            } else {
+                                $pointsAcquis = 0;
                             }
                         }
                         $paris->points_acquis = $pointsAcquis;
-                        var_dump($pointsAcquis);
                         $paris->save();
                     }
                 }
