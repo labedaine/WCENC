@@ -13,6 +13,7 @@
             <th>Prénom</th>
             <th>Promo</th>
             <th>Points</th>
+            <th>Détail/paris</th>
             <th>Paris</th>
           </tr>
         </thead>
@@ -24,6 +25,11 @@
               <td><?php echo $value['prenom']; ?></td>
               <td><?php echo $value['promotion']; ?></td>
               <td><?php echo $value['points']; ?></td>
+              <td>
+                  <span class="rounded-circle bg-warning text-white rondpoint"><?php echo $value['p3']; ?></span>
+                  <span class="rounded-circle bg-danger text-white rondpoint"><?php echo $value['p2']; ?></span>
+                  <span class="rounded-circle bg-secondary text-white rondpoint"><?php echo $value['p1']; ?></span>
+              </td>
               <td><button type="button" class="btn btn-primary">Voir ses paris terminés</button></td>
             </tr>
           <?php endforeach; ?>
