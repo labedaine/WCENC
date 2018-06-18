@@ -401,6 +401,7 @@ body {
   and (device-height: 640px)
   and (-webkit-device-pixel-ratio: 2) {
     #sign { display:none !important; }
+    #panneau { width: 100%;}
 }
 
 #signGlob {
