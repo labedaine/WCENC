@@ -58,9 +58,10 @@ class ParisService {
         try {
             $match = Match::find($idMatch);
 
-            if ($match->score_dom !== NULL) {
-                $listeParis = $match->paris;
+            // Si le match est terminé
+            if ($match->etat_id == 6) {
 
+                $listeParis = $match->paris;
                 foreach ($listeParis as $paris) {
                     if ($paris) {
 
@@ -97,6 +98,7 @@ class ParisService {
                             }
                         }
                         $paris->points_acquis = $pointsAcquis;
+                        var_dump($pointsAcquis);
                         $paris->save();
                     }
                 }
