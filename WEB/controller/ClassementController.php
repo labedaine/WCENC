@@ -26,10 +26,32 @@ class ClassementController extends BaseController {
            $pari3 = Paris::where('points_acquis', 3)->where('utilisateur_id', $match['id'])->count();
            $pari2 = Paris::where('points_acquis', 2)->where('utilisateur_id', $match['id'])->count();
            $pari1 = Paris::where('points_acquis', 1)->where('utilisateur_id', $match['id'])->count();
+           $nbPari = Paris::where('utilisateur_id', $match['id'])->count();
            $matchs['indiv'][$key]['p3'] = $pari3;
            $matchs['indiv'][$key]['p2'] = $pari2;
            $matchs['indiv'][$key]['p1'] = $pari1;
+           $matchs['indiv'][$key]['nbPari'] = $nbPari;
       }
+
+      // Maintenant on tri le tableau par ordre de pari a 3 points gagnés
+      usort($matchs['indiv'], function($a, $b) {
+        if($a['points'] == $b['points']) {
+            if($a['p3'] == $b['p3']) {
+                if($a['p2'] == $b['p2']) {
+                    if($a['p1'] == $a['p1']) {
+                        return $a['nbPari'] < $b['nbPari'];
+                    } else {
+                        return $a['p1'] < $b['p1'];
+                    }
+                } else {
+                    return $a['p2'] < $b['p2'];
+                }
+            } else {
+                return $a['p3'] < $b['p3'];
+            }
+        }
+        return $a['points'] < $b['points'];
+      });
 
       $sqlQuery = self::SQL_GET_CLASSEMENT_PROMO;
 
