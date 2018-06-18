@@ -396,13 +396,7 @@ body {
   -webkit-box-pack: center;
   justify-content: center;
 }
-@media screen
-  and (device-width: 320px)
-  and (device-height: 640px)
-  and (-webkit-device-pixel-ratio: 2) {
-    #sign { display:none !important; }
-    #panneau { width: 100%;}
-}
+
 
 #signGlob {
   background: linear-gradient(135deg,#95072f 5%,#d80f09 100%);
@@ -596,8 +590,11 @@ html, body {
     margin: 0;
 }
 
-@media screen and (max-width: 700px) {
-  #sign {
-    display: none;
-  }
+@media screen
+  and (device-width: 320px)
+  and (device-height: 640px)
+  and (-webkit-device-pixel-ratio: 2) {
+    #sign { display:none !important; }
+    #panneau, #nav-connexion { width: 100% !important;}
+
 }
