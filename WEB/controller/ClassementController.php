@@ -22,7 +22,14 @@ class ClassementController extends BaseController {
       $stmt->execute();
       $matchs['indiv'] = $stmt->fetchAll();
 
-
+      foreach($matchs['indiv'] as $key => $match) {
+           $pari3 = Paris::where('points_acquis', 3)->where('utilisateur_id', $match['id'])->count();
+           $pari2 = Paris::where('points_acquis', 2)->where('utilisateur_id', $match['id'])->count();
+           $pari1 = Paris::where('points_acquis', 1)->where('utilisateur_id', $match['id'])->count();
+           $matchs['indiv'][$key]['p3'] = $pari3;
+           $matchs['indiv'][$key]['p2'] = $pari2;
+           $matchs['indiv'][$key]['p1'] = $pari1;
+      }
 
       $sqlQuery = self::SQL_GET_CLASSEMENT_PROMO;
 
