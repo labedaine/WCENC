@@ -384,6 +384,7 @@ body {
     box-sizing: border-box;
 }
 
+
 #sign {
   display: -ms-flexbox;
   display: -webkit-box;
@@ -394,6 +395,10 @@ body {
   align-items: center;
   -webkit-box-pack: center;
   justify-content: center;
+}
+
+@media screen and (max-width:705px) {
+    #sign { display: none; }
 }
 
 #signGlob {
