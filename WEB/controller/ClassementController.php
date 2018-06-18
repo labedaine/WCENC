@@ -142,8 +142,10 @@ EOF;
         COUNT(p.id) as nb,
         0 as moyenne
     FROM utilisateur u
-     JOIN paris p ON p.utilisateur_id = u.id
+    JOIN paris p ON p.utilisateur_id = u.id
+    JOIN match m ON p.match_id = m.id
     WHERE u.promotion != 0
+    AND m.etat_id = 6
     GROUP BY u.promotion
     ORDER BY moyenne DESC;
 EOF;
