@@ -396,9 +396,11 @@ body {
   -webkit-box-pack: center;
   justify-content: center;
 }
-
-@media screen and (max-width:705px) {
-    #sign { display: none; }
+@media screen
+  and (device-width: 320px)
+  and (device-height: 640px)
+  and (-webkit-device-pixel-ratio: 2) {
+    #sign { display:none !important; }
 }
 
 #signGlob {
