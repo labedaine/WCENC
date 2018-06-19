@@ -7,10 +7,21 @@
 
 .match {
     border: 1px #95072f solid !important;
+    display:flex;
+    flex-wrap:wrap;
 }
 
-.match td, .match th {
+.match td, .match th,, .match div {
     border-top: 1px #95072f solid !important;
+}
+
+.entete, .entete div {
+    margin: 0px !important;
+    padding: 0px !important;
+}
+
+[name=idequipe_match] {
+    width:50px;
 }
 
 .biseauteEtat2 {
@@ -155,7 +166,6 @@
 .pointGagner {
     text-align:center;
     margin-left:2px !important;
-    border: 1px solid;
     width:100px;
     font-size:30px;
 }
@@ -193,16 +203,16 @@
 }
 
 .tdResultat {
-  border:1px solid;
   width:100px;
+  padding-left: 0px !important;
+  padding-right: 0px !important;
 }
 
 .tdResultat span {
-  width: 30px;
+  width: 28px;
+  height: 28px;
   display: inline-block;
   height: 30px;
-  margin-right: 5px;
-  margin-left: 5px;
   background: #575757;
   font-weight: bold;
   color: white;
@@ -569,6 +579,16 @@ html, body {
   margin: 15px;
 }
 
+#containerSauvParis {
+    position:fixed;
+    right:35px;
+    top:100px;
+    z-index:999;
+    margin:3px;
+    background:#E8E9EB;
+    border-radius:10px;
+}
+
 .titlePage {
   display: inline-block;
 }
@@ -582,10 +602,14 @@ html, body {
   cursor: pointer;
 }
 
-.phaseItem {
+.phaseItem, .matchItem {
     padding: 12px;
     color: #CF0E0E;
     cursor: pointer;
+}
+
+#matchFuture tr, #matchPast tr {
+    width: 100% !important;
 }
 
 .fill {
@@ -596,9 +620,23 @@ html, body {
     margin: 0;
 }
 
+.nav-link > i {
+    display:none;
+}
+
+.bgMenu {
+    background: #9C082B;
+    margin:0px !important;
+}
+
+#menuClassement {
+    position: sticky;
+    top: 80px;
+}
+
 @media screen and (max-width: 700px) {
-  #sign { display:none !important; }
-    #panneau, #nav-connexion, #nav-tabContent { width: 100% !important;}
+    #sign { display:none !important; }
+    #panneau, #nav-connexion, #nav-tabContent, #nav-tabLogin { width: 100% !important;}
     #nav-inscription {
         overflow-x: auto !important;
         max-height:350px !important;
@@ -612,40 +650,100 @@ html, body {
     .help-block {
         color: white;
     }
-
-    #nav-tabLogin {
-        width:100% !important;
-
+    #navbarBet, #logoBetFip, .points, .resultat  {
+        display:none !important;
     }
+    #mobile {
+        display:block !important;
+    }
+    #mobile a {
+        font-size:20px;
+        text-decoration:none !important;
+        color:white !important;
+    }
+    #mobile div {
+        float:left;
+        padding-left:10px;
+        padding-right:10px;
+    }
+    #headerDef {
+        max-height:50px !important;
+    }
+    .drapeau {
+        display:none;
+    }
+    .biseauteEtat2::after, .biseauteEtat5::after, .biseauteEtat1::after, .biseauteEtat6::after, .biseauteDate::after {
+        display:none;
+    }
+    .biseauteDate,.biseauteEtat2,.biseauteEtat5,.biseauteEtat1,.biseauteEtat6, .resultat, .points  {
+        margin:0px !important;
+        text-align:center !important;
+        width:30% !important;
+    }
+    .biseauteDate {
+        width:70% !important;
+        font-size:10px !important;
+    }
+
+    .menuPhase {
+        float:none;
+    }
+    #contenuParis {
+        padding-right:30px;
+        left:0px;
+    }
+    .match {
+        margin-bottom:10px !important;
+    }
+    .match div[col="pari"] {
+        order:5 !important;
+    }
+    .match div[col="eq2"] {
+        order:4 !important;
+    }
+    .match div[col="pari"][fini="1"] {
+        order:4 !important;
+    }
+    .match div[col="eq2"][fini="1"] {
+        order:5 !important;
+    }
+    .match div[col="eq2"], .match div[col="eq1"] {
+        width:32% !important;
+    }
+
+    #menuClassement {
+        position:sticky;
+        z-index:100;
+        top:50px;
+    }
+    #pageContainer {
+        padding-top:50px !important;
+    }
+    #containerSauvParis {
+        top:162px !important;
+        width: 100% !important;
+        border-radius: initial!important;
+        right: initial !important;
+        text-align:center !important;
+        position: sticky !important;
+    }
+    #sauvParis {
+        float: initial!important;
+    }
+    .titlePage {
+        text-align:center;
+    }
+    .tdResultat, div[fini="1"] {
+        width:32% !important;
+    }
+    .match div[col="eq2"][fini="0"], .match div[col="eq1"][fini="0"], .tdResultat[fini="1"], .score[fini="1"] {
+        width:50% !important;
+        margin-bottom:2px !important;
+    }
+
+
 }
 
 @media screen and (max-width: 1000px) {
   #sign { display:none !important; }
-}
-
-@media screen
-  and (device-width: 320px)
-  and (device-height: 640px)
-  and (-webkit-device-pixel-ratio: 1) {
-    #sign { display:none !important; }
-    #panneau, #nav-connexion, #nav-tabContent { width: 100% !important;}
-    #nav-inscription {
-        overflow-x: auto !important;
-        max-height:400px !important;
-    }
-    .tab-pane {
-        border:1px white solid;
-        border-top: none !important;
-        width:100% !important;
-    }
-
-    .help-block {
-        color: white;
-    }
-
-    #nav-tabLogin {
-        width:100% !important;
-
-    }
-
 }

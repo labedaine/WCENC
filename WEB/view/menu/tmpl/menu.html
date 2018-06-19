@@ -14,18 +14,38 @@
       <li class="nav-item">
         <a class="nav-link lien" id="classementLink" href="#classement">Classement</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link lien" id="reglementLink" href="#reglement">Règlement</a>
+   <!-- <li class="nav-item">
+        <a class="nav-link lien" id="tableauLink" href="#tableau">Tableau</a>
+      </li> -->
+   <li class="nav-item">
+        <a class="nav-link lien" id="reglementLink" href="#reglement">Règlement</a></a>
       </li>
     </ul>
     <span class="navbar-text">
       <div class="nav-link lien" id="nomUser"></div>
     </span>
-    <span class="navbar-text">
-        <a class="nav-link lien" id="administrationLink" href="#administration">Administration</a>
+    <span name="admin" class="navbar-text">
+        <a class="nav-link lien" id="administrationLink" href="#administration">Administration</a></a>
     </span>
     <span style="font-size:1.5em; color:white" title="Se déconnecter">
-      <i id="logoutLink" class='fas fa-sign-out-alt' style='cursor:pointer;'></i>
+      <i id="logoutLink" name="logout" class='fas fa-sign-out-alt' style='cursor:pointer;'></i>
     </span>
+  </div>
+  <div id="mobile" class="col-xs-3 col-xs-3 col-xs-3 col-xs-3" style="display:none">
+      <div class="col-xs-3">
+        <a class="far fa-futbol"  href="#paris" aria-hidden="true"></a>
+      </div>
+      <div class="col-xs-3" style="float:left">
+        <a class="fas fa-chart-bar"  href="#classement" aria-hidden="true"></a>
+      </div>
+      <div class="col-xs-3" style="float:left">
+        <a class="fas fa-question-circle"  href="#reglement" aria-hidden="true"></a>
+      </div>
+      <div name="admin" class="col-xs-3" style="float:left">
+        <a class="fas fa-lock"  href="#administration" aria-hidden="true"></a>
+      </div>
+      <div class="col-xs-3" style="float:left">
+        <a name="logout" class="fas fa-sign-out-alt"  href="#administration" aria-hidden="true"></a>
+      </div>
   </div>
 </nav>

@@ -1,23 +1,64 @@
+
+
 <div class="row">
-  <div class="col-2 vertical-menu" style="position:fixed;display:block">
-    <div class="phaseItem">Phase de groupe<i class="dropicon fas fa-chevron-down"></i></div>
-    <ul class="navbar-nav parisNav">
-      <li class="activeGroupe">
-      <li><a href="#paris/1" data-nom="1">Première phase</a></li>
-      <li><a href="#paris/2" data-nom="2">Deuxième phase</a></li>
-      <li><a href="#paris/3" data-nom="3">Troisième phase</a></li>
-    </ul>
-    <div class="phaseItem">Phase finale<i class="dropicon fas fa-chevron-down"></i></div>
-    <ul class="navbar-nav parisNav">
-      <li><a href="#paris/4" data-nom="4">1/8 de finale</a></li>
-      <li><a href="#paris/5" data-nom="5">Quart de finale</a></li>
-      <li><a href="#paris/6" data-nom="6">Demi-finale</a></li>
-      <li><a href="#paris/7" data-nom="7">Petite finale</a></li>
-      <li><a href="#paris/8" data-nom="8">Finale</a></li>
-    </ul>
-  </div>
-  <div class="col-10" id="contenuParis" style="padding-right:30px;left:200px">
+    <div class="col-lg-2 col-xs-2" id="menuClassement" style="display:block">
+
+    <nav class="navbar navbar-dark bgMenu lighten-1 mb-4">
+        <a class="navbar-brand" href="#">Phase poule</a>
+
+        <button class="navbar-toggler toggler-example" type="button" data-toggle="collapse" data-target="#navbarSupportedContent1" aria-controls="navbarSupportedContent1"
+        aria-expanded="false" aria-label="Toggle navigation"><span class="dark-blue-text"><i class="fa fa-bars fa-1x"></i></span></button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent1">
+
+            <!-- Links -->
+            <ul class="navbar-nav mr-auto parisNav">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#paris/1">Première phase <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#paris/2">Deuxième phase</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#paris/3">Troisième phase</a>
+                </li>
+            </ul>
+            <!-- Links -->
+
+        </div>
+    </nav>
+    <nav class="navbar navbar-dark bgMenu lighten-1 mb-4">
+        <a class="navbar-brand" href="#">Phase finale</a>
+
+        <button class="navbar-toggler toggler-example" type="button" data-toggle="collapse" data-target="#navbarSupportedContent2" aria-controls="navbarSupportedContent2"
+        aria-expanded="false" aria-label="Toggle navigation"><span class="dark-blue-text"><i class="fa fa-bars fa-1x"></i></span></button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent2">
+
+            <!-- Links -->
+            <ul class="navbar-nav mr-auto parisNav">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#paris/4">1/8 de finale<span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#paris/5">Quart de finale</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#paris/6">Demi-finale</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#paris/7">Petite finale</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#paris/8">Finale</a>
+                </li>
+            </ul>
+            <!-- Links -->
+
+        </div>
+    </nav>
 
 
-  </div>
+   </div>
+   <div class="col-lg-9 col-xs-9" id="contenuParis" style="padding-right:30px"></div>
 </div>

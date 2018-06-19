@@ -50,11 +50,15 @@ var ClassementViewClass = function(args) {
         },
 
         chargementClassement : function () {
+
+          var self  =this;
           var tclass = this;
           var type = args[0];
 
           RestApi.getListeClassement({}, function(data) {
+
               if (data.payload) {
+
                 console.log('Chargement classement ');
                 console.log(data.payload);
                 $.ajax({
@@ -70,7 +74,6 @@ var ClassementViewClass = function(args) {
                     },
                    success: function(result) {
 
-                       console.log('result ajax');
                        $('#contenuClassement').html(result);
                        tclass.showClassementInter();
                        $('#tabParisIndiv').DataTable( {
@@ -181,7 +184,6 @@ var ClassementViewClass = function(args) {
                   track:true
                });
         },
-
 
     });
     return Clazz;

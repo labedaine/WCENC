@@ -32,21 +32,11 @@ var ParisViewClass = function(args) {
         miseEnForme : function() {
             // on crée les jqContainers
             this.initToolTips();
-            $(".activeGroupe").removeClass('activeGroupe');
-            $(".parisNav li a[href='#paris/" + args[0] + "']").parent('li').addClass('activeGroupe');
+            $(".active").removeClass('active');
+            $(".parisNav li a[href='#paris/" + args[0] + "']").parent('li').addClass('active');
+            //$(".parisNav .active").parent().parent().toggle();
             this.menuParis();
-            $('.phaseItem').on('click', function () {
-              $(this).next('ul').toggle();
-              if ($(this).find('.fas').hasClass('fa-chevron-down'))
-              {
-                $(this).find('.fas').removeClass('fa-chevron-down').addClass('fa-chevron-up')
-              }
-              else {
-                  $(this).find('.fas').removeClass('fa-chevron-up').addClass('fa-chevron-down');
-              }
 
-
-            });
         },
 
         /**
@@ -60,9 +50,8 @@ var ParisViewClass = function(args) {
                   },
                   track:true
                });
-
-
         },
+
         sauvegardeParis : function(e) {
           var listParis = [];
           console.log("Récupération des paris");
@@ -101,6 +90,7 @@ var ParisViewClass = function(args) {
             var target = $( e.target );
             var nom =  target.data('nom');
           }
+
           RestApi.getListeMatch(nom, function(data) {
               if (data.success) {
                 $.ajax({
@@ -119,11 +109,33 @@ var ParisViewClass = function(args) {
                        }
 
                        // Bon css au bon endroit
-                       $('tr[etat]').each(function() {
+                       $('div[etat]').each(function() {
                            var etat = $(this).attr('etat');
                            var classEtat = "biseauteEtat" + etat;
                            $(this).find('span').first().addClass(classEtat);
                        });
+
+                       // On cré les dropdown
+                       $('#tabParis').find('div[past=1]').first().before('<div class="matchItem">Voir les matchs précédents<i class="dropicon fas fa-chevron-down"></i></div><ul id="matchPast"></ul>');
+                       $('#tabParis').find('div[past=1]').appendTo('#matchPast');
+
+                       $('#tabParis').find('div[past=0]').first().before('<div class="matchItem">Voir les matchs du jour et suivant<i class="dropicon fas fa-chevron-down"></i></div><ul id="matchFuture"></ul>');
+                       $('#tabParis').find('div[past=0]').appendTo('#matchFuture');
+
+                       // Evenement
+                       $('.matchItem').on('click', function () {
+                          $(this).next('ul').toggle();
+                              if ($(this).find('.fas').hasClass('fa-chevron-down'))
+                              {
+                                $(this).find('.fas').removeClass('fa-chevron-down').addClass('fa-chevron-up')
+                              }
+                              else {
+                                  $(this).find('.fas').removeClass('fa-chevron-up').addClass('fa-chevron-down');
+                              }
+                            });
+
+                        // On masque les matchs précédents
+                        $('#matchPast').toggle();
                    },
                    error: function(msg, textStatus, errorThrown) {
                        console.log("Status: " + textStatus);

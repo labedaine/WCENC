@@ -12,18 +12,18 @@ var MenuViewClass = function(args) {
 
         events : {
             // Bind sur les menus
-            "click #logoutLink"              : "logout"
+            "click [name=logout]"              : "logout",
         },
 
         timers : {"affichageinfoApplisMasquees" : 5000},
 
         initialize : function() {
-        	 
+
         },
 
         renderView : function() {
-        	//controle des liens accessible
-        	this.checkDroitsAcces();
+            //controle des liens accessible
+            this.checkDroitsAcces();
             // on met en forme le menu
             this.miseEnForme();
 
@@ -67,9 +67,9 @@ var MenuViewClass = function(args) {
             if (application.user) {
 
                 // ADMINISTRATION
-            	//if (!application.user.hasModuleAccess('administration')) {
-            	if (application.user.isadmin != "1" ) {
-                    $('#administrationLink').remove();
+                //if (!application.user.hasModuleAccess('administration')) {
+                if (application.user.isadmin != "1" ) {
+                    $('[name=admin]').remove();
                 }
             }
         },

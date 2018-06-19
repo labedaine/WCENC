@@ -10,6 +10,7 @@ class ParisController extends BaseController {
         $this->beforeFilter('authentification');
         $this->jsonService = App::make("JsonService");
         $this->parisService   = App::make("ParisService");
+        $this->timeService   = App::make("TimeService");
 
     }
 
@@ -55,6 +56,7 @@ class ParisController extends BaseController {
 
       foreach($matchs as $key => $match) {
           $matchs[$key]['etat'] = MatchExt::$etatsMatch[$match["etat_id"]];
+          $matchs[$key]['past'] = ($match['date_match'] < date("Y-m-d 00:00:00", $this->timeService->now()) ? 1 : 0);
       }
 
       return JsonService::createResponse($matchs);
