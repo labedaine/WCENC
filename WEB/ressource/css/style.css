@@ -597,16 +597,55 @@ html, body {
 }
 
 @media screen and (max-width: 700px) {
-  #sign {
-    display: none;
-  }
+  #sign { display:none !important; }
+    #panneau, #nav-connexion, #nav-tabContent { width: 100% !important;}
+    #nav-inscription {
+        overflow-x: auto !important;
+        max-height:350px !important;
+    }
+    .tab-pane {
+        border:1px white solid;
+        border-top: none !important;
+        width:100% !important;
+    }
+
+    .help-block {
+        color: white;
+    }
+
+    #nav-tabLogin {
+        width:100% !important;
+
+    }
+}
+
+@media screen and (max-width: 1000px) {
+  #sign { display:none !important; }
 }
 
 @media screen
   and (device-width: 320px)
   and (device-height: 640px)
-  and (-webkit-device-pixel-ratio: 2) {
+  and (-webkit-device-pixel-ratio: 1) {
     #sign { display:none !important; }
-    #panneau, #nav-connexion { width: 100% !important;}
+    #panneau, #nav-connexion, #nav-tabContent { width: 100% !important;}
+    #nav-inscription {
+        overflow-x: auto !important;
+        max-height:400px !important;
+    }
+    .tab-pane {
+        border:1px white solid;
+        border-top: none !important;
+        width:100% !important;
+    }
+
+    .help-block {
+        color: white;
+    }
+
+    #nav-tabLogin {
+        width:100% !important;
+
+    }
 
 }
