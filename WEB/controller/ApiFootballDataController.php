@@ -61,38 +61,39 @@ class ApiFootballDataController extends BaseController {
                 // Récupération des données
                 $infoMatch = $this->api->getMatchById($match->id);
 
-                // On regarde si le match à un status différent de celui en base
-                if($match->etat_id != $infoMatch->etat_id) {
-                    $libEtatOld = $match->etat->libelle;
-                    $objEtatNew = Etat::find($infoMatch->etat_id);
-                    $libEtatNew = $objEtatNew->libelle;
+                if($infoMatch !== NULL) {
+                    // On regarde si le match à un status différent de celui en base
+                    if($match->etat_id != $infoMatch->etat_id) {
+                        $libEtatOld = $match->etat->libelle;
+                        $objEtatNew = Etat::find($infoMatch->etat_id);
+                        $libEtatNew = $objEtatNew->libelle;
 
-                    $this->logger->addInfo(sprintf("état %s => %s",
-                                                   $libEtatOld, $libEtatNew));
+                        $this->logger->addInfo(sprintf("état %s => %s",
+                                                       $libEtatOld, $libEtatNew));
 
-                    $match->etat_id = $infoMatch->etat_id;
+                        $match->etat_id = $infoMatch->etat_id;
+                    }
+
+                    // On regarde si le score est différent de celui en base
+                    if(($match->score_dom !== $infoMatch->score_dom) ||
+                       ($match->score_ext !== $infoMatch->score_ext)) {
+
+                        $this->logger->addInfo(sprintf("score %d - %d => %d - %d",
+                                                       $match->score_dom, $match->score_ext,
+                                                       $infoMatch->score_dom, $infoMatch->score_ext));
+
+                        $match->score_dom = $infoMatch->score_dom;
+                        $match->score_ext = $infoMatch->score_ext;
+                    }
+
+                    if(count($match->dirty) > 0) {
+                        $match->save();
+                        $this->logger->addInfo("Sauvegarde du match effectuée avec succès");
+                    }
+
+                     // on lance le calcul des points acquis pour tous les paris du match
+                     $this->parisService->calculerPointsParis($match->id);
                 }
-
-                // On regarde si le score est différent de celui en base
-                if(($match->score_dom !== $infoMatch->score_dom) ||
-                   ($match->score_ext !== $infoMatch->score_ext)) {
-
-                    $this->logger->addInfo(sprintf("score %d - %d => %d - %d",
-                                                   $match->score_dom, $match->score_ext,
-                                                   $infoMatch->score_dom, $infoMatch->score_ext));
-
-                    $match->score_dom = $infoMatch->score_dom;
-                    $match->score_ext = $infoMatch->score_ext;
-                }
-
-                if(count($match->dirty) > 0) {
-                    $match->save();
-                    $this->logger->addInfo("Sauvegarde du match effectuée avec succès");
-                }
-
-                 // on lance le calcul des points acquis pour tous les paris du match
-                 $this->parisService->calculerPointsParis($match->id);
-
 
             }
 
