@@ -70,6 +70,19 @@ var ClassementViewClass = function(args) {
 
                        $('#contenuClassement').html(result);
                        tclass.showClassementInter();
+
+                        $("#tabParisColl").hide();
+                        $("#tabParisPromo").hide();
+                        $("#tabParisIndiv").hide();
+
+                        if(type == "Collectif") {
+                            $("#tabParisColl").show();
+                        } else if(type == "Promo") {
+                            $("#tabParisPromo").show();
+                        }else {
+                            $("#tabParisIndiv").show();
+                        }
+
                        $('#tabParisIndiv').DataTable( {
                          "language": { "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/French.json"  }
                           });
