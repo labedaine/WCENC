@@ -40,11 +40,13 @@ class ClassementController extends BaseController {
                 $matchsByPhase = $stmt->fetchAll();
                 $matchsByPhaseId = array();
                 foreach($matchsByPhase as $matchByPhase) {
-                    array_push($matchsByPhaseId, $matchByPhase['id'];
+                    array_push($matchsByPhaseId, $matchByPhase['id']);
                 }
                 $coeff = $i-2;
                 if($coeff <= 1 ) $coeff=1;
-
+                if(empty($matchByPhase)) {
+                    $matchByPhase=array(0);
+                }
                 $pari3 += Paris::where('points_acquis', 3*$coeff)
                                 ->where('utilisateur_id', $match['id'])
                                 ->whereIn('match_id', $matchsByPhaseId)
