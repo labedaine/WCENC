@@ -106,7 +106,7 @@ var ClassementViewClass = function(args) {
 
                                         $.each(payload, function(index, value) {
 
-                                            coeff = m.phase_id-3;
+                                            coeff = value.phase_id-3;
                                             if(phase != value.libelle) {
                                                 if(phase != "") {
                                                     html += "</div><div style='clear:both'></div>";
@@ -119,9 +119,6 @@ var ClassementViewClass = function(args) {
                                             var classPari = "bg-info";
                                             if(value.paris_dom !== null && value.paris_ext != null) {
 
-                                                if(value.points_acquis == 1) {
-
-                                                }
                                                 points = value.points_acquis/coeff;
                                                 switch(points) {
                                                     case 0:classPari = "bg-dark";
