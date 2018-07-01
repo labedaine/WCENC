@@ -32,9 +32,7 @@ var ClassementViewClass = function(args) {
             this.initToolTips();
             $(".activeGroupe").removeClass('activeGroupe');
             $(".classementNav li a[href='#classement/" + args[0] + "']").parent('li').addClass('activeGroupe');
-            this.chargementClassement();
-
-
+            this.chargementClassement(args[0]);
         },
 
 
@@ -49,18 +47,16 @@ var ClassementViewClass = function(args) {
 
         },
 
-        chargementClassement : function () {
+        chargementClassement : function (type) {
 
           var self  =this;
           var tclass = this;
-          var type = args[0];
+          var type = type;
 
           RestApi.getListeClassement({}, function(data) {
 
               if (data.payload) {
 
-                console.log('Chargement classement ');
-                console.log(data.payload);
                 $.ajax({
                    beforeSend: function() { $('#contenuClassement').hide();},
                    type: "POST",
@@ -70,7 +66,6 @@ var ClassementViewClass = function(args) {
                      dataIndiv: data.payload.indiv,
                      dataPromo: data.payload.promo,
                      type: type
-
                     },
                    success: function(result) {
 
