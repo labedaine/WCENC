@@ -50,7 +50,7 @@ class ApiFootballDataService {
         $status = array();
 
         try {
-            $json = $this->restClientService->getURL($url, $param, FALSE, $this->timeoutCurl, $this->apiKey);
+            $json = $this->restClientService->getURL($url, NULL, FALSE, $this->timeoutCurl, $this->apiKey);
             $this->restClientService->throwExceptionOnError($json);
 
         } catch (SinapsException $exc) {
@@ -60,6 +60,13 @@ class ApiFootballDataService {
         $response = json_decode($json, FALSE);
         $payload = json_decode($response->payload, FALSE);
         return $payload;
+    }
+
+    public function getTableau() {
+        $retour = $this->getFromAPI(SinapsApp::getConfigValue("api.classement"));
+
+        // On supprime tout ce qui ne sert pas
+        return $retour;
     }
 
     /**

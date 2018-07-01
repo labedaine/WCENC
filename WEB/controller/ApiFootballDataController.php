@@ -42,7 +42,7 @@ class ApiFootballDataController extends BaseController {
         $matchsDansLH  = Match::where('date_match', '>', $this->dateService->timeToUS($this->now-10800))
                                ->where('date_match', '<', $this->dateService->timeToUS($this->now))
                                ->get();
-
+        $matchsDansLH = Match::whereIn('etat_id', array(1,2,5))->get();
         // Si on a récupéré une liste de match,
         // on va chercher pour chacun ses infos
         $this->logger->addInfo(sprintf("%d matchs trouvés", count($matchsDansLH)));
@@ -112,6 +112,8 @@ class ApiFootballDataController extends BaseController {
 
     public function majPhaseFinale($update=FALSE) {
 
+        // Mise à jour de la phase d'apres
+
         // Ne fonctionne que pour les phases finales
         if($this->phaseEnCours >= ApiFootballDataController::DEBUT_PHASE_FINALE) {
 
@@ -175,7 +177,20 @@ class ApiFootballDataController extends BaseController {
         if(isset($competition->currentMatchday)) {
             $this->phaseEnCours = $competition->currentMatchday;
             $phase = Phase::find($this->phaseEnCours);
-            $this->logger->addInfo("La phase en cours est " . $phase->libelle . " (". $this->phaseEnCours .")");
+
+            // Si les matchs de la phase sont tous terminés on passe à la pahse suivante
+            $nbMatchAJouer = Match::where('phase_id', $phase->id)
+                                  ->where('etat_id' ,'<>', 6)
+                                  ->count();
+            if($nbMatchAJouer != 0) {
+                $this->logger->addInfo("La phase en cours est en cours [" . $phase->libelle . "[ (". $this->phaseEnCours .")");
+
+            } else {
+                $this->phaseEnCours = $this->phaseEnCours+1;
+                $phase = Phase::find($this->phaseEnCours);
+                $this->logger->addInfo("La phase en cours est terminée. La prochaine est [" . $phase->libelle . "] (". $this->phaseEnCours .")");
+            }
+
         }
 
         $this->logger->finirEtape(
