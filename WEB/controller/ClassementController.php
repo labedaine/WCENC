@@ -37,22 +37,25 @@ class ClassementController extends BaseController {
                 $stmt = $dbh->prepare($sqlQuery);
                 $stmt->setFetchMode(PDO::FETCH_ASSOC);
                 $stmt->execute(array( 'phase' => $i));
-                $matchByPhase = $stmt->fetchAll();
-var_dump($matchByPhase);
+                $matchsByPhase = $stmt->fetchAll();
+                $matchsByPhaseId = array();
+                foreach($matchByPhase as $matchsByPhase) {
+                    array_push($matchsByPhaseId, $matchsByPhase['id'];
+                }
                 $coeff = $i-2;
                 if($coeff <= 1 ) $coeff=1;
 
                 $pari3 += Paris::where('points_acquis', 3*$coeff)
                                 ->where('utilisateur_id', $match['id'])
-                                ->whereIn('match_id', $matchByPhase)
+                                ->whereIn('match_id', $matchsByPhaseId)
                                 ->count();
                 $pari2 += Paris::where('points_acquis', 2*$coeff)
                                ->where('utilisateur_id', $match['id'])
-                                ->whereIn('match_id', $matchByPhase)
+                                ->whereIn('match_id', $matchsByPhaseId)
                                ->count();
                 $pari1 += Paris::where('points_acquis', 1*$coeff)
                                ->where('utilisateur_id', $match['id'])
-                               ->whereIn('match_id', $matchByPhase)
+                               ->whereIn('match_id', $matchsByPhaseId)
                                ->count();
                 //$nbPari = Paris::where('utilisateur_id', $match['id'])->count();
            }
