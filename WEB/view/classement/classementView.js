@@ -106,7 +106,7 @@ var ClassementViewClass = function(args) {
 
                                         $.each(payload, function(index, value) {
 
-                                            coeff = value.phase_id-3;
+                                            coeff = value.phase_id-2;
 
                                             if(phase != value.libelle) {
                                                 if(phase != "") {
