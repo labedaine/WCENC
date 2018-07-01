@@ -11,6 +11,9 @@ var ClassementViewClass = function(args) {
         template : 'view/classement/tmpl/classement.html?rd='+application.getUniqueId(),
 
         events : {
+            "click #ind" : "showInd",
+            "click #coll" : "showColl",
+            "click #promo" : "showPromo",
         },
 
         timers : {},
@@ -47,6 +50,23 @@ var ClassementViewClass = function(args) {
 
         },
 
+        showInd : function() {
+            var self = this;
+            self.chargementClassement('Individuel');
+        },
+
+        showColl : function() {
+            var self = this;
+            self.chargementClassement('Collectif');
+        },
+
+
+        showPromo : function() {
+            var self = this;
+            self.chargementClassement('Promo');
+        },
+
+
         chargementClassement : function (type) {
 
           var self  =this;
@@ -75,12 +95,19 @@ var ClassementViewClass = function(args) {
                         $("#tabParisPromo").hide();
                         $("#tabParisIndiv").hide();
 
+                        $('#coll').removeClass("activeGroupe");
+                        $('#promo').removeClass("activeGroupe");
+                        $('#ind').removeClass("activeGroupe");
+
                         if(type == "Collectif") {
                             $("#tabParisColl").show();
+                            $('#coll').addClass("activeGroupe");
                         } else if(type == "Promo") {
                             $("#tabParisPromo").show();
+                            $('#promo').addClass("activeGroupe");
                         }else {
                             $("#tabParisIndiv").show();
+                            $('#ind').addClass("activeGroupe");
                         }
 
                        $('#tabParisIndiv').DataTable( {
