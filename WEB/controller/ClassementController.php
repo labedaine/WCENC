@@ -22,14 +22,40 @@ class ClassementController extends BaseController {
       $stmt->execute();
       $matchs['indiv'] = $stmt->fetchAll();
 
-      foreach($matchs['indiv'] as $key => $match) {
-           $coeff = $match->phase_id-2;
-           if($coeff <= 1 ) $coeff=1;
 
-           $pari3 = Paris::where('points_acquis', 3)->where('utilisateur_id', $match['id'])->count();
-           $pari2 = Paris::where('points_acquis', 2)->where('utilisateur_id', $match['id'])->count();
-           $pari1 = Paris::where('points_acquis', 1)->where('utilisateur_id', $match['id'])->count();
-           //$nbPari = Paris::where('utilisateur_id', $match['id'])->count();
+
+      foreach($matchs['indiv'] as $key => $match) {
+
+            $pari3 = 0;
+            $pari2 = 0;
+            $pari1 = 0;
+           for($i=1;$i++;$i<8) {
+
+                $sqlQuery = self::SQL_GET_ALL_MATCH_ID_BY_PHASE;
+
+                $dbh = SinapsApp::make("dbConnection");
+                $stmt = $dbh->prepare($sqlQuery);
+                $stmt->setFetchMode(PDO::FETCH_ASSOC);
+                $stmt->execute(array( 'phase' => $i));
+                $matchByPhase = $stmt->fetchAll();
+var_dump($matchByPhase);
+                $coeff = $i-2;
+                if($coeff <= 1 ) $coeff=1;
+
+                $pari3 += Paris::where('points_acquis', 3*$coeff)
+                                ->where('utilisateur_id', $match['id'])
+                                ->whereIn('match_id', $matchByPhase)
+                                ->count();
+                $pari2 += Paris::where('points_acquis', 2*$coeff)
+                               ->where('utilisateur_id', $match['id'])
+                                ->whereIn('match_id', $matchByPhase)
+                               ->count();
+                $pari1 += Paris::where('points_acquis', 1*$coeff)
+                               ->where('utilisateur_id', $match['id'])
+                               ->whereIn('match_id', $matchByPhase)
+                               ->count();
+                //$nbPari = Paris::where('utilisateur_id', $match['id'])->count();
+           }
            $matchs['indiv'][$key]['p3'] = $pari3;
            $matchs['indiv'][$key]['p2'] = $pari2;
            $matchs['indiv'][$key]['p1'] = $pari1;
@@ -183,5 +209,10 @@ EOF;
     ORDER BY moyenne DESC;
 EOF;
 
+    const SQL_GET_ALL_MATCH_ID_BY_PHASE = <<<EOF
+    SELECT id
+    FROM match
+    WHERE phase_id = ;phase;
+EOF;
 
 }
