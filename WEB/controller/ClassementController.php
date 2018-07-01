@@ -212,7 +212,7 @@ EOF;
     const SQL_GET_ALL_MATCH_ID_BY_PHASE = <<<EOF
     SELECT id
     FROM match
-    WHERE phase_id = ;phase;
+    WHERE phase_id = :phase;
 EOF;
 
 }
