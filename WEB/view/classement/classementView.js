@@ -114,12 +114,19 @@ var ClassementViewClass = function(args) {
                                                 phase = value.libelle;
                                             }
 
+
                                             var classPari = "bg-info";
                                             if(value.paris_dom !== null && value.paris_ext != null) {
-                                                switch(value.points_acquis) {
+
+                                                if(value.points_acquis == 1) {
+
+                                                }
+                                                coeff = m.phase_id-3;
+                                                points = value.points_acquis/coeff;
+                                                switch(points) {
                                                     case 0:classPari = "bg-dark";
                                                     break;
-                                                    case 1:classPari = "bg-secondary";
+                                                    case 1:value.:classPari = "bg-secondary";
                                                     break;
                                                     case 2:classPari = "bg-danger";
                                                     break;

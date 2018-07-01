@@ -149,6 +149,7 @@ EOF;
     const SQL_LISTE_PARIS_AUTRE = <<<EOF
     SELECT
         ph.libelle,
+        m.phase_id,
         m.id as "id",
         e1.pays as "pays1",
         m.score_dom as "score_dom",
