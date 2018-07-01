@@ -112,7 +112,12 @@ var ClassementViewClass = function(args) {
                                                 if(phase != "") {
                                                     html += "</div><div style='clear:both'></div>";
                                                 }
-                                                html += "<h3 class='titlePage'>" + value.libelle + " (x " + coeff + ")</h3><div>";
+                                                if(coeff > 1) {
+                                                    html += "<h3 class='titlePage'>" + value.libelle + " (x " + coeff + ")</h3><div>";
+                                                } else {
+                                                    html += "<h3 class='titlePage'>" + value.libelle + "</h3><div>";
+                                                }
+
                                                 phase = value.libelle;
                                             }
 
