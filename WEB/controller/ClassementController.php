@@ -22,8 +22,6 @@ class ClassementController extends BaseController {
       $stmt->execute();
       $matchs['indiv'] = $stmt->fetchAll();
 
-
-
       foreach($matchs['indiv'] as $key => $match) {
 
             $pari3 = 0;
@@ -48,6 +46,7 @@ class ClassementController extends BaseController {
                 if(empty($matchsByPhaseId)) {
                     $matchsByPhaseId=array(0);
                 }
+
                 $pari3 += Paris::where('points_acquis', 3*$coeff)
                                 ->where('utilisateur_id', $match['id'])
                                 ->whereIn('match_id', $matchsByPhaseId)
@@ -69,7 +68,7 @@ class ClassementController extends BaseController {
       }
 
       // Maintenant on tri le tableau par ordre de pari a 3 points gagnés
-      /*usort($matchs['indiv'], function($a, $b) {
+      usort($matchs['indiv'], function($a, $b) {
         if($a['points'] == $b['points']) {
             if($a['p3'] == $b['p3']) {
                 if($a['p2'] == $b['p2']) {
@@ -88,7 +87,7 @@ class ClassementController extends BaseController {
         }
         return $a['points'] < $b['points'];
       });
-*/
+
       $sqlQuery = self::SQL_GET_CLASSEMENT_PROMO;
 
       $dbh = SinapsApp::make("dbConnection");
@@ -114,9 +113,6 @@ class ClassementController extends BaseController {
         $value['promotxt'] = UtilisateurExt::numToString($value['promotion']);
         $matchs['promo'][$value['promotion']][] = $value;
       }
-
-
-
 
       return JsonService::createResponse($matchs);
     }

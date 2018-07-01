@@ -3,9 +3,9 @@
 <?php $classementCollec = @$_POST['dataCollec'];?>
 
 <div class="row">
-  <h3  class="titlePage">Classement <?php echo $_POST['type']; ?></h3>
-    <?php if ($_POST['type'] == 'Individuel'): ?>
-      <table id="tabParisIndiv" class="classementTable table table-hover table-sm no-gutter">
+  <h3 id="titreClassement" class="titlePage"></h3>
+
+      <table id="tabParisIndiv" class="classementTable table table-hover table-sm no-gutter" style="display:none">
         <thead  class="thead-light">
           <tr>
             <th></th>
@@ -35,8 +35,10 @@
           <?php endforeach; ?>
         </tbody>
       </table>
-    <?php elseif ($_POST['type'] == 'Collectif'): ?>
-      <table id="tabParis" class="classementTable table table-hover table-sm no-gutter">
+
+
+
+      <table id="tabParisColl" class="classementTable table table-hover table-sm no-gutter"  style="display:none">
         <tbody>
           <tr>
             <th></th>
@@ -56,7 +58,10 @@
           <?php endforeach; ?>
         </tbody>
       </table>
-    <?php else: ?>
+
+
+
+      <div id="tabParisPromo">
       <select id="promoSelect">
         <option value="1">PSE</option>
         <option value="2">ISA</option>
@@ -65,7 +70,7 @@
         <option value="5">TG</option>
         <option value="6">ENSEIGNANT</option>
       </select>
-      <table id="tabParis" class="classementTable table table-hover table-sm no-gutter">
+      <table id="tabParisPromo" class="classementTable table table-hover table-sm no-gutter">
         <thead>
           <tr>
             <th></th>
@@ -89,5 +94,5 @@
           <?php endforeach; ?>
         <?php endforeach; ?>
       </table>
-    <?php endif; ?>
+    </div>
 </div>

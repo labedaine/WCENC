@@ -71,7 +71,7 @@ var ClassementViewClass = function(args) {
 
           var self  =this;
           var tclass = this;
-
+console.log(type);
           RestApi.getListeClassement({type}, function(data) {
 
               if (data.payload) {
@@ -79,7 +79,7 @@ var ClassementViewClass = function(args) {
                 $.ajax({
                    beforeSend: function() { $('#contenuClassement').hide();},
                    type: "POST",
-                   url: "view/classement/tmpl/classement.ajax.php",
+                   url: "view/classement/tmpl/classement.ajax."+type+".php",
                    data: {
                      dataCollec: data.payload.collec,
                      dataIndiv: data.payload.indiv,
@@ -91,10 +91,10 @@ var ClassementViewClass = function(args) {
                        $('#contenuClassement').html(result);
                        tclass.showClassementInter();
 
-                        $("#tabParisColl").hide();
+                        /*$("#tabParisColl").hide();
                         $("#tabParisPromo").hide();
                         $("#tabParisIndiv").hide();
-
+*/
                         $('#coll').removeClass("activeGroupe");
                         $('#promo').removeClass("activeGroupe");
                         $('#ind').removeClass("activeGroupe");
@@ -102,13 +102,21 @@ var ClassementViewClass = function(args) {
                         if(type == "Collectif") {
                             $("#tabParisColl").show();
                             $('#coll').addClass("activeGroupe");
+                            $('#titreClassement').html("Classement collectif");
+
                         } else if(type == "Promo") {
                             $("#tabParisPromo").show();
                             $('#promo').addClass("activeGroupe");
+                            $('#titreClassement').html("Classement par promotion");
+
                         }else {
                             $("#tabParisIndiv").show();
                             $('#ind').addClass("activeGroupe");
+                            $('#titreClassement').html("Classement individuel");
+
                         }
+
+
 
                        $('#tabParisIndiv').DataTable( {
                          "language": { "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/French.json"  }
