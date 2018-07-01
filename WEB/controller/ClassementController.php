@@ -29,7 +29,8 @@ class ClassementController extends BaseController {
             $pari3 = 0;
             $pari2 = 0;
             $pari1 = 0;
-           for($i=1;$i++;$i<8) {
+
+           for($i=1; $i<8;$i++) {
 
                 $sqlQuery = self::SQL_GET_ALL_MATCH_ID_BY_PHASE;
 
@@ -44,8 +45,8 @@ class ClassementController extends BaseController {
                 }
                 $coeff = $i-2;
                 if($coeff <= 1 ) $coeff=1;
-                if(empty($matchByPhase)) {
-                    $matchByPhase=array(0);
+                if(empty($matchsByPhaseId)) {
+                    $matchsByPhaseId=array(0);
                 }
                 $pari3 += Paris::where('points_acquis', 3*$coeff)
                                 ->where('utilisateur_id', $match['id'])
