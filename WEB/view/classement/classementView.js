@@ -51,9 +51,8 @@ var ClassementViewClass = function(args) {
 
           var self  =this;
           var tclass = this;
-          var type = type;
 
-          RestApi.getListeClassement({}, function(data) {
+          RestApi.getListeClassement({type}, function(data) {
 
               if (data.payload) {
 
