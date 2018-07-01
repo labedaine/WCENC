@@ -12,6 +12,11 @@ class ParisController extends BaseController {
         $this->parisService   = App::make("ParisService");
         $this->timeService   = App::make("TimeService");
 
+        // On récupère la phase en cours
+        $this->apiController = new ApiFootballDataController();
+        $this->apiController->setPhaseEnCours(FALSE);
+
+
     }
 
     /**
@@ -34,14 +39,14 @@ class ParisController extends BaseController {
     public function getListeMatch() {
 
       // Valeur par défaut groupe A
-      $groupe = Input::get('grp', "1");
+      $groupe = Input::get('grp', $this->apiController->phaseEnCours);
 
       //~ if (preg_match("/[A-H]/", $groupe))
       //~ {
         //~ $sqlQuery = self::SQL_LISTE_GROUPES;
       //~ }
       if (!preg_match("/^1|2|3|4|5|6|7|8$/", $groupe)) {
-          $groupe = "1";
+          $groupe = $this->apiController->phaseEnCours;
       }
 
       $sqlQuery = self::SQL_LISTE_MATCH_PHASE;

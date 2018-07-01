@@ -15,7 +15,6 @@ class ApiFootballDataController extends BaseController {
     private $parisService;
     public $phaseEnCours = 1;
 
-
     const DEBUT_PHASE_FINALE=4;
 
     public function __construct() {
@@ -162,15 +161,15 @@ class ApiFootballDataController extends BaseController {
         }
     }
 
-    public function setPhaseEnCours() {
+    public function setPhaseEnCours($log=TRUE) {
+        if($log) {
+            $this->logger->debuterEtape(
+                "getCompetition",
+                "Récupération des informations sur la compétition"
+            );
 
-        $this->logger->debuterEtape(
-            "getCompetition",
-            "Récupération des informations sur la compétition"
-        );
-
-        $this->logger->contexte="COMPETITION";
-
+            $this->logger->contexte="COMPETITION";
+        }
         $competition = $this->api->getCompetition();
 
         $this->phaseEnCours = 0;
@@ -184,16 +183,18 @@ class ApiFootballDataController extends BaseController {
                                   ->where('etat_id' ,'<>', 6)
                                   ->count();
             if($nbMatchAJouer != 0) {
+                if($log)
                 $this->logger->addInfo("La phase en cours est en cours [" . $phase->libelle . "[ (". $this->phaseEnCours .")");
 
             } else {
                 $this->phaseEnCours = $this->phaseEnCours+1;
                 $phase = Phase::find($this->phaseEnCours);
+                if($log)
                 $this->logger->addInfo("La phase en cours est terminée. La prochaine est [" . $phase->libelle . "] (". $this->phaseEnCours .")");
             }
 
         }
-
+        if($log)
         $this->logger->finirEtape(
             "Récupération terminée",
             "getCompetition"
