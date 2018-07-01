@@ -120,7 +120,7 @@ class ApiFootballDataController extends BaseController {
             // On récupère les matchs de la phase en cours
             // dont les équipes ne sont pas remplis
             $phase = Phase::find($this->phaseEnCours);
-            $matchsDeLaPhase = $this->api->getMatchByPhase($phase);
+            $matchsDeLaPhase = $this->api->getMatchByPhase($phase->id);
 
             if($matchsDeLaPhase === NULL) {
                 $this->logger->addError("L'api distante n'est pas disponible");
