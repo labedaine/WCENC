@@ -46,9 +46,14 @@ var ClassementViewClass = function(args) {
             $('.ligneInter').hide();
 
             if( $(this).val() === "Toutes") {
+                $('[name="tabParisIndiv_length"] option[value=10]').prop('selected', true);
+                $('[name="tabParisIndiv_length"]').change();
                 $('.ligneInter').show();
             } else {
-                $('.ligneInter[data-promo="' + $(this).val() + '"]').show();
+                $('.ligneInter[data-promo="' + $(this).val() + '"]').show();$( "" )
+                $('[name="tabParisIndiv_length"] option[value=100]').prop('selected', true);
+                $('[name="tabParisIndiv_length"]').change();
+
             }
 
           });
