@@ -83,7 +83,7 @@ var ClassementViewClass = function(args) {
 
                        $('#contenuClassement').html(result);
 
-                       tclass.showClassementInter();
+
 
                         /*$("#tabParisColl").hide();
                         $("#tabParisPromo").hide();
@@ -103,7 +103,7 @@ var ClassementViewClass = function(args) {
                             $('#promo').addClass("activeGroupe");
                             $('#titreClassement').html("Classement par promotion");
 
-                        }else {
+                        } else {
 
                             $("#tabParisIndiv").show();
                             $('#ind').addClass("activeGroupe");
@@ -114,7 +114,7 @@ var ClassementViewClass = function(args) {
 
                                 if( $(this).val() === "Toutes") {
 
-                                    $('[name="tabParisIndiv_length"] option[value=10]').prop('selected', true);
+                                    $('[name="tabParisIndiv_length"] option[value=100]').prop('selected', true);
                                     $('[name="tabParisIndiv_length"]').change();
 
                                     $('.ligneInter').show();
@@ -129,6 +129,7 @@ var ClassementViewClass = function(args) {
 
 
                               });
+                              $('#promoSelect').change();
 
                         }
 
