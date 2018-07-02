@@ -81,9 +81,8 @@ var ClassementViewClass = function(args) {
                     },
                    success: function(result) {
 
+
                        $('#contenuClassement').html(result);
-
-
 
                         /*$("#tabParisColl").hide();
                         $("#tabParisPromo").hide();
@@ -93,19 +92,21 @@ var ClassementViewClass = function(args) {
                         $('#promo').removeClass("activeGroupe");
                         $('#ind').removeClass("activeGroupe");
 
+                        $('.dataTables_length option[value=100]').prop('selected', true);
+                        $('.dataTables_length').change();
+
                         if(type == "Collectif") {
                             $("#tabParisColl").show();
                             $('#coll').addClass("activeGroupe");
                             $('#titreClassement').html("Classement collectif");
 
                         } else if(type == "Promo") {
-                            $("#tabParisPromo").show();
                             $('#promo').addClass("activeGroupe");
                             $('#titreClassement').html("Classement par promotion");
 
                         } else {
 
-                            $("#tabParisIndiv").show();
+
                             $('#ind').addClass("activeGroupe");
                             $('#titreClassement').html("Classement individuel");
 
@@ -113,32 +114,20 @@ var ClassementViewClass = function(args) {
                                 $('.ligneInter').hide();
 
                                 if( $(this).val() === "Toutes") {
-
                                     $('.ligneInter').show();
-
-                                    $('[name="tabParisIndiv_length"] option[value=100]').prop('selected', true);
-                                    $('[name="tabParisIndiv_length"]').change();
-
-
                                 } else {
 
                                     $('.ligneInter[data-promo="' + $(this).val() + '"]').show();
-
-                                    $('[name="tabParisIndiv_length"] option[value=100]').prop('selected', true);
-                                    $('[name="tabParisIndiv_length"]').change();
-
                                 }
-
-
                               });
                               $('#promoSelect').change();
-
                         }
 
 
-
-                       $('#tabParisIndiv').DataTable( {
-                         "language": { "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/French.json"  }
+                        $("#tabParis").show();
+                       $('#tabParis').DataTable( {
+                         "language": { "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/French.json"  },
+                         "bLengthChange" : false,
                           });
                        $('#contenuClassement').show();
 

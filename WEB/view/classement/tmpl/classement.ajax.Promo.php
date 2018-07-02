@@ -2,18 +2,10 @@
 <?php $classementPromo = @$_POST['dataPromo'];?>
 <?php $classementCollec = @$_POST['dataCollec'];?>
 
-<div class="row">
+<div class="row ">
   <h3 id="titreClassement" class="titlePage"></h3>
 
-      <select id="promoSelect">
-        <option value="1">PSE</option>
-        <option value="2">ISA</option>
-        <option value="3">ISC</option>
-        <option value="4">CSP</option>
-        <option value="5">TG</option>
-        <option value="6">ENSEIGNANT</option>
-      </select><br/>
-      <table id="tabParisPromo" class="classementTable table table-hover table-sm no-gutter">
+      <table id="tabParis" class="classementTable table table-hover table-sm no-gutter">
         <thead>
           <tr>
             <th></th>

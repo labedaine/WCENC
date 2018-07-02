@@ -20,7 +20,7 @@
         </i>
 
         </h3>
-      <table id="tabParisIndiv" class="classementTable table table-hover table-sm no-gutter" style="display:none">
+      <table id="tabParis" class="classementTable table table-hover table-sm no-gutter" data-page-length='100' style="display:none">
         <thead  class="thead-light">
           <tr>
             <th></th>
