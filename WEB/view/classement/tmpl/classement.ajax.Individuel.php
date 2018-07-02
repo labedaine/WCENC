@@ -3,8 +3,23 @@
 <?php $classementCollec = @$_POST['dataCollec'];?>
 
 <div class="row">
-  <h3 id="titreClassement" class="titlePage"></h3>
+  <h3 class="titlePage"><span id="titreClassement"></span>
 
+<i>
+    <label style="font-size:15px">(Filtrer par <select id="promoSelect">
+            <option value="Toutes">Toutes</option>
+            <option value="PSE">PSE</option>
+            <option value="ISA">ISA</option>
+            <option value="ISC">ISC</option>
+            <option value="CSP">CSP</option>
+            <option value="TG">TG</option>
+            <option value="ENSEIGNANT">ENSEIGNANT</option>
+        </select>
+        </label>
+        )
+        </i>
+
+        </h3>
       <table id="tabParisIndiv" class="classementTable table table-hover table-sm no-gutter" style="display:none">
         <thead  class="thead-light">
           <tr>
@@ -19,7 +34,7 @@
         </thead>
         <tbody>
           <?php foreach ($classementIndiv as $key => $value): ?>
-            <tr ligne id="<?php echo $value['id']; ?>" login="<?php echo $value['login']; ?>">
+            <tr ligne id="<?php echo $value['id']; ?>" login="<?php echo $value['login']; ?>" class="ligneInter" data-promo="<?php echo $value['promotion']; ?>">
               <td class="center"><?php echo $key + 1 ; ?></td>
               <td><?php echo $value['login']; ?></td>
               <td><?php echo $value['prenom']; ?></td>

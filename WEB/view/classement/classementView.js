@@ -44,7 +44,13 @@ var ClassementViewClass = function(args) {
           $('#promoSelect').on('change', function () {
             console.log($(this).val());
             $('.ligneInter').hide();
-            $('.ligneInter[data-promo="' + $(this).val() + '"]').show();
+
+            if( $(this).val() === "Toutes") {
+                $('.ligneInter').show();
+            } else {
+                $('.ligneInter[data-promo="' + $(this).val() + '"]').show();
+            }
+
           });
           $('#promoSelect').change();
 
@@ -71,7 +77,7 @@ var ClassementViewClass = function(args) {
 
           var self  =this;
           var tclass = this;
-console.log(type);
+
           RestApi.getListeClassement({type}, function(data) {
 
               if (data.payload) {
@@ -110,6 +116,7 @@ console.log(type);
                             $('#titreClassement').html("Classement par promotion");
 
                         }else {
+
                             $("#tabParisIndiv").show();
                             $('#ind').addClass("activeGroupe");
                             $('#titreClassement').html("Classement individuel");
