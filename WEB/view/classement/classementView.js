@@ -114,17 +114,19 @@ var ClassementViewClass = function(args) {
 
                                 if( $(this).val() === "Toutes") {
 
+                                    $('.ligneInter').show();
+
                                     $('[name="tabParisIndiv_length"] option[value=100]').prop('selected', true);
                                     $('[name="tabParisIndiv_length"]').change();
 
-                                    $('.ligneInter').show();
 
                                 } else {
 
+                                    $('.ligneInter[data-promo="' + $(this).val() + '"]').show();
+
                                     $('[name="tabParisIndiv_length"] option[value=100]').prop('selected', true);
                                     $('[name="tabParisIndiv_length"]').change();
 
-                                    $('.ligneInter[data-promo="' + $(this).val() + '"]').show();
                                 }
 
 
