@@ -124,7 +124,7 @@ var ClassementViewClass = function(args) {
                                     $('[name="tabParisIndiv_length"] option[value=100]').prop('selected', true);
                                     $('[name="tabParisIndiv_length"]').change();
 
-                                    $('.ligneInter[data-promo="' + $(this).val() + '"]').show();$( "" )
+                                    $('.ligneInter[data-promo="' + $(this).val() + '"]').show();
                                 }
 
 
