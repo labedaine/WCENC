@@ -34,29 +34,11 @@ var ClassementViewClass = function(args) {
             // on crée les jqContainers
             this.initToolTips();
             $(".activeGroupe").removeClass('activeGroupe');
-            $(".classementNav li a[href='#classement/" + args[0] + "']").parent('li').addClass('activeGroupe');
-            this.chargementClassement(args[0]);
+            this.showInd();
         },
 
 
         showClassementInter : function () {
-
-          $('#promoSelect').on('change', function () {
-            console.log($(this).val());
-            $('.ligneInter').hide();
-
-            if( $(this).val() === "Toutes") {
-                $('[name="tabParisIndiv_length"] option[value=10]').prop('selected', true);
-                $('[name="tabParisIndiv_length"]').change();
-                $('.ligneInter').show();
-            } else {
-                $('.ligneInter[data-promo="' + $(this).val() + '"]').show();$( "" )
-                $('[name="tabParisIndiv_length"] option[value=100]').prop('selected', true);
-                $('[name="tabParisIndiv_length"]').change();
-
-            }
-
-          });
           $('#promoSelect').change();
 
         },
@@ -100,6 +82,7 @@ var ClassementViewClass = function(args) {
                    success: function(result) {
 
                        $('#contenuClassement').html(result);
+
                        tclass.showClassementInter();
 
                         /*$("#tabParisColl").hide();
@@ -125,6 +108,22 @@ var ClassementViewClass = function(args) {
                             $("#tabParisIndiv").show();
                             $('#ind').addClass("activeGroupe");
                             $('#titreClassement').html("Classement individuel");
+
+                            $('#promoSelect').on('change', function () {
+                                $('.ligneInter').hide();
+
+                                if( $(this).val() === "Toutes") {
+                                    $('[name="tabParisIndiv_length"] option[value=10]').prop('selected', true);
+                                    $('[name="tabParisIndiv_length"]').change();
+                                    $('.ligneInter').show();
+                                } else {
+                                    $('.ligneInter[data-promo="' + $(this).val() + '"]').show();$( "" )
+                                    $('[name="tabParisIndiv_length"] option[value=100]').prop('selected', true);
+                                    $('[name="tabParisIndiv_length"]').change();
+
+                                }
+
+                              });
 
                         }
 
