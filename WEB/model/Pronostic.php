@@ -8,49 +8,35 @@
      * @author Génération Automatique <personne.quinexistepas@dgfip.finances.gouv.fr>
      */
 
-class Paris extends SinapsModel {
+class Pronostic extends SinapsModel {
     /*
         Attributs *
     */
 
     /**
-     * Match parie
-     * [match 1-N paris]
-     * paris
      * 
-     * @var integer NOT NULL
+     * 
+     * @var VARCHAR(255) NOT NULL
      */
-    protected $match_id = NULL;
+    protected $libelle = NULL;
 
     /**
-     * Utilisateur faisant le paris
-     * [utilisateur 1-N paris]
-     * paris
+     * La competition sur laquelle on a un pronostic
+     * [competition 1-1 pronostic]
+     * Le pronostic de sur une competition
      * 
-     * @var integer NOT NULL
+     * @var INTEGER
+     */
+    protected $competition_id = NULL;
+
+    /**
+     * Utilisateur du pronostic
+     * [utilisateur 1-1 pronostic]
+     * Le pronostic de l'utilisateur
+     * 
+     * @var INTEGER
      */
     protected $utilisateur_id = NULL;
-
-    /**
-     * 
-     * 
-     * @var integer NOT NULL
-     */
-    protected $score_dom = NULL;
-
-    /**
-     * 
-     * 
-     * @var integer NOT NULL
-     */
-    protected $score_ext = NULL;
-
-    /**
-     * 
-     * 
-     * @var integer NOT NULL DEFAULT '0'
-     */
-    protected $points_acquis = NULL;
 
 
     /*
@@ -58,17 +44,17 @@ class Paris extends SinapsModel {
     */
 
     /**
-     * Match parie
+     * La competition sur laquelle on a un pronostic
      * Utilisation interne au framework uniquement
      * @return SinapsRelation
      */
-    public function match() {
-         $relation = $this->belongsTo("Match");
+    public function competition() {
+         $relation = $this->belongsTo("Competition");
          return $relation;
     }
 
     /**
-     * Utilisateur faisant le paris
+     * Utilisateur du pronostic
      * Utilisation interne au framework uniquement
      * @return SinapsRelation
      */

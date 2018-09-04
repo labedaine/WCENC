@@ -43,6 +43,7 @@ CREATE TABLE utilisateur (
   isactif SMALLINT NOT NULL DEFAULT 0,
   isadmin SMALLINT NOT NULL DEFAULT 0,
   points integer NOT NULL DEFAULT 0,
+  notification SMALLINT NOT NULL DEFAULT 0,
 PRIMARY KEY (id)
 );
 
@@ -151,6 +152,59 @@ PRIMARY KEY(match_id, utilisateur_id),
 CONSTRAINT fk_paris_match FOREIGN KEY (match_id) REFERENCES match (id),
 CONSTRAINT fk_paris_utilisateur FOREIGN KEY (utilisateur_id) REFERENCES utilisateur (id)
 );
+
+-- Update v2
+DROP SEQUENCE IF EXISTS palmares_id_seq CASCADE;
+CREATE SEQUENCE palmares_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+DROP TABLE IF EXISTS palmares CASCADE;
+CREATE TABLE palmares (
+  id integer NOT NULL DEFAULT nextval('palmares_id_seq'::regclass),
+  rang SMALLINT NOT NULL DEFAULT 0,
+  competition VARCHAR(255) NULL DEFAULT NULL ,  
+  saison VARCHAR(255) NULL DEFAULT NULL ,  
+  points integer NOT NULL DEFAULT 0,
+  utilisateur_id INTEGER, -- Utilisateur du palmares [utilisateur 1-1 palmares] Le palmares de l'utilisateur
+PRIMARY KEY (id, utilisateur_id),
+CONSTRAINT fk_palmares_utilisateur FOREIGN KEY (utilisateur_id) REFERENCES utilisateur (id) ON DELETE CASCADE ON UPDATE NO ACTION
+);
+
+CREATE INDEX fk_palmares_utilisateur ON session ( utilisateur_id ASC);
+
+-- Table competition
+DROP TABLE IF EXISTS competition CASCADE;
+CREATE TABLE competition (
+  id integer NOT NULL,
+  libelle VARCHAR(255) NOT NULL ,  
+PRIMARY KEY (id)
+);
+
+-- Pronostic gagnant competition
+
+DROP SEQUENCE IF EXISTS pronostic_id_seq CASCADE;
+CREATE SEQUENCE pronostic_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+    
+DROP TABLE IF EXISTS pronostic CASCADE;
+CREATE TABLE pronostic (
+  id integer NOT NULL DEFAULT nextval('pronostic_id_seq'::regclass),
+  libelle VARCHAR(255) NOT NULL , 
+  competition_id INTEGER, -- La competition sur laquelle on a un pronostic [competition 1-1 pronostic] Le pronostic de sur une competition
+  utilisateur_id INTEGER, -- Utilisateur du pronostic [utilisateur 1-1 pronostic] Le pronostic de l'utilisateur
+PRIMARY KEY (id, competition_id, utilisateur_id),
+CONSTRAINT fk_pronostic_competition FOREIGN KEY (competition_id) REFERENCES competition (id) ON DELETE CASCADE ON UPDATE NO ACTION,
+CONSTRAINT fk_pronostic_utilisateur FOREIGN KEY (utilisateur_id) REFERENCES utilisateur (id) ON DELETE CASCADE ON UPDATE NO ACTION
+);
+
 
 --
 -- Name: public; Type: ACL; Schema: -; Owner: postgres
