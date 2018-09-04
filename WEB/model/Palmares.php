@@ -16,23 +16,9 @@ class Palmares extends SinapsModel {
     /**
      * 
      * 
-     * @var SMALLINT NOT NULL DEFAULT 0
-     */
-    protected $rang = NULL;
-
-    /**
-     * 
-     * 
      * @var VARCHAR(255) NULL DEFAULT NULL
      */
     protected $competition = NULL;
-
-    /**
-     * 
-     * 
-     * @var VARCHAR(255) NULL DEFAULT NULL
-     */
-    protected $saison = NULL;
 
     /**
      * 

@@ -165,9 +165,7 @@ CREATE SEQUENCE palmares_id_seq
 DROP TABLE IF EXISTS palmares CASCADE;
 CREATE TABLE palmares (
   id integer NOT NULL DEFAULT nextval('palmares_id_seq'::regclass),
-  rang SMALLINT NOT NULL DEFAULT 0,
-  competition VARCHAR(255) NULL DEFAULT NULL ,  
-  saison VARCHAR(255) NULL DEFAULT NULL ,  
+  competition VARCHAR(255) NULL DEFAULT NULL ,   
   points integer NOT NULL DEFAULT 0,
   utilisateur_id INTEGER, -- Utilisateur du palmares [utilisateur 1-1 palmares] Le palmares de l'utilisateur
 PRIMARY KEY (id, utilisateur_id),
