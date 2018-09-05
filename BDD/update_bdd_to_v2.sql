@@ -47,15 +47,26 @@ CREATE INDEX fk_palmares_utilisateur ON session ( utilisateur_id ASC);
 ALTER TABLE utilisateur ADD COLUMN notification SMALLINT NOT NULL DEFAULT 0;
 
 -- Table competition
+
+DROP SEQUENCE IF EXISTS competition_id_seq CASCADE;
+CREATE SEQUENCE competition_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
 DROP TABLE IF EXISTS competition CASCADE;
 CREATE TABLE competition (
-  id integer NOT NULL,
-  libelle VARCHAR(255) NOT NULL ,  
+  id integer NOT NULL DEFAULT nextval('competition_id_seq'::regclass),
+  libelle VARCHAR(255) NOT NULL ,
+  apiid integer NOT NULL,
+  encours integer NOT NULL,
 PRIMARY KEY (id)
 );
 
-INSERT INTO competition (id, libelle) VALUES (467, 'Coupe du Monde 2018');
-INSERT INTO competition (id, libelle) VALUES (2001,'Ligue des Champions 2018/19');
+INSERT INTO competition (libelle,apiid,encours) VALUES ('Coupe du Monde 2018', 467, 0);
+INSERT INTO competition (libelle,apiid,encours) VALUES ('Ligue des Champions 2018/19', 2001, 1);
 
 
 -- Pronostic gagnant competition

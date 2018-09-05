@@ -23,33 +23,33 @@ SET default_with_oids = false;
 --
 -- Name: match; Type: TABLE; Schema: public; Owner: pari
 --
-DROP SEQUENCE IF EXISTS utilisateur_id_seq CASCADE;
-CREATE SEQUENCE utilisateur_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
+-- DROP SEQUENCE IF EXISTS utilisateur_id_seq CASCADE;
+-- CREATE SEQUENCE utilisateur_id_seq
+--     START WITH 1
+--     INCREMENT BY 1
+--    NO MINVALUE
+--     NO MAXVALUE
+--     CACHE 1;
 
-DROP TABLE IF EXISTS utilisateur CASCADE;
-CREATE TABLE utilisateur (
-  id integer NOT NULL DEFAULT nextval('utilisateur_id_seq'::regclass),
-  nom VARCHAR(255) NULL DEFAULT NULL ,
-  prenom VARCHAR(255) NULL DEFAULT NULL ,
-  login VARCHAR(255) NOT NULL ,
-  email VARCHAR(255) NOT NULL ,
-  password VARCHAR(255) NOT NULL ,
-  promotion SMALLINT NOT NULL DEFAULT 0,
-  isactif SMALLINT NOT NULL DEFAULT 0,
-  isadmin SMALLINT NOT NULL DEFAULT 0,
-  points integer NOT NULL DEFAULT 0,
-  notification SMALLINT NOT NULL DEFAULT 0,
-PRIMARY KEY (id)
-);
+-- DROP TABLE IF EXISTS utilisateur CASCADE;
+-- CREATE TABLE utilisateur (
+--   id integer NOT NULL DEFAULT nextval('utilisateur_id_seq'::regclass),
+--   nom VARCHAR(255) NULL DEFAULT NULL ,
+--   prenom VARCHAR(255) NULL DEFAULT NULL ,
+--   login VARCHAR(255) NOT NULL ,
+--   email VARCHAR(255) NOT NULL ,
+--   password VARCHAR(255) NOT NULL ,
+--   promotion SMALLINT NOT NULL DEFAULT 0,
+--   isactif SMALLINT NOT NULL DEFAULT 0,
+--   isadmin SMALLINT NOT NULL DEFAULT 0,
+--   points integer NOT NULL DEFAULT 0,
+--   notification SMALLINT NOT NULL DEFAULT 0,
+-- PRIMARY KEY (id)
+-- );
 
-CREATE UNIQUE INDEX utilisateur_id_idx ON utilisateur ( id ASC NULLS LAST);
-CREATE INDEX login_unique_utilisateur ON utilisateur ( login ASC);
-CREATE INDEX mail_unique_utilisateur ON utilisateur ( email ASC);
+-- CREATE UNIQUE INDEX utilisateur_id_idx ON utilisateur ( id ASC NULLS LAST);
+-- CREATE INDEX login_unique_utilisateur ON utilisateur ( login ASC);
+-- CREATE INDEX mail_unique_utilisateur ON utilisateur ( email ASC);
 
 DROP SEQUENCE IF EXISTS session_id_seq CASCADE;
 CREATE SEQUENCE session_id_seq
@@ -175,10 +175,20 @@ CONSTRAINT fk_palmares_utilisateur FOREIGN KEY (utilisateur_id) REFERENCES utili
 CREATE INDEX fk_palmares_utilisateur ON session ( utilisateur_id ASC);
 
 -- Table competition
+DROP SEQUENCE IF EXISTS competition_id_seq CASCADE;
+CREATE SEQUENCE competition_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
 DROP TABLE IF EXISTS competition CASCADE;
 CREATE TABLE competition (
-  id integer NOT NULL,
-  libelle VARCHAR(255) NOT NULL ,  
+  id integer NOT NULL DEFAULT nextval('competition_id_seq'::regclass),
+  libelle VARCHAR(255) NOT NULL ,
+  apiid integer NOT NULL,
+  encours integer NOT NULL,
 PRIMARY KEY (id)
 );
 
@@ -191,7 +201,9 @@ CREATE SEQUENCE pronostic_id_seq
     NO MINVALUE
     NO MAXVALUE
     CACHE 1;
-    
+
+-- Sert pour trouver le gagnant d'une compét avant qu'elle ne commence
+
 DROP TABLE IF EXISTS pronostic CASCADE;
 CREATE TABLE pronostic (
   id integer NOT NULL DEFAULT nextval('pronostic_id_seq'::regclass),

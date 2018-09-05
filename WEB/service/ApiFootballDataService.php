@@ -95,19 +95,21 @@ class ApiFootballDataService {
         if(isset($retour->standings)) {
 
             foreach($retour->standings as $groups) {
-                foreach($groups as $equipe) {
 
-                    $objEquipe = new stdClass();
-                    $objEquipe->pays = $equipe->team;
-                    $objEquipe->code_groupe = $equipe->group;
-                    $equipes[$equipe->teamId] = $objEquipe;
-                    //$equipes[substr($url, strrpos( $url, '/')+1)] = $equipe->name;
+                foreach($groups as $allEquipes) {
+
+                    // Chaque équipe
+                    foreach($allEquipes as $equipe) {
+						$objEquipe = new stdClass();
+						$objEquipe->code_groupe = substr($groups->group, -1);
+						$objEquipe->pays = $equipe->team->name;
+						$equipes[$equipe->team->id] = $objEquipe;
+					}
                 }
             }
         } else {
             return JsonService::createErrorResponse("Aucune équipe trouvée");
         }
-
         return $equipes;
     }
 
@@ -143,13 +145,15 @@ class ApiFootballDataService {
 
         $retour = $this->getFromAPI($url);
         // On ne garde que ce qui sert
-
+ob_start();
+var_dump($retour);
+file_put_contents ( "./toto", ob_get_clean());
         // On a qu'un objet retourné ?
-        if(isset($retour->fixtures)) {
-            $matchs = $retour->fixtures;
+        if(isset($retour->matches)) {
+            $matchs = $retour->matches;
 
-        } else if(isset($retour->fixture)) {
-            $matchs = array($retour->fixture);
+        } else if(isset($retour->match)) {
+            $matchs = array($retour->match);
 
         } else {
             return NULL;
