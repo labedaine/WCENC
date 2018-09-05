@@ -61,13 +61,13 @@ CREATE TABLE competition (
   id integer NOT NULL DEFAULT nextval('competition_id_seq'::regclass),
   libelle VARCHAR(255) NOT NULL ,
   apiid integer NOT NULL,
-  offset integer NOT NULL,
+  moffset integer NOT NULL,
   encours integer NOT NULL,
 PRIMARY KEY (id)
 );
 
-INSERT INTO competition (libelle,apiid,encours) VALUES ('Coupe du Monde 2018', 467, 0);
-INSERT INTO competition (libelle,apiid,encours) VALUES ('Ligue des Champions 2018/19', 2001, 1);
+INSERT INTO competition (libelle,apiid,moffset,encours) VALUES ('Coupe du Monde 2018', 467,0, 0);
+INSERT INTO competition (libelle,apiid,moffset,encours) VALUES ('Ligue des Champions 2018/19', 2001,6, 1);
 
 
 -- Pronostic gagnant competition
