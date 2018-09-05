@@ -61,6 +61,7 @@ CREATE TABLE competition (
   id integer NOT NULL DEFAULT nextval('competition_id_seq'::regclass),
   libelle VARCHAR(255) NOT NULL ,
   apiid integer NOT NULL,
+  offset integer NOT NULL,
   encours integer NOT NULL,
 PRIMARY KEY (id)
 );
