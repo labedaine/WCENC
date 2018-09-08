@@ -229,7 +229,6 @@ class PopulateScript extends SinapsScript {
             $objEquipe = new Equipe();
             $objEquipe->id = $key;
             $objEquipe->code_groupe = $equipe->code_groupe;
-            $objEquipe->lien_image = $equipe->lien_image;
 
             // On gère les noms français
             $objEquipe->pays = $equipe->pays;
