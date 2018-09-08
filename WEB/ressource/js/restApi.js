@@ -217,6 +217,16 @@ var RestApi = new function() {
                 "userId" : userId
             }, success, error);
         },
+        
+        // *****************************************
+        // mdp oublié utilisateur
+        // *****************************************
+        renewMdp : function(login, success, error) {
+            performPost(url.ADMINISTRATION + "/renewMdp", {
+                "login" : login
+            }, success, error);
+        },
+        
 
         // paris
         getListeMatch : function (nom, success, error) {

@@ -11,7 +11,10 @@ class MailService {
     
     const OBJECT_MAIL_ACTIVATION_UTILISATEUR = "Activation Compte BetFip";
     const MESSAGE_MAIL_ACTIVATION_UTILISATEUR = "Bienvenue @NOM@,\n\nNous sommes ravis de vous accueillir parmi nos nouveaux utilisateurs.\n\nÀ bientôt,\nL'équipe BetFip";
-    
+   
+    const OBJECT_MAIL_MDP = "Nouveau mot de passe BetFip";
+    const MESSAGE_MAIL_MDP = "Bienvenue @NOM@,\n\nVotre nouveau mot de passe est @MDP@.\n\nÀ bientôt,\nL'équipe BetFip";
+     
     
     static protected $instance = NULL;
     
@@ -51,6 +54,14 @@ class MailService {
     public function envoyerMailActivationCompte($destinataire, $prenom) {
         static::init();
         $retour = static::$instance->envoyerMailOnInstance($destinataire, self::OBJECT_MAIL_ACTIVATION_UTILISATEUR, str_replace("@NOM@", $prenom, self::MESSAGE_MAIL_ACTIVATION_UTILISATEUR));
+        return $retour;
+    }
+    
+    public function envoyerMailMdp($destinataire, $prenom, $mdp) {
+        static::init();
+        $texte = str_replace("@NOM@", $prenom, self::MESSAGE_MAIL_MDP);
+        $texte = str_replace("@MDP@", $prenom, $texte);
+        $retour = static::$instance->envoyerMailOnInstance($destinataire, self::OBJECT_MAIL_MDP, $texte);
         return $retour;
     }
     

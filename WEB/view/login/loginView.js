@@ -6,7 +6,8 @@ var LoginViewClass = function(args) {
 
         events : {
             "click #btn_conn" : "submitLogin",
-            "click #btn_connE" : "submitLogin"
+            "click #btn_connE" : "submitLogin",
+            "click #btn_mdp" : "renewMdp"
         },
 
         timers : {"activeCarousel" : 4200},
@@ -155,6 +156,32 @@ var LoginViewClass = function(args) {
             });
             return false;
        },
+       
+       renewMdp : function() {
+		   console.log($("#inputLoginM").val());
+		   
+		   // Renvoie mdp
+           RestApi.renewMdp($("#inputLoginM").val(),
+                function(data) {
+
+                    if (data) {
+                        if (data.success) {
+                            // On affiche une popUp qui confirme l'inscription
+                            // avec le message qui va bien
+                            MessageBox("Votre mot de passe vous a été envoyé par mail ... surement dans les spams. <br/> La prochaine fois tu choisira 'azerty'...</i>",
+                            "Mot de passe oublié" );
+
+                        } else {
+                            // PopUp erreur avec message qui va bien
+                            // Si l'utilisateur existe deja
+                            ErrorMessageBox(data.payload);
+                            return false;
+                        }
+                    }
+            });
+            return false;
+
+	   },
 
     });
     return Clazz;

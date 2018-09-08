@@ -98,4 +98,47 @@ class AdministrationController extends BaseController {
             return $retour;
         }
     }
+    
+    /**
+     * Change le mot de passe
+     * @param type $idUtilisateur
+     * @return type
+     */
+    public function renewMdp() {
+
+        try {
+
+            //activation de l'utilisateur en bdd
+            $userLogin = Input::get('login');
+            $user = Utilisateur::where('login', $userLogin)->first();
+            
+            if($user === NULL) {
+				throw new Exception("Si en plus tu connais ton login... '$userLogin' n'existe pas.");
+			}
+            //$this->utilisateurService->changerMdp($user->id);
+
+            $this->mailService->envoyerMailMdp($user->email, $user->prenom, $this->chaine_aleatoire(8));
+
+            $retour = $this->jsonService->createResponse($user->id);
+
+            return $retour;
+
+        } catch(Exception $err) {
+            $retour = JsonService::createErrorResponse("500", $err->getMessage());
+            return $retour;
+        }
+    }
+    
+    public function chaine_aleatoire($nb_car, $chaine = 'azertyuiopqsdfghjklmwxcvbn123456789')
+	{
+		$nb_lettres = strlen($chaine) - 1;
+		$generation = '';
+		for($i=0; $i < $nb_car; $i++)
+		{
+			$pos = mt_rand(0, $nb_lettres);
+			$car = $chaine[$pos];
+			$generation .= $car;
+		}
+		return $generation;
+	}
 }

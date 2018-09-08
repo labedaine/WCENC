@@ -42,6 +42,7 @@ Route::get('verification/Groupe/(.*)$', 'VerificationFromConfController@getGroup
 Route::post('administration$', 'AdministrationController@getUtilisateursListe');
 Route::post('administration/supprimerUtilisateur', 'AdministrationController@supprimerUtilisateur');
 Route::post('administration/activerUtilisateur', 'AdministrationController@activerUtilisateur');
+Route::post('administration/renewMdp', 'AdministrationController@renewMdp');
 
 
 //PARIS
