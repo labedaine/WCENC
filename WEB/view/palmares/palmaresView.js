@@ -70,9 +70,9 @@ var PalmaresViewClass = function(args) {
 									.append("<div case=" + cpt + " classement="+cpt+" class='row col-md-4 col-xs-4'></div>");
 									
 						$("[case="+cpt+"]")
-									.append("<div classement="+cpt+" class='col-md-2 col-xs-1 left' style='padding:10px;max-width:50px;font-size:15px'>"+(cpt+1)+ "/</div>")
-									.append("<div classement="+cpt+" class='col-md-2 col-xs-1 right' style='padding:10px;max-width:50px;font-size:15px'>" + detail.points + "</div>")
-									.append("<div classement="+cpt+" class='col-md-6 col-xs-2 center' style='padding:10px;max-width:100px;font-size:15px'>" + detail.login + "</div>");
+									.append("<div classement="+cpt+" class='col-md-2 col-xs-1 left' style='padding:10px;font-size:15px'>"+(cpt+1)+ "/</div>")
+									.append("<div classement="+cpt+" class='col-md-2 col-xs-1 right' style='padding:10px;font-size:15px'>" + detail.points + "</div>")
+									.append("<div classement="+cpt+" class='col-md-6 col-xs-2 center' style='padding:10px;font-size:15px'>" + detail.login + "</div>");
 						cpt++;
                 	});
                 	
