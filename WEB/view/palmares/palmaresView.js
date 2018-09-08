@@ -51,8 +51,10 @@ var PalmaresViewClass = function(args) {
                 		// Est ce que l'on est caché ou pas
                 		if($("#lignes_"+competition).find("[classement]").parent().eq(4).is(":visible")) {
 							$("#lignes_"+competition).find("[classement]").find(":not(.nePasCacher)").parent().parent().hide();
+							$('button[competition='+competition+']').html('Voir les nuls');
 						} else {
 							$("#lignes_"+competition).find("[classement]").find(":not(.nePasCacher)").parent().parent().show();
+							$('button[competition='+competition+']').html('Cacher les nuls');
 						}
                 	});
 					
@@ -73,11 +75,16 @@ var PalmaresViewClass = function(args) {
 									.append("<div classement="+cpt+" class='col-md-4 col-xs-2 center' style='padding:10px;max-width:50px'>" + detail.login + "</div>");
 						cpt++;
                 	});
+                	
 				});
 				
 				$("[classement=0]").addClass("bg-warning text-white nePasCacher");
 				$("[classement=1]").addClass("bg-danger text-white nePasCacher");
 				$("[classement=2]").addClass("bg-secondary text-white nePasCacher");
+				
+				// on les cache
+				$("[classement]:not(.nePasCacher)").parent().parent().hide();
+				$(".nePasCacher").parent().parent().show();
               }
 
             }, function(data) {  console.log(data); });
