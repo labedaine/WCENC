@@ -34,6 +34,8 @@ class PalmaresController extends BaseController {
 			$arr['id'] = $user->id;
 			$arr['login'] = $user->login;
 			$arr['points'] = $palma->points;
+			$arr['promo'] = UtilisateurExt::numToString($user->promotion);
+			$arr['prenom'] = $user->prenom;
 			array_push($detail, $arr);
 		  }
 		  

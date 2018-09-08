@@ -37,11 +37,15 @@ var PalmaresViewClass = function(args) {
 
 				// Pour chaque competition
 				$.each(data.payload, function(competition, element ) {
-					$("#contenuPalmares").append("<div class='titleGroupe row' id='lignes_" + element.competition_id + "'></div>");
 					
 					// Pour chaque element de la competition
-					$("#lignes_" + element.competition_id).append("<div class='col-sm-8 col-xs-5 right'>"+competition+"</div>");
-					$("#lignes_" + element.competition_id).append("<div class='col-sm-4 col-xs-3 right'  style='margin-bottom:10px'><button type='button' competition='"+element.competition_id+"' class='btn btn-primary' style='height:40px'>Voir les nuls</button></div>");
+					$("#contenuPalmares").append("<div id='header_"+element.competition_id+"' class='col-md-12 col-sm-12 titleGroupe'></div>");
+					$("#header_"+element.competition_id).append("<div class='col-md-8 col-sm-8 col-xs-5 right'>"+competition+"</div>")
+														.append("<div class='col-md-8 col-sm-4 col-xs-3 right'  style='margin-bottom:10px'><button type='button' competition='"+element.competition_id+"' class='btn btn-primary' style='height:40px'>Voir les nuls</button></div>");
+					
+					$("#contenuPalmares").append("<table id='"+element.competition_id+"' class='classementTable table table-hover table-sm no-gutter' data-page-length='100'></table>");
+					$("#"+element.competition_id).append('<thead  class="thead-light"><tr><th>#</th><th>Points</th><th>Login</th><th>Prénom</th><th>Promo</th></tr></thead><tbody>');
+
 					var cpt = 0;
 					var ligne = 0;
 					
@@ -49,33 +53,27 @@ var PalmaresViewClass = function(args) {
                 		var competition = $(this).attr('competition');
                 		
                 		// Est ce que l'on est caché ou pas
-                		if($("#lignes_"+competition).find("[classement]").parent().eq(4).is(":visible")) {
-							$("#lignes_"+competition).find("[classement]").find(":not(.nePasCacher)").parent().parent().hide();
+                		if($("#"+competition).find("tr").eq(5).is(":visible")) {
+							$("#"+competition).find(".ligneInter").find(":not(.nePasCacher)").parent().hide();
 							$('button[competition='+competition+']').html('Voir les nuls');
 						} else {
-							$("#lignes_"+competition).find("[classement]").find(":not(.nePasCacher)").parent().parent().show();
+							$("#"+competition).find(".ligneInter").show();
 							$('button[competition='+competition+']').html('Cacher les nuls');
 						}
                 	});
-					
+        
 					$.each(element.detail, function(id, detail ) {
-						
-						if(cpt % 3 == 0) {
-							$("#lignes_" + element.competition_id).append("<div id='ligne_"+cpt+"' class='row col-md-12 col-xs-3'></div>");
-							ligne = cpt;
-						}
-
-						// Pour les trois premiers on les met en forme
-						$("#ligne_"+ligne)
-									.append("<div case=" + cpt + " classement="+cpt+" class='row col-md-4 col-xs-4'></div>");
-									
-						$("[case="+cpt+"]")
-									.append("<div classement="+cpt+" class='col-md-2 col-xs-1 left' style='padding:10px;font-size:15px'>"+(cpt+1)+ "/</div>")
-									.append("<div classement="+cpt+" class='col-md-2 col-xs-1 right' style='padding:10px;font-size:15px'>" + detail.points + "</div>")
-									.append("<div classement="+cpt+" class='col-md-6 col-xs-2 center nomDansClassement' style='padding:10px;font-size:15px'>" + detail.login + "</div>");
+						$("#"+element.competition_id+" tbody").append("<tr ligne id='"+element.competition_id+"' class='ligneInter'></tr>");
+						$("#"+element.competition_id+" tbody tr").last()
+							.append("<td classement="+cpt+" class='left'>"+(cpt+1)+ "</td>")
+							.append("<td classement="+cpt+" class='left'>" + detail.points + "</td>")
+							.append("<td classement="+cpt+" class='left'>" + detail.login + "</td>")
+							.append("<td classement="+cpt+" class='left'>" + detail.prenom + "</td>")
+							.append("<td classement="+cpt+" class='left'>" + detail.promo + "</td>");
 						cpt++;
                 	});
                 	
+                	$("#"+element.competition_id).append('</tbody></table>');
 				});
 				
 				$("[classement=0]").addClass("bg-warning text-white nePasCacher");
@@ -83,8 +81,8 @@ var PalmaresViewClass = function(args) {
 				$("[classement=2]").addClass("bg-secondary text-white nePasCacher");
 				
 				// on les cache
-				$("[classement]:not(.nePasCacher)").parent().parent().hide();
-				$(".nePasCacher").parent().parent().show();
+				$(".ligneInter").hide();
+				$(".nePasCacher").parent().show();
               }
 
             }, function(data) {  console.log(data); });

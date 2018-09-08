@@ -634,6 +634,10 @@ html, body {
     top: 80px;
 }
 
+.case {
+	border: 1px solid grey;
+}
+
 @media screen and (max-width: 700px) {
     #sign { display:none !important; }
     #panneau, #nav-connexion, #nav-tabContent, #nav-tabLogin { width: 100% !important;}
@@ -741,8 +745,11 @@ html, body {
         margin-bottom:2px !important;
     }
 
+	[classement] {
+		max-width:50px !important;
+	}
 	[nomDansClassement] {
-		max-width:50px;
+		max-width:1000px !important;
 	}
 }
 
