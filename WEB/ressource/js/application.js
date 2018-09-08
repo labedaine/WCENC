@@ -226,7 +226,7 @@ var application = $.extend({} , Framework, {
                     break;
 
                 default:
-                    afficherEcranParis();
+                    this.afficherEcranParis();
             }
 
             application.afficheUnderligne();
