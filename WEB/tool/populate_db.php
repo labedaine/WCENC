@@ -260,10 +260,10 @@ class PopulateScript extends SinapsScript {
 		
 		// Tant que il y a des matchs a créer
 		while($fin == FALSE) {
-			var_dump($phaseACharger);
+
 			$matchs = $this->api->getMatchByPhase($phaseACharger);
 			$phaseACharger++;
-			var_dump($matchs);
+			
 			if(!empty($matchs)) {
 			
 				foreach($matchs as $key => $match) {
