@@ -51,16 +51,18 @@ var PalmaresViewClass = function(args) {
 					$.each(element.detail, function(id, detail ) {
 						
 						if(cpt % 3 == 0) {
-							$("#lignes_" + element.competition_id).append("<div id='ligne_"+cpt+"' class='row col-sm-12' style='width:400px'></div>");
+							$("#lignes_" + element.competition_id).append("<div id='ligne_"+cpt+"' class='row col-md-12 col-xs-3'></div>");
 							ligne = cpt;
 						}
-						console.log(ligne);
+
 						// Pour les trois premiers on les met en forme
-						
 						$("#ligne_"+ligne)
-									.append("<div classement="+cpt+" class='col-xs-1' style='padding:10px'>"+(cpt+1)+"/</div>")
-									.append("<div classement="+cpt+" class='col-sm-1' style='padding:10px'>" + detail.points + "</div>")
-									.append("<div classement="+cpt+" class='col-sm-2' style='padding:10px'>" + detail.login + "</div>");
+									.append("<div case=" + cpt + " classement="+cpt+" class='row col-md-4 col-xs-4'></div>");
+									
+						$("[case="+cpt+"]")
+									.append("<div classement="+cpt+" class='col-md-2 col-xs-1 center' style='padding:10px;max-width:50px'>"+(cpt+1)+ "/</div>")
+									.append("<div classement="+cpt+" class='col-md-2 col-xs-1 center' style='padding:10px;max-width:50px'>" + detail.points + "</div>")
+									.append("<div classement="+cpt+" class='col-md-4 col-xs-2 center' style='padding:10px;max-width:50px'>" + detail.login + "</div>");
 						// Pour les suivants on les cache
 						cpt++;
                 	});
