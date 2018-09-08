@@ -39,9 +39,9 @@ var PalmaresViewClass = function(args) {
 				$.each(data.payload, function(competition, element ) {
 					
 					// Pour chaque element de la competition
-					$("#contenuPalmares").append("<div id='header_"+element.competition_id+"' class='col-md-12 col-sm-12 titleGroupe'></div>");
-					$("#header_"+element.competition_id).append("<div class='col-md-8 col-sm-8 col-xs-5 right'>"+competition+"</div>")
-														.append("<div class='col-md-8 col-sm-4 col-xs-3 right'  style='margin-bottom:10px'><button type='button' competition='"+element.competition_id+"' class='btn btn-primary' style='height:40px'>Voir les nuls</button></div>");
+					$("#contenuPalmares").append("<div id='header_"+element.competition_id+"' class='titleGroupe row col-md-12 col-sm-12 col-xs-12 '></div>");
+					$("#header_"+element.competition_id).append("<div class='col-md-2 col-sm-2 col-xs-1 right'  style='margin-bottom:10px'><button type='button' competition='"+element.competition_id+"' class='btn btn-primary' style='height:40px;width:140px'>Voir les nuls</button></div>")
+					.append("<div class='col-md-8 col-sm-8 col-xs-5 right'>"+competition+"</div>");
 					
 					$("#contenuPalmares").append("<table id='"+element.competition_id+"' class='classementTable table table-hover table-sm no-gutter' data-page-length='100'></table>");
 					$("#"+element.competition_id).append('<thead  class="thead-light"><tr><th>#</th><th>Points</th><th>Login</th><th>Prénom</th><th>Promo</th></tr></thead><tbody>');
@@ -74,15 +74,16 @@ var PalmaresViewClass = function(args) {
                 	});
                 	
                 	$("#"+element.competition_id).append('</tbody></table>');
+                	$("#"+element.competition_id + " [classement=0]").addClass("bg-warning text-white nePasCacher");
+					$("#"+element.competition_id + " [classement=1]").addClass("bg-danger text-white nePasCacher");
+					$("#"+element.competition_id + " [classement=2]").addClass("bg-secondary text-white nePasCacher");
+					
+					// on les cache
+					$(".ligneInter").hide();
+					$(".nePasCacher").parent().show();
 				});
 				
-				$("[classement=0]").addClass("bg-warning text-white nePasCacher");
-				$("[classement=1]").addClass("bg-danger text-white nePasCacher");
-				$("[classement=2]").addClass("bg-secondary text-white nePasCacher");
 				
-				// on les cache
-				$(".ligneInter").hide();
-				$(".nePasCacher").parent().show();
               }
 
             }, function(data) {  console.log(data); });
