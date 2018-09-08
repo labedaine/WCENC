@@ -115,9 +115,12 @@ class AdministrationController extends BaseController {
             if($user === NULL) {
 				throw new Exception("Si en plus tu connais ton login... '$userLogin' n'existe pas.");
 			}
-            //$this->utilisateurService->changerMdp($user->id);
+			
+			$nouveauMdp = $this->chaine_aleatoire(8);
+			
+            $this->utilisateurService->changerMdp($user->id, $nouveauMdp);
 
-            $this->mailService->envoyerMailMdp($user->email, $user->prenom, $this->chaine_aleatoire(8));
+            $this->mailService->envoyerMailMdp($user->email, $user->prenom, $nouveauMdp);
 
             $retour = $this->jsonService->createResponse($user->id);
 

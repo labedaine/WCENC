@@ -13,7 +13,7 @@ class MailService {
     const MESSAGE_MAIL_ACTIVATION_UTILISATEUR = "Bienvenue @NOM@,\n\nNous sommes ravis de vous accueillir parmi nos nouveaux utilisateurs.\n\nÀ bientôt,\nL'équipe BetFip";
    
     const OBJECT_MAIL_MDP = "Nouveau mot de passe BetFip";
-    const MESSAGE_MAIL_MDP = "Bienvenue @NOM@,\n\nVotre nouveau mot de passe est @MDP@.\n\nÀ bientôt,\nL'équipe BetFip";
+    const MESSAGE_MAIL_MDP = "Bienvenue @NOM@,\n\nVotre nouveau mot de passe est:\n@MDP@\n\nÀ bientôt,\nL'équipe BetFip";
      
     
     static protected $instance = NULL;

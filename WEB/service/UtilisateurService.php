@@ -52,7 +52,23 @@ class UtilisateurService {
             throw $exception;
         }
     }
+    
+    /**
+     * changement du mot de passe utilisateur
+     */
+    
+    public function changerMdp($id, $mdp) {
+        try {
+            // On cré l'utilisateur
+            $user = Utilisateur::find($id);
+            $user->password = md5($mdp);
+            $user->save();
+            return TRUE;
 
+        } catch(Exception $exception) {
+            throw $exception;
+        }
+    }
 
     /**
      * Suppression d'un utilisateur
