@@ -103,7 +103,6 @@ class ApiFootballDataService {
 						$objEquipe = new stdClass();
 						$objEquipe->code_groupe = substr($groups->group, -1);
 						$objEquipe->pays = $equipe->team->name;
-						$objEquipe->lien_image = $equipe->team->crestUrl;
 						$equipes[$equipe->team->id] = $objEquipe;
 					}
                 }
