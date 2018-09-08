@@ -175,18 +175,20 @@ class PopulateScript extends SinapsScript {
 
     private function createUtilisateurs() {
 
-        $this->logger->addInfo("Création de l'utilisateur admin");
-        $objUtilisateur = new Utilisateur();
-        $objUtilisateur->nom = "admin";
-        $objUtilisateur->prenom = "admin";
-        $objUtilisateur->login = "admin";
-        $objUtilisateur->email = "admin@betfip.fr";
-        $objUtilisateur->password =  "21232f297a57a5a743894a0e4a801fc3";
-        $objUtilisateur->points = 0;
-        $objUtilisateur->promotion = 0;
-        $objUtilisateur->isactif = 1;
-        $objUtilisateur->isadmin = 1;
-        $objUtilisateur->save();
+		Utilisateur::where('login', 'admin')->delete();
+
+        //~ $this->logger->addInfo("Création de l'utilisateur admin");
+        //~ $objUtilisateur = new Utilisateur();
+        //~ $objUtilisateur->nom = "admin";
+        //~ $objUtilisateur->prenom = "admin";
+        //~ $objUtilisateur->login = "admin";
+        //~ $objUtilisateur->email = "admin@betfip.fr";
+        //~ $objUtilisateur->password =  "21232f297a57a5a743894a0e4a801fc3";
+        //~ $objUtilisateur->points = 0;
+        //~ $objUtilisateur->promotion = 0;
+        //~ $objUtilisateur->isactif = 1;
+        //~ $objUtilisateur->isadmin = 1;
+        //~ $objUtilisateur->save();
     }
 
     private function getCompetition() {

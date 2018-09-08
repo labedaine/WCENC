@@ -45,6 +45,7 @@ var PalmaresViewClass = function(args) {
 					
 					$("#contenuPalmares").append("<table id='"+element.competition_id+"' class='classementTable table table-hover table-sm no-gutter' data-page-length='100'></table>");
 					$("#"+element.competition_id).append('<thead  class="thead-light"><tr><th>#</th><th>Points</th><th>Login</th><th>Prénom</th><th>Promo</th></tr></thead><tbody>');
+					//~ $("#"+element.competition_id).append('<tbody>');
 
 					var cpt = 0;
 					var ligne = 0;
