@@ -7,11 +7,7 @@ var PalmaresViewClass = function(args) {
 
         template : 'view/palmares/tmpl/palmares.html?rd='+application.getUniqueId(),
 
-        events : {
-            "click #ind" : "showInd",
-            "click #coll" : "showColl",
-            "click #promo" : "showPromo",
-        },
+        events : {},
 
         timers : {},
 
@@ -44,9 +40,21 @@ var PalmaresViewClass = function(args) {
 					$("#contenuPalmares").append("<div class='titleGroupe row' id='lignes_" + element.competition_id + "'></div>");
 					
 					// Pour chaque element de la competition
-					$("#lignes_" + element.competition_id).append("<div class='col-sm-12 right'>"+competition+"</div>");
+					$("#lignes_" + element.competition_id).append("<div class='col-sm-8 col-xs-5 right'>"+competition+"</div>");
+					$("#lignes_" + element.competition_id).append("<div class='col-sm-4 col-xs-3 right'  style='margin-bottom:10px'><button type='button' competition='"+element.competition_id+"' class='btn btn-primary' style='height:40px'>Voir les nuls</button></div>");
 					var cpt = 0;
 					var ligne = 0;
+					
+					$('button[competition='+element.competition_id+']').on('click', function() {
+                		var competition = $(this).attr('competition');
+                		
+                		// Est ce que l'on est caché ou pas
+                		if($("#lignes_"+competition).find("[classement]").parent().eq(4).is(":visible")) {
+							$("#lignes_"+competition).find("[classement]").find(":not(.nePasCacher)").parent().parent().hide();
+						} else {
+							$("#lignes_"+competition).find("[classement]").find(":not(.nePasCacher)").parent().parent().show();
+						}
+                	});
 					
 					$.each(element.detail, function(id, detail ) {
 						
@@ -63,14 +71,13 @@ var PalmaresViewClass = function(args) {
 									.append("<div classement="+cpt+" class='col-md-2 col-xs-1 center' style='padding:10px;max-width:50px'>"+(cpt+1)+ "/</div>")
 									.append("<div classement="+cpt+" class='col-md-2 col-xs-1 center' style='padding:10px;max-width:50px'>" + detail.points + "</div>")
 									.append("<div classement="+cpt+" class='col-md-4 col-xs-2 center' style='padding:10px;max-width:50px'>" + detail.login + "</div>");
-						// Pour les suivants on les cache
 						cpt++;
                 	});
 				});
 				
-				$("[classement=0]").addClass("bg-warning text-white");
-				$("[classement=1]").addClass("bg-danger text-white");
-				$("[classement=2]").addClass("bg-secondary text-white");
+				$("[classement=0]").addClass("bg-warning text-white nePasCacher");
+				$("[classement=1]").addClass("bg-danger text-white nePasCacher");
+				$("[classement=2]").addClass("bg-secondary text-white nePasCacher");
               }
 
             }, function(data) {  console.log(data); });
