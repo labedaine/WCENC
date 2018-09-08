@@ -741,7 +741,7 @@ html, body {
         margin-bottom:2px !important;
     }
 
-	[classement] {
+	[nomDansClassement] {
 		max-width:50px;
 	}
 }

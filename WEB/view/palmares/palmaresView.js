@@ -72,7 +72,7 @@ var PalmaresViewClass = function(args) {
 						$("[case="+cpt+"]")
 									.append("<div classement="+cpt+" class='col-md-2 col-xs-1 left' style='padding:10px;font-size:15px'>"+(cpt+1)+ "/</div>")
 									.append("<div classement="+cpt+" class='col-md-2 col-xs-1 right' style='padding:10px;font-size:15px'>" + detail.points + "</div>")
-									.append("<div classement="+cpt+" class='col-md-6 col-xs-2 center' style='padding:10px;font-size:15px'>" + detail.login + "</div>");
+									.append("<div classement="+cpt+" class='col-md-6 col-xs-2 center nomDansClassement' style='padding:10px;font-size:15px'>" + detail.login + "</div>");
 						cpt++;
                 	});
                 	
