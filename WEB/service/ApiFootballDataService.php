@@ -146,9 +146,7 @@ class ApiFootballDataService {
 
         $retour = $this->getFromAPI($url);
         // On ne garde que ce qui sert
-ob_start();
-var_dump($retour);
-file_put_contents ( "./toto", ob_get_clean());
+
         // On a qu'un objet retourné ?
         if(isset($retour->matches)) {
             $matchs = $retour->matches;

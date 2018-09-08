@@ -256,8 +256,7 @@ class PopulateScript extends SinapsScript {
 
 		// On récupère l'offset
 		$competition = Competition::where('encours',1)->first();
-		$offset = 1;
-		$phaseACharger = $offset;
+		$phaseACharger = 1;
 		$fin = FALSE;
 		
 		// Tant que il y a des matchs a créer
@@ -289,7 +288,7 @@ class PopulateScript extends SinapsScript {
 					$objMatch->etat_id = $match->etat_id;
 					$objMatch->score_dom = $match->score_dom;
 					$objMatch->score_ext = $match->score_ext;
-					$objMatch->phase_id = $match->phase_id-$offset+1;
+					$objMatch->phase_id = $match->phase_id;
 					$objMatch->forcedSave();
 
 					$phase      = $objMatch->phase->libelle;
