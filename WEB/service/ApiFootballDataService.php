@@ -163,22 +163,13 @@ file_put_contents ( "./toto", ob_get_clean());
 
             $objMatch = new stdClass();
 
-            $urlFixture     = $match->_links->self->href;
-            $urlHomeTeam    = $match->_links->homeTeam->href;
-            $urlAwayTeam    = $match->_links->awayTeam->href;
+            //~ $urlFixture     = $match->_links->self->href;
+            //~ $urlHomeTeam    = $match->_links->homeTeam->href;
+            //~ $urlAwayTeam    = $match->_links->awayTeam->href;
 
             // Equipes
-            $objMatch->equipe_id_dom = substr($urlHomeTeam, strrpos( $urlHomeTeam, '/')+1);
-            $objMatch->equipe_id_ext = substr($urlAwayTeam, strrpos( $urlAwayTeam, '/')+1);
-
-            // Cas des équipes non connues
-            if($objMatch->equipe_id_dom == 757) {
-                $objMatch->equipe_id_dom = NULL;
-            }
-
-            if($objMatch->equipe_id_ext == 757) {
-                $objMatch->equipe_id_ext = NULL;
-            }
+            $objMatch->equipe_id_dom = $match->homeTeam->id;
+            $objMatch->equipe_id_ext = $match->awayTeam->id;
 
             // Etat
             $etat = Etat::where('libelle', $match->status)->first();
@@ -189,8 +180,8 @@ file_put_contents ( "./toto", ob_get_clean());
             }
 
             // Score
-            $objMatch->score_dom = $match->result->goalsHomeTeam;
-            $objMatch->score_ext = $match->result->goalsAwayTeam;
+            $objMatch->score_dom = $match->score->fullTime->homeTeam;
+            $objMatch->score_ext = $match->score->fullTime->awayTeam;
 
             /** TODO
              * "result": {
@@ -215,9 +206,9 @@ file_put_contents ( "./toto", ob_get_clean());
             $objMatch->phase_id = $match->matchday;
 
             // Date
-            $objMatch->date_match = strtotime($match->date);
+            $objMatch->date_match = strtotime($match->utcDate);
 
-            $retourMatchs[substr($urlFixture, strrpos( $urlFixture, '/')+1)] = $objMatch;
+            $retourMatchs[$match->id] = $objMatch;
         }
 
         if(count($retourMatchs) == 1) {

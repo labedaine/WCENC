@@ -8,7 +8,7 @@ var ReglementViewClass = function(args) {
 
     var Clazz= $.extend({}, ViewClass, {
 
-        template : 'view/reglement/tmpl/reglement.html',
+        template : 'view/reglement/tmpl/reglement.html?rd='+application.getUniqueId(),
 
         events : {
         },

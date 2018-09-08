@@ -252,8 +252,14 @@ class PopulateScript extends SinapsScript {
 
         $this->logger->contexte="MATCH";
 
-        $matchs = $this->api->getMatchs();
-
+		// On récupère l'offset
+		$competition = Competition::where('encours',1)->first();
+		$offset = $competition->moffset;
+		
+		// Tant que il y a des matchs a créer
+		
+        $matchs = $this->api->getMatchByPhase($offset);
+		
         foreach($matchs as $key => $match) {
             $equipeDom = "Non connu";
             $equipeExt = "Non connu";

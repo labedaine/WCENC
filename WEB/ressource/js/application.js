@@ -8,6 +8,7 @@ var application = $.extend({} , Framework, {
         'view/classement/classementView.js',          // vue pour les classement
         'view/reglement/reglementView.js',			  // vue pour le reglement
         'view/login/loginView.js',                    // vue pour le login
+        'view/palmares/palmaresView.js',              // vue pour le palmares
         'view/administration/administrationView.js',  // vue pour l'administration
         'ressource/js/popUp.js'
     ],
@@ -209,6 +210,10 @@ var application = $.extend({} , Framework, {
                 case "gestion-utilisateurs": // Menu Gestion Utilisateurs
                     this.afficherEcranGestionUtilisateurs(args);
                     break;
+
+                case "palmares": 
+                    this.afficherEcranPalmares(args);
+                    break;
                     
                 // BLOC 'Reglement'
                 case "reglement": // Menu reglement
@@ -230,7 +235,6 @@ var application = $.extend({} , Framework, {
     },
 
     afficheUnderligne: function () {
-      console.log(application.user.moduleEnCours);
       $('.selected').removeClass('selected');
       var selector = ".lien[href='#" + application.user.moduleEnCours + "']";
       $(selector).addClass('selected')
@@ -247,6 +251,13 @@ var application = $.extend({} , Framework, {
         var module = "classement";
         application.user.moduleEnCours="classement";
         this.currentView = new ClassementViewClass(args, module);
+        this.currentView.render('#pageContainer');
+    },
+    
+    afficherEcranPalmares: function(args) {
+        var module = "palmares";
+        application.user.moduleEnCours="palmares";
+        this.currentView = new PalmaresViewClass(args, module);
         this.currentView.render('#pageContainer');
     },
     

@@ -9,6 +9,7 @@ var RestApi = new function() {
         ADMINISTRATION : 'services/administration',
         PARIS : 'services/paris',
         CLASSEMENT : 'services/classement',
+        PALMARES : 'services/palmares',
         REGLEMENT : 'services/reglement',
     };
 
@@ -241,6 +242,11 @@ var RestApi = new function() {
         // reglement
         getReglement : function (success, error) {
             performGet(url.REGLEMENT, success, error);
+        },
+        
+        // reglement
+        getPalmares : function (success, error) {
+            performGet(url.PALMARES, success, error);
         },
 
         // *************************************

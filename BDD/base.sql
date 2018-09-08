@@ -175,7 +175,7 @@ CONSTRAINT fk_palmares_utilisateur FOREIGN KEY (utilisateur_id) REFERENCES utili
 CREATE INDEX fk_palmares_utilisateur ON session ( utilisateur_id ASC);
 
 -- Table competition
-DROP SEQUENCE IF EXISTS competition_id_seq CASCADE;
+
 CREATE SEQUENCE competition_id_seq
     START WITH 1
     INCREMENT BY 1
@@ -183,7 +183,6 @@ CREATE SEQUENCE competition_id_seq
     NO MAXVALUE
     CACHE 1;
 
-DROP TABLE IF EXISTS competition CASCADE;
 CREATE TABLE competition (
   id integer NOT NULL DEFAULT nextval('competition_id_seq'::regclass),
   libelle VARCHAR(255) NOT NULL ,

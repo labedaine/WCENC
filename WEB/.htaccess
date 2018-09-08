@@ -1,8 +1,8 @@
-  SetOutputFilter DEFLATE
+  #SetOutputFilter DEFLATE
 
-	Options +FollowSymLinks
-	RewriteEngine On
+#	Options +FollowSymLinks
+#	RewriteEngine On
 
-	RewriteCond %{REQUEST_FILENAME} !-f
-	RewriteCond %{REQUEST_FILENAME} !-d
-	RewriteRule ^services/(.*)$ /index.php [L]
+#	RewriteCond %{REQUEST_FILENAME} !-f
+#	RewriteCond %{REQUEST_FILENAME} !-d
+#	RewriteRule ^BetFip/services/(.*)$ /BetFip/index.php [L]

@@ -20,6 +20,27 @@ class Competition extends SinapsModel {
      */
     protected $libelle = NULL;
 
+    /**
+     * 
+     * 
+     * @var integer NOT NULL
+     */
+    protected $apiid = NULL;
+
+    /**
+     * 
+     * 
+     * @var integer NOT NULL
+     */
+    protected $moffset = NULL;
+
+    /**
+     * 
+     * 
+     * @var integer NOT NULL
+     */
+    protected $encours = NULL;
+
 
     /*
         Relations *

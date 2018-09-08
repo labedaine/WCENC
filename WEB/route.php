@@ -51,3 +51,6 @@ Route::post('utilisateur/parisAutre$', 'ParisController@getListeParisUser');
 
 //Classement
 Route::post('classement$', 'ClassementController@getListeClassement');
+
+//Palmares
+Route::get('palmares$', 'PalmaresController@getListePalmares');
