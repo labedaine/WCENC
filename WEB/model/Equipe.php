@@ -27,6 +27,12 @@ class Equipe extends EquipeExt {
      */
     protected $code_groupe = NULL;
 
+    /**
+     * 
+     * 
+     * @var TEXT
+     */
+    protected $lien_image = NULL;
 
     /*
         Relations *

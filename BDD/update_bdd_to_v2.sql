@@ -46,6 +46,10 @@ CREATE INDEX fk_palmares_utilisateur ON session ( utilisateur_id ASC);
 
 ALTER TABLE utilisateur ADD COLUMN notification SMALLINT NOT NULL DEFAULT 0;
 
+-- image des equipes
+
+ALTER TABLE equipe ADD COLUMN lien_image TEXT;
+
 -- Table competition
 
 DROP SEQUENCE IF EXISTS competition_id_seq CASCADE;
@@ -67,7 +71,7 @@ PRIMARY KEY (id)
 );
 
 INSERT INTO competition (libelle,apiid,moffset,encours) VALUES ('Coupe du Monde 2018', 467,0, 0);
-INSERT INTO competition (libelle,apiid,moffset,encours) VALUES ('Ligue des Champions 2018/19', 2001,6, 1);
+INSERT INTO competition (libelle,apiid,moffset,encours) VALUES ('Ligue des Champions 2018/19', 2001,0, 1);
 
 
 -- Pronostic gagnant competition

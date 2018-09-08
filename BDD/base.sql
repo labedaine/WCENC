@@ -82,6 +82,7 @@ CREATE TABLE equipe (
     id integer NOT NULL,
     pays varchar(50) NOT NULL,
     code_groupe varchar(1),
+    lien_image TEXT,
 PRIMARY KEY(id)
 );
 

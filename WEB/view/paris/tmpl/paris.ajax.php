@@ -29,7 +29,7 @@ setlocale(LC_TIME, "fr_FR");
             <?php if ($match["pays1"] == ""): ?>
             <i class="fas fa-question"></i>
             <?php else: ?>
-            <img src="ressource/img/drapeaux/drapeau-<?php echo strtolower($match["pays1"]); ?>.png"/>
+            <img src="ressource/img/drapeaux/<?php echo strtolower($match["equipe_id_dom"]); ?>.png"/>
             <?php endif; ?>
         </div>
         <div class="col-sm-1 col-xs-1 my-auto center" col="eq1" style="order: 3" fini="<?php echo in_array($match["etat_id"], array(1,2)) ? "0" : "1"; ?>">
@@ -53,7 +53,7 @@ setlocale(LC_TIME, "fr_FR");
             <?php if ($match["pays2"] == "" ):?>
               <i class="fas fa-question"></i>
             <?php else: ?>
-              <img src="ressource/img/drapeaux/drapeau-<?php echo strtolower($match["pays2"]); ?>.png"/>
+              <img src="ressource/img/drapeaux/<?php echo strtolower($match["equipe_id_ext"]); ?>.png"/>
             <?php endif; ?>
         </div>
         <div class="col-sm-1 col-xs-1 tdResultat my-auto center" style="order: 7" fini="<?php echo in_array($match["etat_id"], array(1,2)) ? "0" : "1"; ?>">

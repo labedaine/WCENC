@@ -23,11 +23,14 @@ class PopulateScript extends SinapsScript {
     private $phasesMatch = array(1 => "Phase de groupes (1ière journée)",
                                  2 => "Phase de groupes (2ième journée)",
                                  3 => "Phase de groupes (3ième journée)",
-                                 4 => "Huitièmes de finale",
-                                 5 => "Quarts de finale",
-                                 6 => "Demi-finales",
-                                 7 => "Match pour la troisième place",
-                                 8 => "Finale");
+                                 4 => "Phase de groupes (4ième journée)",
+                                 5 => "Phase de groupes (5ième journée)",
+                                 6 => "Phase de groupes (6ième journée)",
+                                 7 => "Huitièmes de finale",
+                                 8 => "Quarts de finale",
+                                 9 => "Demi-finales",
+                                 //~ 10 => "Match pour la troisième place",
+                                 10 => "Finale");
 
     public function __construct() {
         parent::__construct(__DIR__."/../config","PopulateLogger","populate");
@@ -226,13 +229,10 @@ class PopulateScript extends SinapsScript {
             $objEquipe = new Equipe();
             $objEquipe->id = $key;
             $objEquipe->code_groupe = $equipe->code_groupe;
+            $objEquipe->lien_image = $equipe->lien_image;
 
             // On gère les noms français
-            if(array_key_exists($equipe->pays, EquipeExt::$correspondancesEquipe)) {
-                $objEquipe->pays = EquipeExt::$correspondancesEquipe[$equipe->pays];
-            } else {
-                $objEquipe->pays = $equipe->pays;
-            }
+            $objEquipe->pays = $equipe->pays;
 
             $objEquipe->forcedSave();
 
@@ -256,42 +256,52 @@ class PopulateScript extends SinapsScript {
 
 		// On récupère l'offset
 		$competition = Competition::where('encours',1)->first();
-		$offset = $competition->moffset;
+		$offset = 1;
+		$phaseACharger = $offset;
+		$fin = FALSE;
 		
 		// Tant que il y a des matchs a créer
-		
-        $matchs = $this->api->getMatchByPhase($offset);
-		
-        foreach($matchs as $key => $match) {
-            $equipeDom = "Non connu";
-            $equipeExt = "Non connu";
+		while($fin == FALSE) {
+			var_dump($phaseACharger);
+			$matchs = $this->api->getMatchByPhase($phaseACharger);
+			$phaseACharger++;
+			var_dump($matchs);
+			if(!empty($matchs)) {
+			
+				foreach($matchs as $key => $match) {
+					$equipeDom = "Non connu";
+					$equipeExt = "Non connu";
 
-            $objMatch = new Match();
-            $objMatch->id = $key;
+					$objMatch = new Match();
+					$objMatch->id = $key;
 
-            // Gestion de la date
-            $dateFormat = $this->dateService->timeToFullDate($match->date_match);
-            $objMatch->date_match = $dateFormat;
+					// Gestion de la date
+					$dateFormat = $this->dateService->timeToFullDate($match->date_match);
+					$objMatch->date_match = $dateFormat;
 
-            if( $match->equipe_id_dom != NULL or $match->equipe_id_ext != NULL) {
-                $objMatch->equipe_id_dom = $match->equipe_id_dom;
-                $objMatch->equipe_id_ext = $match->equipe_id_ext;
-                $equipeDom  = $objMatch->equipe_dom()->pays;
-                $equipeExt  = $objMatch->equipe_ext()->pays;
-            }
+					if( $match->equipe_id_dom != NULL or $match->equipe_id_ext != NULL) {
+						$objMatch->equipe_id_dom = $match->equipe_id_dom;
+						$objMatch->equipe_id_ext = $match->equipe_id_ext;
+						$equipeDom  = $objMatch->equipe_dom()->pays;
+						$equipeExt  = $objMatch->equipe_ext()->pays;
+					}
 
-            $objMatch->etat_id = $match->etat_id;
-            $objMatch->score_dom = $match->score_dom;
-            $objMatch->score_ext = $match->score_ext;
-            $objMatch->phase_id = $match->phase_id;
-            $objMatch->forcedSave();
+					$objMatch->etat_id = $match->etat_id;
+					$objMatch->score_dom = $match->score_dom;
+					$objMatch->score_ext = $match->score_ext;
+					$objMatch->phase_id = $match->phase_id-$offset+1;
+					$objMatch->forcedSave();
 
-            $phase      = $objMatch->phase->libelle;
-            $etat       = $objMatch->etat->libelle;
-            //~ $dateFormat = $this->dateService->timeToFullDate($objMatch->date_match);
+					$phase      = $objMatch->phase->libelle;
+					$etat       = $objMatch->etat->libelle;
+					//~ $dateFormat = $this->dateService->timeToFullDate($objMatch->date_match);
 
-            $this->logger->addInfo(sprintf("%d: %14s - %-14s [%-10s][%s][%s]",
-                                            $key, $equipeDom, $equipeExt, $etat, $dateFormat, $phase));
+					$this->logger->addInfo(sprintf("%d: %14s - %-14s [%-10s][%s][%s]",
+													$key, $equipeDom, $equipeExt, $etat, $dateFormat, $phase));
+				}
+			} else {
+				$fin = TRUE;
+			}
         }
 
         $this->logger->finirEtape(
