@@ -60,7 +60,7 @@ class MailService {
     public function envoyerMailMdp($destinataire, $prenom, $mdp) {
         static::init();
         $texte = str_replace("@NOM@", $prenom, self::MESSAGE_MAIL_MDP);
-        $texte = str_replace("@MDP@", $prenom, $texte);
+        $texte = str_replace("@MDP@", $mdp, $texte);
         $retour = static::$instance->envoyerMailOnInstance($destinataire, self::OBJECT_MAIL_MDP, $texte);
         return $retour;
     }
