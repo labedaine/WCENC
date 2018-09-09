@@ -168,7 +168,7 @@ var LoginViewClass = function(args) {
                         if (data.success) {
                             // On affiche une popUp qui confirme l'inscription
                             // avec le message qui va bien
-                            MessageBox("Votre mot de passe vous a été envoyé par mail ... surement dans les spams. <br/> La prochaine fois tu choisira 'azerty'...</i>",
+                            MessageBox("Votre mot de passe vous a été envoyé par mail ... surement dans les spams. <br/> La prochaine fois tu choisira 'azerty'...</i> <br/>Vous pouvez ensuite le modifier depuis 'Mon Compte'.",
                             "Mot de passe oublié" );
 
                         } else {

@@ -11,6 +11,10 @@ var AdministrationViewClass = function(args) {
         template : 'view/administration/tmpl/administration.html?rd='+application.getUniqueId(),
 
         events : {
+			"click #listeUtilisateurs" : "afficheUtilisateurs",
+			"click #listeMails" : "afficheMails",
+			"click #listeCompetitions" : "afficheCompetitions",
+			"click #btn_enregistrerC" : "ajouterCompetition",
         },
 
         timers : {},
@@ -28,6 +32,9 @@ var AdministrationViewClass = function(args) {
             // on crée les jqContainers
             this.initToolTips();
             this.getListeUtilisateurs();
+            this.getListeMails();
+            this.getListeCompetitions();
+            this.afficheUtilisateurs();
         },
 
         /**
@@ -42,6 +49,66 @@ var AdministrationViewClass = function(args) {
                   track:true
                });
         },
+        
+        afficheUtilisateurs: function() {
+			$("#divUtilisateurs").show();
+			$("#divMailsC").hide();
+			$("#divCompetitionsC").hide();
+			return false;
+		},
+		
+		afficheMails: function() {
+			$("#divUtilisateurs").hide();
+			$("#divMailsC").show();
+			$("#divCompetitionsC").hide();
+			return false;
+		},
+		
+		afficheCompetitions: function() {
+			$("#divUtilisateurs").hide();
+			$("#divMailsC").hide();
+			$("#divCompetitionsC").show();
+			return false;
+		},
+        
+	    /**
+         * get liste mails
+         */
+        getListeMails : function(){
+
+        	RestApi.getListeMails(function(data) {
+                 if (data.success) {
+					$("#divMails").html(data.payload);
+                 } else {
+                     ErrorMessageBox("Impossible de charger la liste des mails");
+                 }
+             });
+        },
+        
+        /**
+         * get liste competitions
+         */
+        getListeCompetitions : function(){
+
+        	RestApi.getListeCompetitions(function(data) {
+                 if (data.success) {
+					
+					console.log(data.payload);
+					data.payload.forEach(function(element) {
+						$("#divCompet").append("<div class='row' rowCompet='" + element.id + "'></div>");
+							  $("div[rowCompet="+ element.id+"]")
+									.append("<div class='col-sm-2'>" + element.id + "</div>")
+									.append("<div class='col-sm-4'>" + element.libelle + "</div>")
+									.append("<div class='col-sm-2'>" + element.apiid + "</div>")
+									.append("<div class='col-sm-3'>" + element.encours + "</div>")
+									.append("<div class='col-sm-1'></div>");
+					});
+                 } else {
+                     ErrorMessageBox("Impossible de charger la liste des competitions");
+                 }
+             });
+        },
+        
         /**
          * Fonction d'initialisation de la liste des utilisateurs
          */
@@ -115,13 +182,26 @@ var AdministrationViewClass = function(args) {
         activerUtilisateur : function(idUser){
         	RestApi.activerUtilisateur(idUser, function(data) {
         		if (data.success) {
-        			console.log($("div[rowUser=" + idUser + "]").find('.fa-unlock'));
         			$("div[rowUser=" + idUser + "]").find('.fa-unlock').remove();
         		} else {
                     ErrorMessageBox("Erreur lors de l'activation l'utilisateur.");
                 }
         	});
         },
+        
+        ajouterCompetition : function() {
+			
+			var libelle = $("#libelC").val();
+			var apiid = $("#apiidC").val();
+			
+			RestApi.ajouterCompetition(libelle, apiid, function(data) {
+        		if (data.success) {
+        			MessageBox("La compétition '" + libelle + "' (" + apiid + ") ajoutée avec succès");
+        		} else {
+                    ErrorMessageBox("Erreur lors de l'ajout de la compétition.");
+                }
+        	});
+		}
     });
     return Clazz;
 };

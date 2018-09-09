@@ -9,6 +9,7 @@ var application = $.extend({} , Framework, {
         'view/reglement/reglementView.js',			  // vue pour le reglement
         'view/login/loginView.js',                    // vue pour le login
         'view/palmares/palmaresView.js',              // vue pour le palmares
+        'view/compte/compteView.js',             	  // vue pour le compte
         'view/administration/administrationView.js',  // vue pour l'administration
         'ressource/js/popUp.js'
     ],
@@ -215,6 +216,10 @@ var application = $.extend({} , Framework, {
                     this.afficherEcranPalmares(args);
                     break;
                     
+                 case "compte": 
+                    this.afficherEcranCompte(args);
+                    break;
+                       
                 // BLOC 'Reglement'
                 case "reglement": // Menu reglement
                     this.afficherEcranReglement(args);
@@ -251,6 +256,13 @@ var application = $.extend({} , Framework, {
         var module = "classement";
         application.user.moduleEnCours="classement";
         this.currentView = new ClassementViewClass(args, module);
+        this.currentView.render('#pageContainer');
+    },
+    
+	afficherEcranCompte: function(args) {
+        var module = "compte";
+        application.user.moduleEnCours="compte";
+        this.currentView = new CompteViewClass(args, module);
         this.currentView.render('#pageContainer');
     },
     

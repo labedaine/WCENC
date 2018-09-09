@@ -43,6 +43,10 @@ Route::post('administration$', 'AdministrationController@getUtilisateursListe');
 Route::post('administration/supprimerUtilisateur', 'AdministrationController@supprimerUtilisateur');
 Route::post('administration/activerUtilisateur', 'AdministrationController@activerUtilisateur');
 Route::post('administration/renewMdp', 'AdministrationController@renewMdp');
+Route::post('administration/changeMdp', 'AdministrationController@changeMdp');
+Route::post('administration/listeCompetition', 'AdministrationController@getListeCompetitions');
+Route::post('administration/listeMail', 'AdministrationController@getListeMails');
+Route::post('administration/ajouterCompetition', 'AdministrationController@ajouterCompetition');
 
 
 //PARIS

@@ -113,7 +113,7 @@ class AdministrationController extends BaseController {
             $user = Utilisateur::where('login', $userLogin)->first();
             
             if($user === NULL) {
-				throw new Exception("Si en plus tu connais ton login... '$userLogin' n'existe pas.");
+				throw new Exception("Si en plus tu connais pas ton login... '$userLogin' n'existe pas.");
 			}
 			
 			$nouveauMdp = $this->chaine_aleatoire(8);
@@ -121,6 +121,122 @@ class AdministrationController extends BaseController {
             $this->utilisateurService->changerMdp($user->id, $nouveauMdp);
 
             $this->mailService->envoyerMailMdp($user->email, $user->prenom, $nouveauMdp);
+
+            $retour = $this->jsonService->createResponse($user->id);
+
+            return $retour;
+
+        } catch(Exception $err) {
+            $retour = JsonService::createErrorResponse("500", $err->getMessage());
+            return $retour;
+        }
+    }
+    
+    public function getListeMails() {
+		try {
+			$mails = "";
+            $users = Utilisateur::all();
+            
+            foreach($users as $user) {
+				$mails .= $user->email . ";";
+			}
+
+            $retour = $this->jsonService->createResponse($mails);
+
+            return $retour;
+
+        } catch(Exception $err) {
+            $retour = JsonService::createErrorResponse("500", $err->getMessage());
+            return $retour;
+        }
+	}
+	
+	public function ajouterCompetition() {
+		try {
+			$libelle = Input::get('libelle');
+			$apiid = Input::get('apiid');
+			
+            $competition = Competition::where('libelle', $libelle)->first();
+			if($competition) {
+				throw new Exception("La competition '".$competition->libelle."' existe déjà.");
+			}
+			
+			$competition = Competition::where('apiid', $apiid)->first();
+			if($competition) {
+				throw new Exception("La competition d'id '".$competition->apiid."' existe déjà.");
+			}
+			
+			$competition = new Competition();
+			$competition->libelle = $libelle;
+			$competition->apiid = $apiid;
+			$competition->moffset = 0;
+			$competition->encours = 0;
+			$competition->save();
+			
+            $retour = $this->jsonService->createResponse($competition->id);
+
+            return $retour;
+
+        } catch(Exception $err) {
+            $retour = JsonService::createErrorResponse("500", $err->getMessage());
+            return $retour;
+        }
+	}
+	
+	public function getListeCompetitions() {
+		try {
+            $competitions = Competition::all();
+			$arr = array();
+
+			foreach($competitions as $competition) {
+				$aRetourner = new stdClass();
+				$aRetourner->id = $competition->id;
+				$aRetourner->libelle = $competition->libelle;
+				$aRetourner->apiid = $competition->apiid;
+				$aRetourner->encours = $competition->encours;
+				array_push($arr, $aRetourner);
+			}
+			
+            $retour = $this->jsonService->createResponse($arr);
+
+            return $retour;
+
+        } catch(Exception $err) {
+            $retour = JsonService::createErrorResponse("500", $err->getMessage());
+            return $retour;
+        }
+	}
+    
+     /**
+     * Change le mot de passe
+     * @param type $ancienMdp
+     * @param type $nouveauMdp
+     * @return type
+     */
+    public function changeMdp() {
+
+        try {
+
+            //activation de l'utilisateur en bdd
+            $userId = Input::get('userId');
+            $ancienMdp = Input::get('ancienMdp');
+            $nouveauMdp = Input::get('nouveauMdp');
+
+            $user = Utilisateur::find($userId);
+            
+            if($user === NULL) {
+				throw new Exception("Erreur lors de la mise à jour du mot de passe");
+			}
+			
+			if($user->password != md5($ancienMdp)) {
+				throw new Exception("L'ancien mot de passe est incorrect.");
+			}
+			
+			if(strlen($nouveauMdp) < 6) {
+				throw new Exception("Le nouveau mot de passe doit faire au moins 6 caractères.");
+			}
+					
+            $this->utilisateurService->changerMdp($user->id, $nouveauMdp);
 
             $retour = $this->jsonService->createResponse($user->id);
 

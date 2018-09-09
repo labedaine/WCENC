@@ -1,0 +1,28 @@
+
+
+ <div class="col-lg-9 col-xs-9" id="contenuCompte" style="padding-right:30px">
+		<div class="col-sm-12 col-sm-12">
+			<h3 class="titlePage">Modifier mon mot de passe</h3>
+			<form class="form-sign form-signup" id="formMdp" data-toggle="validator">
+				<br/>
+				<div class="form-group row">
+					<div class="col-sm-6">
+						<input id="inputPasswordC" class="form-control" placeholder="Votre mot de passe actuel" autofocus="" required type="password">
+					</div>
+					<div class="col-sm-6">
+						<input id="inputCPasswordC" class="form-control" placeholder="Confirmation du mot de passe actuel" autofocus="" required type="password" data-match="#inputPasswordC" data-match-error="Les mots de passe ne sont pas identiques">
+						<div class="help-block with-errors" style="font-size:12px"></div>
+					</div>
+					<div class="col-sm-6">
+						<input id="inputCPasswordN" class="form-control" placeholder="Votre nouveau mot de passe" autofocus="" data-minlength="6" data-error="Au moins 6 caractères"  required type="password">
+						<div class="help-block with-errors" style="font-size:12px"></div>
+					</div>
+					<div class="col-sm-6">
+						<button id="btn_enregistrer" type="submit" class="btn btn-info">Enregistrer nouveau mot de passe</button>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+ </div>
+

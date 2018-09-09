@@ -1,5 +1,19 @@
 <div class="row">
-	<div class="col-12 vertical-menu">
+	
+   <nav class="navbar navbar-dark bgMenu lighten-1 mb-4">
+        <a class="navbar-brand" href="#" id="listeUtilisateurs">Liste utilisateurs</a>
+   </nav>
+   <nav class="navbar navbar-dark bgMenu lighten-1 mb-4">
+        <a class="navbar-brand" href="#" id="listeMails">Liste Mails</a>
+   </nav>
+   <nav class="navbar navbar-dark bgMenu lighten-1 mb-4">
+        <a class="navbar-brand" href="#" id="listeCompetitions">Liste Competitions</a>
+   </nav>
+
+   <div class="col-lg-9 col-xs-9" id="contenuAdmin" style="padding-right:30px">
+	
+	<div class="row">
+	<div class="col-12 vertical-menu" id="divUtilisateurs">
 		<div class="titleGroupe">Liste des utilisateurs inscrit : </div>
 			
 		<!-- span id='testUsers'></span -->
@@ -31,4 +45,67 @@
 			</b>		
 		</div>
   	</div>
+</div>
+
+<div class="row">
+<div class="col-12 vertical-menu" id="divMailsC">
+	<div class="titleGroupe">Liste des mails: </div>
+	<div class="col-12 vertical-menu" id="divMails"></div>
+</div>
+</div>
+<div class="row">
+<div class="col-12 vertical-menu" id="divCompetitionsC">
+	
+	<div class="row">
+	<div class="col-12 vertical-menu" id="divCompetitions">
+	<div class="titleGroupe">Liste des competitions: </div>
+	
+	<div class="container" id="divCompet">
+			<b>
+				<div class="row">
+		  			<div class="col-sm-2">
+		    			Id
+		  			</div>
+	  				<div class="col-sm-4">
+	    				Libelle
+	  				</div>
+	  				<div class="col-sm-2">
+	    				Api id
+	  				</div>
+	  				<div class="col-sm-3">
+	    				en cours
+	  				</div>
+	  				<div class="col-sm-1">
+	    				Modifier
+	  				</div>
+				</div>
+			</b>		
+		</div>
+		</div>
+		</div>
+		
+<div class="col-sm-12 col-sm-12">
+			<h3 class="titlePage">Ajouter une compétition</h3>
+			<form class="form-sign form-signup" id="formMdp" data-toggle="validator">
+				<br/>
+				<div class="form-group row">
+					<div class="col-sm-6">
+						<input id="libelC" class="form-control" placeholder="Libelle compétition" autofocus="">
+					</div>
+					<div class="col-sm-2">
+						<input id="apiidC" class="form-control" placeholder="id de l'API" autofocus="" required>
+						<div class="help-block with-errors" style="font-size:12px"></div>
+					</div>
+					<div class="col-sm-4">
+						<button id="btn_enregistrerC" type="submit" class="btn btn-info">Enregistrer compétition</button>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+
+</div>
+
+</div>
+   </div>
 </div>

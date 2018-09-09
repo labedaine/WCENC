@@ -227,6 +227,53 @@ var RestApi = new function() {
             }, success, error);
         },
         
+        // *****************************************
+        // liste competition
+        // *****************************************
+        getListeCompetitions : function(success, error) {
+            performPost(url.ADMINISTRATION + "/listeCompetition", {}
+            , success, error);
+        },
+        
+        // *****************************************
+        // liste competition
+        // *****************************************
+        ajouterCompetition : function(libelle, apiid, success, error) {
+            performPost(url.ADMINISTRATION + "/ajouterCompetition", {
+				"libelle" : libelle,
+				"apiid" : apiid
+				}
+            , success, error);
+        },
+        
+        // *****************************************
+        // liste mails
+        // *****************************************
+        getListeMails : function(success, error) {
+            performPost(url.ADMINISTRATION + "/listeMail", {}
+            , success, error);
+        },
+        
+        // *****************************************
+        // mdp oublié utilisateur
+        // *****************************************
+        renewMdp : function(login, success, error) {
+            performPost(url.ADMINISTRATION + "/renewMdp", {
+                "login" : login
+            }, success, error);
+        },
+        
+        // *****************************************
+        // mdp oublié utilisateur
+        // *****************************************
+        changeMdp : function(userId, ancienMdp, nouveauMdp, success, error) {
+            performPost(url.ADMINISTRATION + "/changeMdp", {
+                "userId"  : userId,
+                "ancienMdp"  : ancienMdp,
+                "nouveauMdp" : nouveauMdp
+            }, success, error);
+        },
+        
 
         // paris
         getListeMatch : function (nom, success, error) {
@@ -234,6 +281,8 @@ var RestApi = new function() {
               "grp" : nom
           }, success, error);
         },
+        
+        
 
         // sauvegarde paris
         sauvegarderParis : function (listParis, success, error) {
