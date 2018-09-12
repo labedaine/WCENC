@@ -119,7 +119,7 @@ var ParisViewClass = function(args) {
 			  } else {
 				  // On met un select
 				  $("#contenuParis").append('<div id="containerSauvProno" style="position:fixed;right:35px;top:100px;z-index:999;margin:3px;background:#E8E9EB;border-radius:10px;"></div>');
-				  $("#contenuParis").append('<select id="selProno" class="form-group row match my-auto center">');
+				  $("#contenuParis").append('<select id="selProno" class="form-control form-group row match my-auto center" style="max-width:300px">');
 				  application.equipe.forEach(function (value) {
 					  var selected = "";
 
@@ -129,7 +129,7 @@ var ParisViewClass = function(args) {
 					  $("#contenuParis select").append("<option value='"+value.id+"' "+selected+">"+value.pays+"</option>");
 				  });
 				  
-				  $("#containerSauvProno").append('<button type="button" class="btn btn-primary" id="sauvPronoCompet" >Sauvegarder votre pronostic</button>');
+				  $("#contenuParis").append('<br/><button type="button" class="btn btn-primary" id="sauvPronoCompet" >Sauvegarder votre pronostic</button>');
 				  
 			  }
 		  } else {
