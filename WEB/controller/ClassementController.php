@@ -193,7 +193,7 @@ class ClassementController extends BaseController {
     SELECT promotion, points, prenom, nom, login, id
     FROM utilisateur
     WHERE promotion != 0
-    ORDER BY points DESC;
+    ORDER BY points DESC , login ASC;
 EOF;
 
     const SQL_GET_CLASSEMENT_PROMO = <<<EOF
