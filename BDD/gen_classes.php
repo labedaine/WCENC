@@ -261,7 +261,7 @@ class MysqlWorkbench {
     protected $postgresqlOutputFile;
 
     public function __construct() {
-        $this->mysqlWorkbenchFile = __DIR__."/base.sql";
+        $this->mysqlWorkbenchFile = __DIR__."/base_test.sql";
         $this->sqlOutputFile = __DIR__."/create_base.sql";
         $this->postgresqlOutputFile = __DIR__."/create_base_pg.sql";
 
