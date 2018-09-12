@@ -58,7 +58,7 @@ var ParisViewClass = function(args) {
           RestApi.sauvegarderProno($("#selProno").val(), function(data) {
               if (data.success) {
                 MessageBox("Votre pronostic sur le vainqueur de la compétition a été sauvegardé !" );
-                application.pronostic = $("#selProno").val();
+                application.pronostic.id = $("#selProno").val();
               } else {
                 ErrorMessageBox('Erreur lors de la prise en compte de votre pronostic.');
               }
