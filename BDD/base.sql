@@ -208,7 +208,6 @@ CREATE SEQUENCE pronostic_id_seq
 DROP TABLE IF EXISTS pronostic CASCADE;
 CREATE TABLE pronostic (
   id integer NOT NULL DEFAULT nextval('pronostic_id_seq'::regclass),
-  libelle VARCHAR(255) NOT NULL , 
   competition_id INTEGER NOT NULL, -- La competition sur laquelle on a un pronostic [competition 1-1 pronostic] Le pronostic de sur une competition
   utilisateur_id INTEGER NOT NULL, -- Utilisateur du pronostic [utilisateur 1-1 pronostic] Le pronostic de l'utilisateur
   equipe_id INTEGER NOT NULL, -- Equipe du pronostic [equipe 1-1 pronostic] Le pronostic sur l'equipe

@@ -110,11 +110,15 @@ class PopulateScript extends SinapsScript {
             SinapsApp::initDb();
             $dbh = SinapsApp::make("dbConnection");
             $dbh->beginTransaction();
-        }
-
-        // Recréation de la base
-        $baseSql    = __DIR__ . "/../../BDD/base.sql";
-        $cmd        = "psql -U $db_user -h $db_host -p $db_port $db_name < $baseSql";
+            
+            // Recréation de la base
+			$baseSql    = __DIR__ . "/../../BDD/base_test.sql";
+			$cmd        = "psql -U $db_user -h $db_host -p $db_port $db_name < $baseSql";
+        } else {
+			// Recréation de la base
+			$baseSql    = __DIR__ . "/../../BDD/base.sql";
+			$cmd        = "psql -U $db_user -h $db_host -p $db_port $db_name < $baseSql";
+		}
 
         $this->logger->debuterEtape(
             "resetBdd",
@@ -224,6 +228,8 @@ class PopulateScript extends SinapsScript {
         $this->logger->contexte="EQUIPE";
 
         $equipes = $this->api->getEquipes();
+        
+        var_dump($equipes);
 
         foreach($equipes as $key => $equipe) {
             $objEquipe = new Equipe();

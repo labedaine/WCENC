@@ -12,9 +12,6 @@ Route::get('utilisateur\?q=login:(\S+)', 'LoginController@getIdByLogin');
 Route::get('utilisateur\?q=login%3A(\S+)', 'LoginController@getIdByLogin');
 Route::get('utilisateur$', 'LoginController@getDetail');
 
-Route::put('utilisateur/profil/(\d+)/(\d+)/(\d+)', 'DroitsController@ajouterProfilUtilisateur');
-Route::delete('utilisateur/profil/(\d+)/(\d+)/(\d+)', 'DroitsController@supprimerProfilUtilisateur');
-
 Route::post('utilisateur$', 'UtilisateurController@postConfiguration');
 
 // Gestion des habilitations
@@ -51,7 +48,8 @@ Route::post('administration/ajouterCompetition', 'AdministrationController@ajout
 
 //PARIS
 Route::post('paris$', 'ParisController@getListeMatch');
-Route::post('paris/sauvegarder', 'ParisController@sauvegarderParis');
+Route::post('paris/sauvegarder$', 'ParisController@sauvegarderParis');
+Route::post('paris/sauvegarderProno', 'ParisController@sauvegarderProno');
 Route::post('utilisateur/parisAutre$', 'ParisController@getListeParisUser');
 
 //Classement

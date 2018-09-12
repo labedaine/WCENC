@@ -32,7 +32,76 @@ class ParisController extends BaseController {
 
       return JsonService::createResponse($listParis);
     }
+    
+    /**
+     * Sauvegarde le pronostic du vainqueur de la compét
+     */
+    public function sauvegarderProno() {
 
+      $idTeam = Input::get('idEquipe');
+      $user = SinapsApp::utilisateurCourant()->id;
+
+      $retour = $this->parisService->sauvegarderWinnerCompet($user, $idTeam);
+
+      return JsonService::createResponse($retour);
+    }
+
+    /**
+     * Récupère le vainqueur pour l'utilisateur
+     */
+
+    public function getVainqueur() {
+		
+		$retour = array("winner" => "");
+		
+		$user = SinapsApp::utilisateurCourant()->id;
+		
+		// Est ce qu'il y a une competition en cours
+		// Normalement il n'y en a qu'une ...
+		$compet = Competition::where('encours' , 1)->first();
+
+		if($compet == NULL) {			  
+			throw new Exception("Aucune compétition n'est active.");
+		}
+
+		$match = Match::where()->orderBy('date_match')->first();
+		if($match == NULL) {
+			throw new Exception("Aucun match n'est programmé.");
+		}
+		
+		$vainqueur = Pronostic::where('utilisateur_id', $user)
+								->where('competition_id', $compet->id)
+								->first();
+		if($vainqueur == NULL) {
+			return JsonService::createResponse(false);
+		}
+		
+		// on cherche l'equipe correspondante
+		$equipe = Equipe::find($vainqueur->equipe_id);
+		
+		return JsonService::createResponse(array($equipe->id => $equipe->pays));
+	}
+	
+	/**
+     * Récupère les equipes en base
+     */
+    public function getTeamInBDD() {
+		
+		$retour = array();
+
+		
+		// Est ce qu'il y a une competition en cours
+		// Normalement il n'y en a qu'une ...
+		$equipes = Equipe::all();
+
+		foreach($equipes as $equipe) {
+			array_push($retour, array($equipe->id => $equipe->pays));
+		}
+		
+		return JsonService::createResponse($retour);
+	}
+	
+	
     /**
      * Récupère la liste des groupes de l'utilisateur spécifié
      */

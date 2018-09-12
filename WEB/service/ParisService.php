@@ -51,7 +51,46 @@ class ParisService {
 
     }
 
+	public function sauvegarderWinnerCompet($user, $idTeam) {
 
+		try {
+		  
+			// Est ce qu'il y a une competition en cours
+			// Normalement il n'y en a qu'une ...
+			$compet = Competition::where('encours' , 1)->first();
+
+			if($compet == NULL) {			  
+				throw new Exception("Aucune compétition n'est active.");
+			}
+
+			$match = Match::where('id','>','0')->orderBy('date_match')->first();
+			if($match == NULL) {
+				throw new Exception("Aucun match n'est programmé.");
+			}
+
+			// Si le match n'est pas passé
+			if ($match->date_match > $this->timeService->now()) {
+
+				$pronostic = Pronostic::where('competition_id', $compet->id)
+									  ->where('utilisateur_id', $user)
+									  ->first();
+				if($pronostic == NULL) {
+					$pronostic = new Pronostic();
+					$pronostic->competition_id = $compet->id;
+					$pronostic->utilisateur_id = $user;
+				}
+				
+				$pronostic->equipe_id = $idTeam;
+				$pronostic->save();
+
+				return TRUE;
+			}
+			return FALSE;
+
+		} catch(Exception $exception) {
+			throw $exception;
+		}
+    }
 
     public function calculerPointsParis($idMatch) {
 

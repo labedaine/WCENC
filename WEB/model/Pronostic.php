@@ -14,18 +14,11 @@ class Pronostic extends SinapsModel {
     */
 
     /**
-     * 
-     * 
-     * @var VARCHAR(255) NOT NULL
-     */
-    protected $libelle = NULL;
-
-    /**
      * La competition sur laquelle on a un pronostic
      * [competition 1-1 pronostic]
      * Le pronostic de sur une competition
      * 
-     * @var INTEGER
+     * @var INTEGER NOT NULL
      */
     protected $competition_id = NULL;
 
@@ -34,9 +27,18 @@ class Pronostic extends SinapsModel {
      * [utilisateur 1-1 pronostic]
      * Le pronostic de l'utilisateur
      * 
-     * @var INTEGER
+     * @var INTEGER NOT NULL
      */
     protected $utilisateur_id = NULL;
+
+    /**
+     * Equipe du pronostic
+     * [equipe 1-1 pronostic]
+     * Le pronostic sur l'equipe
+     * 
+     * @var INTEGER NOT NULL
+     */
+    protected $equipe_id = NULL;
 
 
     /*
@@ -60,6 +62,16 @@ class Pronostic extends SinapsModel {
      */
     public function utilisateur() {
          $relation = $this->belongsTo("Utilisateur");
+         return $relation;
+    }
+
+    /**
+     * Equipe du pronostic
+     * Utilisation interne au framework uniquement
+     * @return SinapsRelation
+     */
+    public function equipe() {
+         $relation = $this->belongsTo("Equipe");
          return $relation;
     }
 

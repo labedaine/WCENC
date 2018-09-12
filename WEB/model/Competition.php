@@ -41,6 +41,13 @@ class Competition extends SinapsModel {
      */
     protected $encours = NULL;
 
+    /**
+     * 
+     * 
+     * @var integer NOT NULL DEFAULT 1
+     */
+    protected $cmatchday = NULL;
+
 
     /*
         Relations *

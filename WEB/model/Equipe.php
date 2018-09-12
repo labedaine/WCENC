@@ -27,9 +27,20 @@ class Equipe extends EquipeExt {
      */
     protected $code_groupe = NULL;
 
+
     /*
         Relations *
     */
+
+    /**
+     * Le pronostic sur l'equip
+     * Utilisation interne au framework uniquement
+     * @return SinapsRelation
+     */
+     public function pronostic() {
+         $relation = $this->hasOne("Pronostic");
+         return $relation;
+    }
 
     public function __construct(array $values=NULL) {
         parent::__construct($values);

@@ -40,8 +40,9 @@ class AuthentificationFilter extends Filter {
         if ( Cookie::has("token") === FALSE) {
             $this->throw401();
         }
-
+       
         $token = Cookie::get("token");
+
         $user = $this->loginService->getUtilisateurDepuisToken($token);
 
         if ($user === NULL) {

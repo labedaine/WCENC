@@ -77,6 +77,51 @@ class LoginController extends BaseController {
         $utilisateurCourant = SinapsApp::utilisateurCourant()->toArray();
         unset($utilisateurCourant['password']);
 
+		$equipes = Equipe::all();
+		$utilisateurCourant['equipes'] = array();
+		foreach($equipes as $equipe) {
+			$objEquipe = new stdClass();
+			$objEquipe->id = $equipe->id;
+			$objEquipe->pays = $equipe->pays;
+			
+			array_push($utilisateurCourant['equipes'], $objEquipe);
+		}
+
+        // On cherche maintenant la competition en cours
+        // Est ce qu'il y a une competition en cours
+		// Normalement il n'y en a qu'une ...
+		$compet = Competition::where('encours' , 1)->first();
+
+		$utilisateurCourant['competition_id'] = NULL;
+		$utilisateurCourant['competition_libelle'] = NULL;
+		$utilisateurCourant['competition_encours'] = NULL;
+		$utilisateurCourant['competition_hasstart'] = NULL;
+		$utilisateurCourant['competition_apiid'] = NULL;
+		
+		$utilisateurCourant['competition_votrevainqueur'] = NULL;
+		
+		if($compet !== NULL) {
+					  
+			$utilisateurCourant['competition_id'] = $compet->id;
+			$utilisateurCourant['competition_libelle'] = $compet->libelle;
+			$utilisateurCourant['competition_encours'] = $compet->encours;
+			$utilisateurCourant['competition_hasstart'] = 0;
+			$utilisateurCourant['competition_apiid'] = $compet->apiid;
+			
+			$pronostic = Pronostic::where('competition_id', $compet->id)
+								  ->where('utilisateur_id', $utilisateurCourant['id'])
+								  ->first();
+			
+			if($pronostic != NULL) {
+				$utilisateurCourant['pronostic'] = $pronostic->equipe_id;
+			}
+			
+			$match = Match::where('id','>',0)->orderBy('date_match')->first();
+			if($match != NULL) {
+				$utilisateurCourant['competition_hasstart'] = ($match->date_match > $this->timeService->now() ? 0 : 1);
+			}
+		}
+
         $retour = $this->jsonService->createResponseFromArray($utilisateurCourant);
         return $retour;
     }

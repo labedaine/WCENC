@@ -79,6 +79,7 @@ class LoginService {
         $session = Session::where("token", $token)->first();
 
         if ($session === NULL) {
+			
             return NULL;
         }
 

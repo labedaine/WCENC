@@ -12,6 +12,7 @@ var ParisViewClass = function(args) {
 
         events : {
           "click #sauvParis" : "sauvegardeParis",
+          "click #sauvPronoCompet" : "sauvegardeProno",
         },
 
         timers : {},
@@ -51,10 +52,22 @@ var ParisViewClass = function(args) {
                   track:true
                });
         },
+        
+        sauvegardeProno : function(e) {
+			
+          RestApi.sauvegarderProno($("#selProno").val(), function(data) {
+              if (data.success) {
+                MessageBox("Votre pronostic sur le vainqueur de la compétition a été sauvegardé !" );
+                application.pronostic = $("#selProno").val();
+              } else {
+                ErrorMessageBox('Erreur lors de la prise en compte de votre pronostic.');
+              }
+
+            }, function(data) {  console.log(data);});
+        },
 
         sauvegardeParis : function(e) {
           var listParis = [];
-          console.log("Récupération des paris");
 
           $('.match').each(function (e) {
             var id = $(this).data('idmatch');
@@ -90,8 +103,39 @@ var ParisViewClass = function(args) {
             var target = $( e.target );
             var nom =  target.data('nom');
           }
+                    console.log(application.competition);
+			  console.log(application.equipe);
+			  console.log(application.pronostic);
+          // On affiche le vainqueur pronostiqué
+          if(nom == "0"||nom=="A") {
+			  
+			  $("#contenuParis").append("<h3 class='titlePage'>Votre pronostic sur le vainqueur de la compétition</h3>");
+		
+			  
+			  // La competition a commencée
+			  if(application.competition.hasstart == 1 ) {
+				  // on affiche le gagnant pronostiqué
+				  $("#contenuParis").append("<h3 class='titlePage'>Votre pronostic sur le vainqueur de la compétition</h3>");
+			  } else {
+				  // On met un select
+				  $("#contenuParis").append('<div id="containerSauvProno" style="position:fixed;right:35px;top:100px;z-index:999;margin:3px;background:#E8E9EB;border-radius:10px;"></div>');
+				  $("#contenuParis").append('<select id="selProno" class="form-group row match my-auto center">');
+				  application.equipe.forEach(function (value) {
+					  var selected = "";
 
-          RestApi.getListeMatch(nom, function(data) {
+					  if(value.id == application.pronostic.id) {
+						selected = "selected";
+					  }
+					  $("#contenuParis select").append("<option value='"+value.id+"' "+selected+">"+value.pays+"</option>");
+				  });
+				  
+				  $("#containerSauvProno").append('<button type="button" class="btn btn-primary" id="sauvPronoCompet" >Sauvegarder votre pronostic</button>');
+				  
+			  }
+		  } else {
+
+			// Sinon la liste des matchs
+			RestApi.getListeMatch(nom, function(data) {
               if (data.success) {
                 $.ajax({
                    beforeSend: function() { $('#contenuParis').hide();},
@@ -147,6 +191,7 @@ var ParisViewClass = function(args) {
               }
 
             }, function(data) {  console.log(data);});
+			}
           },
     });
     return Clazz;

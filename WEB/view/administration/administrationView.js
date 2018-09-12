@@ -93,7 +93,6 @@ var AdministrationViewClass = function(args) {
         	RestApi.getListeCompetitions(function(data) {
                  if (data.success) {
 					
-					console.log(data.payload);
 					data.payload.forEach(function(element) {
 						$("#divCompet").append("<div class='row' rowCompet='" + element.id + "'></div>");
 							  $("div[rowCompet="+ element.id+"]")

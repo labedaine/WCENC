@@ -4,7 +4,7 @@ var UserModelClass = function() {
 
 		id : '',
 		name : '',
-		droits : {},
+		droits : 		{},
                 // Préférences de l'uitlisateur : contient un tableau de clef -> valeur
                 // Contient notamment la homepage de l'IHMR
                 preferences : {},

@@ -16,6 +16,10 @@ var application = $.extend({} , Framework, {
 
     // utilisateur actuellement connecte
     user : null,
+    competition : null,
+    equipe : null,
+    pronostic : null,
+    
     nePasChargerLaVue: false,
 
     // initialisation
@@ -80,6 +84,20 @@ var application = $.extend({} , Framework, {
                     self.user.id = data.payload.id;
                     self.user.login = data.payload.login;
                     self.user.isadmin = data.payload.isadmin;
+                    
+                    // Info sur la competition en cours si elle existe
+                    self.competition = new CompetitionModelClass();
+                    self.competition.id = data.payload.competition_id;
+                    self.competition.libelle = data.payload.competition_libelle;
+                    self.competition.encours = data.payload.competition_encours;
+                    self.competition.hasstart = data.payload.competition_hasstart;
+                    self.competition.apiid = data.payload.competition_apiid;
+
+					self.equipe = new EquipeModelClass();
+					self.equipe = data.payload.equipes;
+					
+					self.pronostic = new PronosticModelClass();
+					self.pronostic.id = data.payload.pronostic;
 
                     self.gotoModuleByHash();
                     self.menuView = new MenuViewClass();

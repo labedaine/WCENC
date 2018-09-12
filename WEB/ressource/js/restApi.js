@@ -286,12 +286,20 @@ var RestApi = new function() {
 
         // sauvegarde paris
         sauvegarderParis : function (listParis, success, error) {
-          console.log("restApi sauvegardeParis -" + url.PARIS + "/sauvegarder");
 
           performPost(url.PARIS + "/sauvegarder", {
               "listParis" : listParis
           }, success, error);
         },
+        
+        // sauvegarde prono
+        sauvegarderProno : function (idEquipe, success, error) {
+
+          performPost(url.PARIS + "/sauvegarderProno", {
+              "idEquipe" : idEquipe
+          }, success, error);
+        },
+        
 
         // classement
         getListeClassement : function (type, success, error) {

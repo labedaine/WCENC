@@ -97,7 +97,9 @@ class ApiFootballDataService {
             foreach($retour->standings as $groups) {
 
                 foreach($groups as $allEquipes) {
-
+					ob_start();
+var_dump($allEquipes);
+file_put_contents('toto', ob_get_clean());
                     // Chaque équipe
                     foreach($allEquipes as $equipe) {
 						$objEquipe = new stdClass();
