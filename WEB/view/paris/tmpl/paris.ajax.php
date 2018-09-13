@@ -3,8 +3,8 @@
 <?php
 setlocale(LC_TIME, "fr_FR");
 ?>
-<h3 class="titlePage">Liste des matchs</h3>
-<div id="containerSauvParis" style="position:fixed;right:35px;top:100px;z-index:999;margin:3px;background:#E8E9EB;border-radius:10px;">
+<h3 id="titreListeMatch" class="titlePage">Liste des matchs</h3>
+<div id="containerSauvParis" style="position:fixed;right:35px;top:170px;z-index:999;margin:3px;background:#E8E9EB;border-radius:10px;">
     <button type="button" class="btn btn-primary" id="sauvParis" >Sauvegarder vos paris</button>
 </div>
 <div class="col-lg-11 col-xs-12" id="tabParis">

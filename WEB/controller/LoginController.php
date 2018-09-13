@@ -96,7 +96,8 @@ class LoginController extends BaseController {
 		$utilisateurCourant['competition_libelle'] = NULL;
 		$utilisateurCourant['competition_encours'] = NULL;
 		$utilisateurCourant['competition_hasstart'] = NULL;
-		$utilisateurCourant['competition_apiid'] = NULL;
+		$utilisateurCourant['competition_hasstart'] = NULL;
+		$utilisateurCourant['competition_cmatchday'] = 0;
 		
 		$utilisateurCourant['competition_votrevainqueur'] = NULL;
 		
@@ -120,6 +121,18 @@ class LoginController extends BaseController {
 			if($match != NULL) {
 				$utilisateurCourant['competition_hasstart'] = ($match->date_match > $this->timeService->now() ? 0 : 1);
 			}
+			
+			// on cherche la phase en cours (premier match non fait)
+			$phase = Match::where('etat_id', 1)
+			              ->orderBy('date_match')
+			              ->first();
+			// La competition est terminée
+			if($phase == NULL) {
+				$utilisateurCourant['competition_cmatchday'] = 999;
+			} else {
+				$utilisateurCourant['competition_cmatchday'] = $phase->phase_id;
+			}
+			
 		}
 
         $retour = $this->jsonService->createResponseFromArray($utilisateurCourant);

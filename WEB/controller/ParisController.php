@@ -114,7 +114,7 @@ class ParisController extends BaseController {
       //~ {
         //~ $sqlQuery = self::SQL_LISTE_GROUPES;
       //~ }
-      if (!preg_match("/^1|2|3|4|5|6|7|8$/", $groupe)) {
+      if (!preg_match("/^(1|2|3|4|5|6|7|8|9)+$/", $groupe)) {
           $groupe = $this->apiController->phaseEnCours;
       }
 
@@ -134,17 +134,6 @@ class ParisController extends BaseController {
       }
 
       return JsonService::createResponse($matchs);
-
-      // $listeMatch = Match::all();
-      // //Match::where('id', '=', 'o')->get();
-      // $listeUsers = array();
-      // foreach ($mesUsers as $user) {
-      //     $tmp = $user->toArray();
-      //     unset($tmp->password);
-      //     $listeUsers[] = $tmp;
-      // }
-
-
     }
 
     /**

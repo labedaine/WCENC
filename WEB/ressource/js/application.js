@@ -93,6 +93,7 @@ var application = $.extend({} , Framework, {
                     self.competition.encours = data.payload.competition_encours;
                     self.competition.hasstart = data.payload.competition_hasstart;
                     self.competition.apiid = data.payload.competition_apiid;
+                    self.competition.cmatchday = data.payload.competition_cmatchday;
 
 					self.equipe = new EquipeModelClass();
 					self.equipe = data.payload.equipes;

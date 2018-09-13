@@ -348,11 +348,15 @@ blockquote p {
   margin-top: -5px;
 }
 
-#headerDef {
+#headerDef,#headerParis {
   background: linear-gradient(135deg,#95072f 5%,#d80f09 100%);
 }
 
-#headerDef .lien{
+#headerParis {
+  background: linear-gradient(135deg,#95072f 5%,#d80f09 100%);
+}
+
+#headerDef .lien,#headerParis .lien{
   font-size: 16px;
   font-weight: 300;
   text-transform: uppercase;
@@ -362,7 +366,7 @@ blockquote p {
   font-family: MetropolisRegular,Arial !important;
 }
 
-#headerDef  .lien::after {
+#headerDef  .lien::after, #headerParis .lien::after{
     display: block;
     left: 0;
     right: 0;
@@ -371,15 +375,13 @@ blockquote p {
     height: 2px;
     transform: scale3d(0,3,1);
     transition: transform 0.5s;
+    content: "";
 }
 
 #headerDef .lien.selected::after, #headerDef .lien:hover::after {
     transform: scale3d(1,1,1);
 }
 
-#headerDef .lien::after {
-    content: "";
-}
 
 .navbar-bet .navbar-toggler {
     color: rgba(255,255,255,.9);
@@ -673,6 +675,10 @@ html, body {
     #headerDef {
         max-height:50px !important;
     }
+    #headerParis {
+        display:none !important;
+    }
+
     .drapeau {
         display:none;
     }
@@ -688,6 +694,10 @@ html, body {
         width:70% !important;
         font-size:10px !important;
     }
+    
+    #divSelPhase {
+		display:block !important;
+	}
 
     .menuPhase {
         float:none;

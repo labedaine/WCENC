@@ -5,7 +5,8 @@ var CompetitionModelClass = function() {
 		libelle : '',
 		encours : '',
 		hasstart : '',
-		apiid : ''
+		apiid : '',
+		cmatchday : ''
 		
 	});
 	return Clazz;

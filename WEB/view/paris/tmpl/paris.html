@@ -1,89 +1,59 @@
-
-
-<div class="row">
-    <div class="col-lg-2 col-xs-2" id="menuClassement" style="display:block">
-	
-	<nav class="navbar navbar-dark bgMenu lighten-1 mb-4">
-		<a class="navbar-brand" href="#paris/0">Vainqueur</a>
-	</nav>
-	
-    <nav class="navbar navbar-dark bgMenu lighten-1 mb-4">
-        <a class="navbar-brand" href="#">Phase poule (aller)</a>
-
-        <button class="navbar-toggler toggler-example" type="button" data-toggle="collapse" data-target="#navbarSupportedContent1" aria-controls="navbarSupportedContent1"
-        aria-expanded="false" aria-label="Toggle navigation"><span class="dark-blue-text"><i class="fa fa-bars fa-1x"></i></span></button>
-
-        <div class="collapse navbar-collapse" id="navbarSupportedContent1">
-
-            <!-- Links -->
-            <ul class="navbar-nav mr-auto parisNav">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#paris/1">Première phase <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#paris/2">Deuxième phase</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#paris/3">Troisième phase</a>
-                </li>
-            </ul>
-            <!-- Links -->
-
-        </div>
-    </nav>
-    <nav class="navbar navbar-dark bgMenu lighten-1 mb-4">
-        <a class="navbar-brand" href="#">Phase poule (retour)</a>
-
-        <button class="navbar-toggler toggler-example" type="button" data-toggle="collapse" data-target="#navbarSupportedContent3" aria-controls="navbarSupportedContent1"
-        aria-expanded="false" aria-label="Toggle navigation"><span class="dark-blue-text"><i class="fa fa-bars fa-1x"></i></span></button>
-
-        <div class="collapse navbar-collapse" id="navbarSupportedContent3">
-
-            <!-- Links -->
-            <ul class="navbar-nav mr-auto parisNav">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#paris/4">Première phase</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#paris/5">Deuxième phase</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#paris/6">Troisième phase</a>
-                </li>
-            </ul>
-            <!-- Links -->
-
-        </div>
-    </nav>
-    <nav class="navbar navbar-dark bgMenu lighten-1 mb-4">
-        <a class="navbar-brand" href="#">Phase finale</a>
-
-        <button class="navbar-toggler toggler-example" type="button" data-toggle="collapse" data-target="#navbarSupportedContent2" aria-controls="navbarSupportedContent2"
-        aria-expanded="false" aria-label="Toggle navigation"><span class="dark-blue-text"><i class="fa fa-bars fa-1x"></i></span></button>
-
-        <div class="collapse navbar-collapse" id="navbarSupportedContent2">
-
-            <!-- Links -->
-            <ul class="navbar-nav mr-auto parisNav">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#paris/7">1/8 de finale<span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#paris/8">Quart de finale</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#paris/9">Demi-finale</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#paris/10">Finale</a>
-                </li>
-            </ul>
-            <!-- Links -->
-
-        </div>
-    </nav>
-
-
+<nav class="navbar navbar-expand-sm" id="headerParis">
+<div class=" navbar-collapse collapse container-fluid">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link lien selected" lienParis="0" id="parisLink0" href="#" >Vainqueur</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link lien" lienParis="1" id="parisLink1" href="#">J1</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link lien" lienParis="2" id="parisLink2" href="#">J2 </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link lien" lienParis="3" id="parisLink3" href="#">J3 </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link lien" lienParis="4" id="parisLink4" href="#">J4</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link lien" lienParis="5" id="parisLink5" href="#">J5</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link lien" lienParis="6" id="parisLink6" href="#">J6</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link lien" lienParis="7" id="parisLink7" href="#">1/8</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link lien" lienParis="8" id="parisLink8" href="#">1/4</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link lien" lienParis="9" id="parisLink9" href="#">1/2</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link lien" lienParis="10" id="parisLink10" href="#">Finale</a>
+      </li>
+     </ul>
+      
    </div>
-   <div class="col-lg-9 col-xs-9" id="contenuParis" style="padding-right:30px"></div>
-</div>
+   </nav>
+   <div id="divSelPhase" style="display:none">
+	   <center>
+		<select id="selPronoDiv" class="form-control form-group row match my-auto center" style="max-width:300px">
+			<option value='0' >Choix vainqueur</option>
+			<option value='1' >Journée 1</option>
+			<option value='2' >Journée 2</option>
+			<option value='3' >Journée 3</option>
+			<option value='4' >Journée 4</option>
+			<option value='5' >Journée 5</option>
+			<option value='6' >Journée 6</option>
+			<option value='7' >1/8 de finale</option>
+			<option value='8' >1/4 de finale</option>
+			<option value='9' >1/2 finale</option>
+			<option value='10'>Finale</option>
+		</select>
+		</center> 
+   </div>
+   <div class="col-lg-9 col-xs-9" id="contenuParis" style="text-align:center"></div>
+
