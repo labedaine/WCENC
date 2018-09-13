@@ -12,7 +12,7 @@ Route::get('utilisateur\?q=login:(\S+)', 'LoginController@getIdByLogin');
 Route::get('utilisateur\?q=login%3A(\S+)', 'LoginController@getIdByLogin');
 Route::get('utilisateur$', 'LoginController@getDetail');
 
-Route::post('utilisateur$', 'UtilisateurController@postConfiguration');
+Route::post('utilisateur/setnotification', 'UtilisateurController@setNotification');
 
 // Gestion des habilitations
 // Utilisateurs

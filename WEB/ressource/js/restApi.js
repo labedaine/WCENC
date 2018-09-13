@@ -149,7 +149,7 @@ var RestApi = new function() {
         // Gestion des Utilisateurs
         // *************************************
         getInfosUtilisateur : function(utilisateurId, success, error) {
-            performGet(url.UTILISATEUR + "/details/"+utilisateurId, success, error);
+            performGet(url.USER + "/details/"+utilisateurId, success, error);
         },
         /**
          * Enregistrement d'un utilisateur
@@ -272,6 +272,14 @@ var RestApi = new function() {
                 "ancienMdp"  : ancienMdp,
                 "nouveauMdp" : nouveauMdp
             }, success, error);
+        },
+        
+        // active / désactive notification
+        setNotification : function (notification, success, error) {
+
+          performPost(url.USER + "/setnotification", {
+              "notification" : notification
+          }, success, error);
         },
         
 

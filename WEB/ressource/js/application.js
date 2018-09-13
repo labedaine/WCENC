@@ -84,6 +84,7 @@ var application = $.extend({} , Framework, {
                     self.user.id = data.payload.id;
                     self.user.login = data.payload.login;
                     self.user.isadmin = data.payload.isadmin;
+                    self.user.notification = data.payload.notification;
                     
                     // Info sur la competition en cours si elle existe
                     self.competition = new CompetitionModelClass();

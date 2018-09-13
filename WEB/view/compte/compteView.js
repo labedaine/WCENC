@@ -12,6 +12,7 @@ var CompteViewClass = function(args) {
 
         events : {
 			"click #btn_enregistrer" : "changeMdp",
+			"click #btn_notification" : "setNotification",
         },
 
         timers : {},
@@ -28,7 +29,20 @@ var CompteViewClass = function(args) {
         miseEnForme : function() {
             // on crée les jqContainers
             this.initToolTips();
+            
+            // Bouton notification
+            this.loadText();
         },
+        
+        loadText : function() {
+			if(application.user.notification == 1) {
+				$("#btn_notification").html("Désactiver les notifications");
+				$("#span_notification").html("Les notifications sont activées:<br/>Vous recevrez un mail avant la veille des journées de match.<br/><i>(Ces mails seront peut-être dans les spams)</i>");
+			} else {
+				$("#btn_notification").html("Activer les notifications");
+				$("#span_notification").html("Les notifications sont désactivées.");
+			}
+		},
         
         changeMdp : function() {
 
@@ -46,6 +60,26 @@ var CompteViewClass = function(args) {
 			RestApi.changeMdp(application.user.id, ancienPwd, nouveauPwd, function(data) {
 				if (data.success) {
                     MessageBox("Votre mot de passe a été modifié avec succès");
+                    
+                } else {
+                    ErrorMessageBox(data.payload);
+                    return false;
+                }
+            });
+			
+            return false;
+        },
+        
+        setNotification : function() {
+
+            var self = this;
+            var notification = (application.user.notification == 1 ? 0 : 1);
+
+			RestApi.setNotification(notification, function(data) {
+				if (data.success) {
+                    MessageBox("La modification a été prise en compte avec succès.");
+                    application.user.notification = notification;
+                    self.loadText();
                 } else {
                     ErrorMessageBox(data.payload);
                     return false;
