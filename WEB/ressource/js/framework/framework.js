@@ -4,10 +4,10 @@ var Framework = {
         _deps : [
              'ressource/js/framework/view/view.js',
              'ressource/js/framework/models/model.js',
-             'ressource/js/framework/models/userModel.js',
-             'ressource/js/framework/models/competitionModel.js',
-             'ressource/js/framework/models/equipeModel.js',
-             'ressource/js/framework/models/pronosticModel.js'
+             'ressource/js/framework/models/userModel.js?rd='+application.getUniqueId(),
+             'ressource/js/framework/models/competitionModel.js?rd='+application.getUniqueId(),
+             'ressource/js/framework/models/equipeModel.js?rd='+application.getUniqueId(),
+             'ressource/js/framework/models/pronosticModel.js?rd='+application.getUniqueId()
         ],
 
         // permet de savoir quand les dependences propres au framework ont �t� charg�es
