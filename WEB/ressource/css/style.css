@@ -348,15 +348,12 @@ blockquote p {
   margin-top: -5px;
 }
 
-#headerDef,#headerParis {
+#headerDef,#headerParis, #headerClassement {
   background: linear-gradient(135deg,#95072f 5%,#d80f09 100%);
 }
 
-#headerParis {
-  background: linear-gradient(135deg,#95072f 5%,#d80f09 100%);
-}
 
-#headerDef .lien,#headerParis .lien{
+#headerDef .lien,#headerParis .lien,#headerClassement .lien{
   font-size: 16px;
   font-weight: 300;
   text-transform: uppercase;
@@ -366,7 +363,7 @@ blockquote p {
   font-family: MetropolisRegular,Arial !important;
 }
 
-#headerDef  .lien::after, #headerParis .lien::after{
+#headerDef  .lien::after, #headerParis .lien::after, #headerClassement .lien::after{
     display: block;
     left: 0;
     right: 0;
@@ -378,7 +375,7 @@ blockquote p {
     content: "";
 }
 
-#headerDef .lien.selected::after, #headerDef .lien:hover::after {
+#headerDef .lien.selected::after, #headerDef .lien:hover::after , #headerClassement .lien:hover::after{
     transform: scale3d(1,1,1);
 }
 
