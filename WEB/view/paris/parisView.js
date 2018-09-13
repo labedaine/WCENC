@@ -111,11 +111,13 @@ var ParisViewClass = function(args) {
 			  
 			  $("#contenuParis").append("<h3 class='titlePage'>Votre pronostic sur le vainqueur de la compétition</h3>");
 		
-			  
 			  // La competition a commencée
 			  if(application.competition.hasstart == 1 ) {
 				  // on affiche le gagnant pronostiqué
-				  $("#contenuParis").append("<h3 class='titlePage'>Votre pronostic sur le vainqueur de la compétition</h3>");
+				  var equipe = application.equipe[application.pronostic.id];
+				  
+				  $("#contenuParis").append("<center><br/><h3 class='titlePage'>"+equipe.pays+"</h3></center>")
+									.append('<center><br/><img src="ressource/img/drapeaux/'+equipe.id+'.png"/></center>');
 			  } else {
 				  // On met un select
 				  $("#contenuParis").append('<div id="containerSauvProno" style="position:fixed;right:35px;top:100px;z-index:999;margin:3px;background:#E8E9EB;border-radius:10px;"></div>');
