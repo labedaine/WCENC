@@ -46,17 +46,20 @@ var ClassementViewClass = function(args) {
         showInd : function() {
             var self = this;
             self.chargementClassement('Individuel');
+            return false;
         },
 
         showColl : function() {
             var self = this;
             self.chargementClassement('Collectif');
+            return false;
         },
 
 
         showPromo : function() {
             var self = this;
             self.chargementClassement('Promo');
+            return false;
         },
 
 
