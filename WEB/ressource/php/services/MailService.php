@@ -15,6 +15,9 @@ class MailService {
     const OBJECT_MAIL_MDP = "Nouveau mot de passe BetFip";
     const MESSAGE_MAIL_MDP = "Bienvenue @NOM@,\n\nVotre nouveau mot de passe est:\n@MDP@\n\nÀ bientôt,\nL'équipe BetFip";
      
+    const OBJECT_MAIL_MATCH_VENIR = "BetFip - Des match sont à venir";
+    const MESSAGE_MAIL_MATCH_VENIR = "Bonjout,\n\nDes matchs sont programmés pour ce soir!!\n\nN'oubliez pas de parier!!\n\nÀ bientôt,\nL'équipe BetFip";
+    
     
     static protected $instance = NULL;
     
@@ -62,6 +65,12 @@ class MailService {
         $texte = str_replace("@NOM@", $prenom, self::MESSAGE_MAIL_MDP);
         $texte = str_replace("@MDP@", $mdp, $texte);
         $retour = static::$instance->envoyerMailOnInstance($destinataire, self::OBJECT_MAIL_MDP, $texte);
+        return $retour;
+    }
+    
+    public function envoyerMailMatchAVenir($destinataire) {
+        static::init();
+        $retour = static::$instance->envoyerMailOnInstance($destinataire, self::OBJECT_MAIL_MATCH_VENIR, self::MESSAGE_MAIL_MATCH_VENIR);
         return $retour;
     }
     
