@@ -96,22 +96,21 @@ class ClassementController extends BaseController {
       $stmt->execute();
       $matchs['collec'] = $stmt->fetchAll();
 
-      foreach ($matchs['collec'] as $key => $value) {
-        //echo UtilisateurExt::numToString($value['promotion']);
-        $matchs['collec'][$key]['promotion'] = UtilisateurExt::numToString($value['promotion']);
-        $matchs['collec'][$key]['moyenne'] = round($matchs['collec'][$key]['total'] / $matchs['collec'][$key]['nb'], 2);
-      }
+	  foreach ($matchs['collec'] as $key => $value) {
+		//echo UtilisateurExt::numToString($value['promotion']);
+		$matchs['collec'][$key]['promotion'] = UtilisateurExt::numToString($value['promotion']);
+		$matchs['collec'][$key]['moyenne'] = round($matchs['collec'][$key]['total'] / $matchs['collec'][$key]['nb'], 2);
+	  }
 
       usort($matchs['collec'], function($a, $b) {
         return $a['moyenne'] < $b['moyenne'];
-      });
+      });     
 
       foreach ($matchs['indiv'] as $key => $value) {
 
         //echo UtilisateurExt::numToString($value['promotion']);
         $matchs['indiv'][$key]['promotion'] = UtilisateurExt::numToString($value['promotion']);
         $value['promotxt'] = UtilisateurExt::numToString($value['promotion']);
-        $matchs['promo'][$value['promotion']][] = $value;
       }
 
       return JsonService::createResponse($matchs);
@@ -152,15 +151,12 @@ class ClassementController extends BaseController {
             $stmt->execute();
             $matchs['indiv'] = $stmt->fetchAll();
 
-
-
             foreach ($matchs['indiv'] as $key => $value) {
 
               //echo UtilisateurExt::numToString($value['promotion']);
               $matchs['indiv'][$key]['promotion'] = UtilisateurExt::numToString($value['promotion']);
 
             }
-
 
             return JsonService::createResponse($matchs);
     }

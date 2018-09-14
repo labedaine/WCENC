@@ -109,6 +109,8 @@ var ParisViewClass = function(args) {
               }
 
             }, function(data) {  console.log(data);});
+            
+            return false;
         },
 
         menuParis : function() {
@@ -218,6 +220,7 @@ var ParisViewClass = function(args) {
 			}
 			
 			self.afficheUnderligne();
+			return false;
           },
     });
     return Clazz;

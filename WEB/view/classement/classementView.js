@@ -12,8 +12,7 @@ var ClassementViewClass = function(args) {
 
         events : {
             "click #ind" : "showInd",
-            "click #coll" : "showColl",
-            "click #promo" : "showPromo",
+            "click #coll" : "showColl"
         },
 
         timers : {},
@@ -55,14 +54,6 @@ var ClassementViewClass = function(args) {
             return false;
         },
 
-
-        showPromo : function() {
-            var self = this;
-            self.chargementClassement('Promo');
-            return false;
-        },
-
-
         chargementClassement : function (type) {
 
           var self  =this;
@@ -72,6 +63,11 @@ var ClassementViewClass = function(args) {
 
               if (data.payload) {
 
+				if( type == 'Collectif' && data.payload.collec.length == 0) {
+					$("#contenuClassement").html("<h3 class='titlePage'>Pas de paris terminés ... pas de classement collectif</h3>");
+					return false;
+				}
+
                 $.ajax({
                    beforeSend: function() { $('#contenuClassement').hide();},
                    type: "POST",
@@ -79,7 +75,6 @@ var ClassementViewClass = function(args) {
                    data: {
                      dataCollec: data.payload.collec,
                      dataIndiv: data.payload.indiv,
-                     dataPromo: data.payload.promo,
                      type: type
                     },
                    success: function(result) {
@@ -87,10 +82,6 @@ var ClassementViewClass = function(args) {
 
                        $('#contenuClassement').html(result);
 
-                        /*$("#tabParisColl").hide();
-                        $("#tabParisPromo").hide();
-                        $("#tabParisIndiv").hide();
-*/
                         $('#coll').removeClass("activeGroupe");
                         $('#promo').removeClass("activeGroupe");
                         $('#ind').removeClass("activeGroupe");

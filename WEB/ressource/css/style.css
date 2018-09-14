@@ -348,12 +348,15 @@ blockquote p {
   margin-top: -5px;
 }
 
-#headerDef,#headerParis, #headerClassement {
+#headerDef,#headerParis, #headerClassement, #footerDef {
   background: linear-gradient(135deg,#95072f 5%,#d80f09 100%);
 }
 
+#footerDef {
+	height:50px;
+}
 
-#headerDef .lien,#headerParis .lien,#headerClassement .lien{
+#headerDef .lien,#headerParis .lien,#headerClassement .lien,#footerDef .lien{
   font-size: 16px;
   font-weight: 300;
   text-transform: uppercase;
@@ -363,7 +366,7 @@ blockquote p {
   font-family: MetropolisRegular,Arial !important;
 }
 
-#headerDef  .lien::after, #headerParis .lien::after, #headerClassement .lien::after{
+#headerDef  .lien::after, #headerParis .lien::after, #headerClassement .lien::after,#footerDef .lien::after{
     display: block;
     left: 0;
     right: 0;
@@ -375,7 +378,7 @@ blockquote p {
     content: "";
 }
 
-#headerDef .lien.selected::after, #headerDef .lien:hover::after , #headerClassement .lien:hover::after{
+#headerDef .lien.selected::after, #headerDef .lien:hover::after , #headerClassement .lien:hover::after, #footerDef .lien:hover::after{
     transform: scale3d(1,1,1);
 }
 
@@ -573,20 +576,6 @@ html, body {
 #pageContainer {
   height: 100%;
 }
-#sauvParis {
-  float: right;
-  margin: 15px;
-}
-
-#containerSauvParis {
-    position:fixed;
-    right:35px;
-    top:100px;
-    z-index:999;
-    margin:3px;
-    background:#E8E9EB;
-    border-radius:10px;
-}
 
 .titlePage {
   display: inline-block;
@@ -706,8 +695,13 @@ html, body {
     .match {
         margin-bottom:10px !important;
     }
-    .match div[col="pari"] {
-        order:5 !important;
+    .match div[col="pari1"] {
+        order:6 !important;
+        width:50% !important;
+    }
+    .match div[col="pari2"] {
+        order:7 !important;
+        width:50% !important;
     }
     .match div[col="eq2"] {
         order:4 !important;
@@ -716,7 +710,7 @@ html, body {
         order:4 !important;
     }
     .match div[col="eq2"][fini="1"] {
-        order:5 !important;
+        order:6 !important;
     }
     .match div[col="eq2"], .match div[col="eq1"] {
         width:32% !important;
@@ -730,17 +724,7 @@ html, body {
     #pageContainer {
         padding-top:50px !important;
     }
-    #containerSauvParis {
-        top:162px !important;
-        width: 100% !important;
-        border-radius: initial!important;
-        right: initial !important;
-        text-align:center !important;
-        position: sticky !important;
-    }
-    #sauvParis {
-        float: initial!important;
-    }
+
     .titlePage {
         text-align:center;
     }
