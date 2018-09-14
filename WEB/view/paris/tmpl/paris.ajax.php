@@ -87,7 +87,7 @@ setlocale(LC_TIME, "fr_FR");
 
     <?php endforeach; ?>
 </div>
-
+<br/><br/><br/><br/>
 <nav class="navbar fixed-bottom navbar-expand-sm" id="footerDef">
   <div class=" navbar-collapse collapse container-fluid" id="">
 	<span class="navbar-text" style="text-align:center">
