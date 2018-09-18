@@ -97,9 +97,7 @@ class ApiFootballDataService {
             foreach($retour->standings as $groups) {
 
                 foreach($groups as $allEquipes) {
-					ob_start();
-var_dump($allEquipes);
-file_put_contents('toto', ob_get_clean());
+
                     // Chaque équipe
                     foreach($allEquipes as $equipe) {
 						$objEquipe = new stdClass();
@@ -158,7 +156,6 @@ file_put_contents('toto', ob_get_clean());
         } else {
             return NULL;
         }
-
         foreach($matchs as $match) {
 
             $objMatch = new stdClass();
@@ -170,6 +167,7 @@ file_put_contents('toto', ob_get_clean());
             // Equipes
             $objMatch->equipe_id_dom = $match->homeTeam->id;
             $objMatch->equipe_id_ext = $match->awayTeam->id;
+              
 
             // Etat
             $etat = Etat::where('libelle', $match->status)->first();
@@ -209,8 +207,8 @@ file_put_contents('toto', ob_get_clean());
             $objMatch->date_match = strtotime($match->utcDate);
 
             $retourMatchs[$match->id] = $objMatch;
-        }
 
+        }
         if(count($retourMatchs) == 1) {
             return array_pop($retourMatchs);
         }

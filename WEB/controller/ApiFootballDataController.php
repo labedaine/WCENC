@@ -15,7 +15,7 @@ class ApiFootballDataController extends BaseController {
     private $parisService;
     public $phaseEnCours = 1;
 
-    const DEBUT_PHASE_FINALE=4;
+    const DEBUT_PHASE_FINALE=7;
 
     public function __construct() {
 
@@ -40,8 +40,10 @@ class ApiFootballDataController extends BaseController {
         // Les matches qui ont déja commencé (fenêtre de trois heures)
         $matchsDansLH  = Match::where('date_match', '>', $this->dateService->timeToUS($this->now-10800))
                                ->where('date_match', '<', $this->dateService->timeToUS($this->now))
+                               ->orderBy('date_match', 'ASC')
                                ->get();
-        $matchsDansLH = Match::whereIn('etat_id', array(1,2,5))->get();
+                               
+        //$matchsDansLH = Match::whereIn('etat_id', array(1,2,5))->get();
         // Si on a récupéré une liste de match,
         // on va chercher pour chacun ses infos
         $this->logger->addInfo(sprintf("%d matchs trouvés", count($matchsDansLH)));
@@ -59,7 +61,7 @@ class ApiFootballDataController extends BaseController {
 
                 // Récupération des données
                 $infoMatch = $this->api->getMatchById($match->id);
-
+                
                 if($infoMatch !== NULL) {
                     // On regarde si le match à un status différent de celui en base
                     if($match->etat_id != $infoMatch->etat_id) {
@@ -92,7 +94,9 @@ class ApiFootballDataController extends BaseController {
 
                      // on lance le calcul des points acquis pour tous les paris du match
                      $this->parisService->calculerPointsParis($match->id);
-                }
+                } else {
+					$this->logger->addInfo("aucun match trouvé");
+				}
 
             }
 
@@ -170,12 +174,13 @@ class ApiFootballDataController extends BaseController {
 
             $this->logger->contexte="COMPETITION";
         }
-        $competition = $this->api->getCompetition();
+        $competition = Competition::where('encours',1)
+								  ->first();
 
         $this->phaseEnCours = 0;
 
-        if(isset($competition->currentMatchday)) {
-            $this->phaseEnCours = $competition->currentMatchday;
+        if(isset($competition->cmatchday)) {
+            $this->phaseEnCours = $competition->cmatchday;
             $phase = Phase::find($this->phaseEnCours);
 
             // Si les matchs de la phase sont tous terminés on passe à la pahse suivante
