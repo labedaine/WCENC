@@ -188,7 +188,7 @@ var ClassementViewClass = function(args) {
                                             }
 
                                             html += '<div class="p-3 mb-2 '+classPari+' text-white pariUtilisateur">';
-                                            html += '<img style="padding:2px" src="ressource/img/drapeaux/drapeau-'+(value.pays1).toLowerCase()+'.png" title="'+value.pays1+'"/>';
+                                            html += '<img style="padding:2px" src="ressource/img/drapeaux/'+(value.id1)+'.png" title="'+value.pays1+'" width=40px/>';
 
                                             if(value.paris_dom !== null && value.paris_ext != null) {
                                                 html += '<span style="padding:2px">' + value.paris_dom + '</span><span style="padding:2px">  -  </span><span style="padding:2px">' + value.paris_ext + "</span>";
@@ -197,7 +197,7 @@ var ClassementViewClass = function(args) {
                                             }
 
 
-                                            html += '<img style="padding:2px" src="ressource/img/drapeaux/drapeau-'+(value.pays2).toLowerCase()+'.png" title="'+value.pays2+'"/>';
+                                            html += '<img style="padding:2px" src="ressource/img/drapeaux/'+(value.id2)+'.png" title="'+value.pays2+'" width=40px/>';
                                             html += "</div>";
                                         });
 
