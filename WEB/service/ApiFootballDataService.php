@@ -170,12 +170,16 @@ class ApiFootballDataService {
               
 
             // Etat
-            $etat = Etat::where('libelle', $match->status)->first();
-            if(!$etat) {
-                $objMatch->etat_id = 2;
-            } else {
-                $objMatch->etat_id = $etat->id;
-            }
+            if($match->status == "PAUSED") {
+				$objMatch->etat_id = 5;
+			} else {
+				$etat = Etat::where('libelle', $match->status)->first();
+				if(!$etat) {
+					$objMatch->etat_id = 2;
+				} else {
+					$objMatch->etat_id = $etat->id;
+				}	
+			}
 
             // Score
             $objMatch->score_dom = $match->score->fullTime->homeTeam;
