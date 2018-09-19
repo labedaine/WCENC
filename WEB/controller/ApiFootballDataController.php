@@ -38,7 +38,7 @@ class ApiFootballDataController extends BaseController {
     public function miseAJourMatchDansLHeure() {
 
         // Les matches qui ont déja commencé (fenêtre de trois heures)
-        $matchsDansLH  = Match::where('date_match', '>', $this->dateService->timeToUS($this->now-10800))
+        $matchsDansLH  = Match::where('date_match', '>', $this->dateService->timeToUS($this->now-15800))
                                ->where('date_match', '<', $this->dateService->timeToUS($this->now))
                                ->orderBy('date_match', 'ASC')
                                ->get();
@@ -63,6 +63,14 @@ class ApiFootballDataController extends BaseController {
                 $infoMatch = $this->api->getMatchById($match->id);
                 
                 if($infoMatch !== NULL) {
+                    
+                    
+                    // Cas de la mise a jour a la main
+                    if($match->etat_id == 6) {
+						$this->parisService->calculerPointsParis($match->id);
+						continue;
+					}
+                    
                     // On regarde si le match à un status différent de celui en base
                     if($match->etat_id != $infoMatch->etat_id) {
                         $libEtatOld = $match->etat->libelle;
