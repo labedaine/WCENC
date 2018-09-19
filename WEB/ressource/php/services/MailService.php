@@ -16,7 +16,7 @@ class MailService {
     const MESSAGE_MAIL_MDP = "Bienvenue @NOM@,\n\nVotre nouveau mot de passe est:\n@MDP@\n\nÀ bientôt,\nL'équipe BetFip";
      
     const OBJECT_MAIL_MATCH_VENIR = "BetFip - Des match sont à venir";
-    const MESSAGE_MAIL_MATCH_VENIR = "Bonjout,\n\nDes matchs sont programmés pour ce soir!!\n\nN'oubliez pas de parier!!\n\nÀ bientôt,\nL'équipe BetFip";
+    const MESSAGE_MAIL_MATCH_VENIR = "Bonjour,\n\nDes matchs sont programmés pour ce soir!!\n\nN'oubliez pas de parier!!\n\nÀ bientôt,\nSi vous ne souhaitez plus recevoir ces notifications, allez dans l'onglet Mon Compte.\n\nL'équipe BetFip";
     
     
     static protected $instance = NULL;
