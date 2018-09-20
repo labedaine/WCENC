@@ -125,11 +125,17 @@ var ParisViewClass = function(args) {
 		
 			  // La competition a commencée
 			  if(application.competition.hasstart == 1 ) {
-				  // on affiche le gagnant pronostiqué
-				  var equipe = application.equipe[application.pronostic.id];
 				  
-				  $("#contenuParis").append("<center><br/><h3 class='titlePage'>"+equipe.pays+"</h3></center>")
-									.append('<center><br/><img src="ressource/img/drapeaux/'+equipe.id+'.png"/></center>');
+				  // on affiche le gagnant pronostiqué
+				  application.equipe.forEach(function (value) {
+					  if(value.id == application.pronostic.id) {
+						 $("#contenuParis").append("<center><br/><h3 class='titlePage'>"+value.pays+"</h3></center>")
+										   .append('<center><br/><img src="ressource/img/drapeaux/'+value.id+'.png"/></center>');
+						 self.afficheUnderligne();
+						 return false;
+					  }
+				  });
+				  
 			  } else {
 				  // On met un select
 				  $("#contenuParis").append('<div id="containerSauvProno" style="position:fixed;right:35px;top:100px;z-index:999;margin:3px;background:#E8E9EB;border-radius:10px;"></div>');

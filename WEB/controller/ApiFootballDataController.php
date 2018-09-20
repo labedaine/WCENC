@@ -37,13 +37,11 @@ class ApiFootballDataController extends BaseController {
 
     public function miseAJourMatchDansLHeure() {
 
-        // Les matches qui ont déja commencé (fenêtre de trois heures)
-        $matchsDansLH  = Match::where('date_match', '>', $this->dateService->timeToUS($this->now-15800))
-                               ->where('date_match', '<', $this->dateService->timeToUS($this->now))
-                               ->orderBy('date_match', 'ASC')
-                               ->get();
-                               
-        //$matchsDansLH = Match::whereIn('etat_id', array(1,2,5))->get();
+        // Les matches qui ont déja commencé (fenêtre de trois heures)                             
+        $matchsDansLH = Match::whereIn('etat_id', array(1,2,5))
+                             ->where('date_match', '<', $this->dateService->timeToUS($this->now))
+							 ->get();
+							 
         // Si on a récupéré une liste de match,
         // on va chercher pour chacun ses infos
         $this->logger->addInfo(sprintf("%d matchs trouvés", count($matchsDansLH)));
