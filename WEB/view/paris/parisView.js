@@ -124,7 +124,7 @@ var ParisViewClass = function(args) {
 			  $("#contenuParis").append("<center><h3 class='titlePage'>Votre pronostic sur le vainqueur de la compétition</h3></center>");
 		
 			  // La competition a commencée
-			  if(application.competition.hasstart == 1 ) {
+			  /*if(application.competition.hasstart == 1 ) {
 				  
 				  // on affiche le gagnant pronostiqué
 				  application.equipe.forEach(function (value) {
@@ -136,7 +136,7 @@ var ParisViewClass = function(args) {
 					  }
 				  });
 				  
-			  } else {
+			  } else {*/
 				  // On met un select
 				  $("#contenuParis").append('<div id="containerSauvProno" style="position:fixed;right:35px;top:100px;z-index:999;margin:3px;background:#E8E9EB;border-radius:10px;"></div>');
 				  $("#contenuParis").append('<center><select id="selProno" class="form-control form-group row match my-auto center" style="max-width:300px"></center>');
@@ -152,7 +152,7 @@ var ParisViewClass = function(args) {
 				  
 				  $("#contenuParis").append('<center><br/><button type="button" class="btn btn-primary" id="sauvPronoCompet" >Sauvegarder votre pronostic</button></center>');
 				  
-			  }
+			  //}
 		  } else {
 
 			// Sinon la liste des matchs
