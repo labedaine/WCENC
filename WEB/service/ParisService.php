@@ -69,7 +69,7 @@ class ParisService {
 			}
 
 			// Si le match n'est pas passé
-			if ($match->date_match > $this->timeService->now()) {
+			//if ($match->date_match > $this->timeService->now()) {
 
 				$pronostic = Pronostic::where('competition_id', $compet->id)
 									  ->where('utilisateur_id', $user)
@@ -84,7 +84,7 @@ class ParisService {
 				$pronostic->save();
 
 				return TRUE;
-			}
+			//}
 			return FALSE;
 
 		} catch(Exception $exception) {

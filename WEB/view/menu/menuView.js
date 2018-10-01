@@ -18,7 +18,10 @@ var MenuViewClass = function(args) {
         timers : {"affichageinfoApplisMasquees" : 5000},
 
         initialize : function() {
-
+			if(application.pronostic.id == null) {
+				MessageBox("Suite à un bug votre pronostic sur le vainqueur de la compétition n'ont pas été pris en compte.<br/>Allez dans <b>Paris > Vainqueur > Sauvegarder...</b> pour le refaire.<br/><br/>Avec nos excuses...", "Information");
+			}
+			
         },
 
         renderView : function() {

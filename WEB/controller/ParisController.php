@@ -43,9 +43,12 @@ class ParisController extends BaseController {
 
       $idTeam = Input::get('idEquipe');
       $user = SinapsApp::utilisateurCourant()->id;
+	  try {
+		$retour = $this->parisService->sauvegarderWinnerCompet($user, $idTeam);
+      } catch(Exception $exception) {
+          return JsonService::createErrorResponse($exception->getMessage());
 
-      $retour = $this->parisService->sauvegarderWinnerCompet($user, $idTeam);
-
+      }
       return JsonService::createResponse($retour);
     }
 
