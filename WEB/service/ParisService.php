@@ -106,7 +106,7 @@ class ParisService {
 
                         $pointsAcquis = 0;
                         $coef = $match->phase_id;
-                        if($coef < 4) {
+                        if($coef < 7) {
                             $coef = 1;
                         } else {
                             $coef=$coef-2;
