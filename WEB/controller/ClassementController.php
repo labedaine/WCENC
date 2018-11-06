@@ -41,7 +41,7 @@ class ClassementController extends BaseController {
                 foreach($matchsByPhase as $matchByPhase) {
                     array_push($matchsByPhaseId, $matchByPhase['id']);
                 }
-                $coeff = $i-2;
+                $coeff = $i-7;
                 if($coeff <= 1 ) $coeff=1;
                 if(empty($matchsByPhaseId)) {
                     $matchsByPhaseId=array(0);
