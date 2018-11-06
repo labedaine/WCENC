@@ -19,7 +19,7 @@ class CurlApiScript extends SinapsScript {
 
     private $test = FALSE;
 
-    const DEBUT_PHASE_FINALE=4;
+    const DEBUT_PHASE_FINALE=7;
 
     public function __construct() {
 
