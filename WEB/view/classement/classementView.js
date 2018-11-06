@@ -150,7 +150,7 @@ var ClassementViewClass = function(args) {
 
                                         $.each(payload, function(index, value) {
 
-                                            coeff = value.phase_id-2;
+                                            coeff = value.phase_id-5;
                                             if(coeff <= 1 ) {
                                                 coeff = 1;
                                             }
